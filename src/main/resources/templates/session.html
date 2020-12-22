@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>FitFocus | Sessions</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body class="home">
+<nav class="nav">
+    <div class="container">
+        <div class="logo">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+        <div id="mainListDiv" class="main_list">
+            <ul class="navlinks">
+                <li><a th:href="@{/index}">Home</a></li>
+                <li><a th:href="@{/prices}">Prices</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+                <li><a th:href="@{/login}">Login</a></li>
+                <li><a th:href="@{/register}">Register</a></li>
+                <!--                <li><a th:href="@{/admin}">Admin</a></li>-->
+                <!--                <li><a th:href="@{/session}">Session</a></li>-->
+                <!--                <li><a th:href="@{/profile}">Profile</a></li>-->
+            </ul>
+        </div>
+        <span class="navTrigger">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        <div class="logoright">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+    </div>
+</nav>
+
+<div class="adminTables">
+    <!--Subscription Types handler-->
+    <div class="wrapper">
+        <h2 class="collectiontitle" style="float: left">Subscription Types</h2>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSubTypes"
+                style="margin-left: 30px">Add New
+        </button>
+
+        <!--add modal-->
+        <div class="modal fade" id="addModalSubTypes" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+            <form th:action="@{/admin/addNewSubscriptionType}" method="post">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addModalLabel">New Subscription Type</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Name</label>
+                                <input type="text" class="form-control" id="recipient-name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Number of sessions</label>
+                                <input type="number" class="form-control" id="recipient-name" name="numberOfSessions">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Days Valid</label>
+                                <input type="number" class="form-control" id="recipient-name" name="daysValid">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Price</label>
+                                <input type="number" class="form-control" id="recipient-name" name="price">
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--edit modal-->
+        <div class="modal fade" id="editModalSubTypes" tabindex="-1" aria-labelledby="editModalLabel"
+             aria-hidden="true">
+            <form th:action="@{/admin/updateSubscriptionType}" method="put">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit Subscription Type</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="idEdit" class="col-form-label">id</label>
+                                <input type="number" class="form-control" id="idEdit" name="id" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="nameEdit" class="col-form-label">Name</label>
+                                <input type="text" class="form-control" id="nameEdit" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="numberOfSessionsEdit" class="col-form-label">Number of sessions</label>
+                                <input type="number" class="form-control" id="numberOfSessionsEdit"
+                                       name="numberOfSessions">
+                            </div>
+                            <div class="form-group">
+                                <label for="daysValidEdit" class="col-form-label">Days Valid</label>
+                                <input type="number" class="form-control" id="daysValidEdit" name="daysValid">
+                            </div>
+                            <div class="form-group">
+                                <label for="priceEdit" class="col-form-label">Price</label>
+                                <input type="number" class="form-control" id="priceEdit" name="price">
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--delete modal-->
+        <div class="modal fade" id="deleteModalSubTypes" tabindex="-1" aria-labelledby="deleteModalLabel"
+             aria-hidden="true">
+            <form th:action="@{/admin/deleteSubscriptionType}" method="put">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this record?</p>
+                            <div class="form-group">
+                                <label for="idEdit" class="col-form-label">id</label>
+                                <input type="text" class="form-control" id="idDelete" name="id">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Name</label>
+                                <input type="text" class="form-control" id="nameDelete" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Number of sessions</label>
+                                <input type="text" class="form-control" id="numberOfSessionsDelete"
+                                       name="numberOfSessions">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Days Valid</label>
+                                <input type="text" class="form-control" id="daysValidDelete" name="daysValid">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Price</label>
+                                <input type="text" class="form-control" id="priceDelete" name="price">
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <table class="collectionlist">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Number of Sessions</th>
+                <th>Days Valid</th>
+                <th>Price</th>
+                <th colspan="2">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="SubscriptionType:${subTypes}">
+                <td th:text="${SubscriptionType.name}"></td>
+                <td th:text="${SubscriptionType.numberOfSessions}"></td>
+                <td th:text="${SubscriptionType.daysValid}"></td>
+                <td th:text="${SubscriptionType.price} + '€'"></td>
+                <td><a th:href="@{/admin/findSubscriptionType/(id=${SubscriptionType.id})}" class="btn btn-warning"
+                       id="editSubTypes">Edit</a></td>
+                <td><a th:href="@{/admin/findSubscriptionType/(id=${SubscriptionType.id})}" class="btn btn-danger"
+                       id="deleteSubTypes">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Sports handler-->
+    <div class="wrapper">
+        <h2 class="collectiontitle" style="float: left">Sports</h2>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSports"
+                style="margin-left: 30px">Add New
+        </button>
+
+        <!--add modal-->
+        <div class="modal fade" id="addModalSports" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+            <form th:action="@{/admin/addNewSport}" method="post">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addModalLabel">New Sport</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Name</label>
+                                <input type="text" class="form-control" id="recipient-name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Color</label>
+                                <input type="text" class="form-control" id="recipient-name" name="color">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--edit modal-->
+        <div class="modal fade" id="editModalSports" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <form th:action="@{/admin/updateSport}" method="put">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit Sport</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="idEditSport" class="col-form-label">id</label>
+                                <input type="number" class="form-control" id="idEditSport" name="id" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="nameEditSport" class="col-form-label">Name</label>
+                                <input type="text" class="form-control" id="nameEditSport" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="colorEditSport" class="col-form-label">Color</label>
+                                <input type="text" class="form-control" id="colorEditSport" name="color">
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--delete modal-->
+        <div class="modal fade" id="deleteModalSports" tabindex="-1" aria-labelledby="deleteModalLabel"
+             aria-hidden="true">
+            <form th:action="@{/admin/deleteSport}" method="put">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this record?</p>
+                            <div class="form-group">
+                                <label for="idDeleteSport" class="col-form-label">id</label>
+                                <input type="number" class="form-control" id="idDeleteSport" name="id">
+                            </div>
+                            <div class="form-group">
+                                <label for="nameDeleteSport" class="col-form-label">Name</label>
+                                <input type="text" class="form-control" id="nameDeleteSport" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="colorDeleteSport" class="col-form-label">Number of sessions</label>
+                                <input type="text" class="form-control" id="colorDeleteSport" name="color">
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <table class="collectionlist">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Color</th>
+                <th colspan="2">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="Sport:${sports}">
+                <td th:text="${Sport.name}"></td>
+                <td th:text="${Sport.color}"></td>
+                <td><a th:href="@{/admin/findSport/(id=${Sport.id})}" class="btn btn-warning" id="editSport">Edit</a>
+                </td>
+                <td><a th:href="@{/admin/findSport/(id=${Sport.id})}" class="btn btn-danger" id="deleteSport">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Role handler-->
+    <div class="wrapper">
+        <h2 class="collectiontitle" style="float: left">Roles</h2>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalRoles"
+                style="margin-left: 30px">Add New
+        </button>
+
+        <!--add modal-->
+        <div class="modal fade" id="addModalRoles" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+            <form th:action="@{/admin/addNewRole}" method="post">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addModalLabel">New Sport</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Name</label>
+                                <input type="text" class="form-control" id="recipient-name" name="name">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--edit modal-->
+        <div class="modal fade" id="editModalRoles" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <form th:action="@{/admin/updateRole}" method="put">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit Sport</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="idEditSport" class="col-form-label">id</label>
+                                <input type="number" class="form-control" id="idEditRole" name="id" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="nameEditSport" class="col-form-label">Name</label>
+                                <input type="text" class="form-control" id="nameEditRole" name="name">
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--delete modal-->
+        <div class="modal fade" id="deleteModalRoles" tabindex="-1" aria-labelledby="deleteModalLabel"
+             aria-hidden="true">
+            <form th:action="@{/admin/deleteRole}" method="put">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this record?</p>
+                            <div class="form-group">
+                                <label for="idDeleteSport" class="col-form-label">id</label>
+                                <input type="number" class="form-control" id="idDeleteRole" name="id">
+                            </div>
+                            <div class="form-group">
+                                <label for="nameDeleteSport" class="col-form-label">Name</label>
+                                <input type="text" class="form-control" id="nameDeleteRole" name="name">
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <table class="collectionlist">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th colspan="2">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="Role:${roles}">
+                <td th:text="${Role.name}"></td>
+                <td><a th:href="@{/admin/findRole/(id=${Role.id})}" class="btn btn-warning" id="editRole">Edit</a>
+                </td>
+                <td><a th:href="@{/admin/findRole/(id=${Role.id})}" class="btn btn-danger" id="deleteRole">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="js/admin.js"></script>
+<script src="js/navbar.js"></script>
+<!-- Function used to shrink nav bar removing paddings and adding black background -->
+<script>
+    $(window).scroll(function () {
+        if ($(document).scrollTop() > 50) {
+            $('.nav').addClass('affix');
+            console.log("OK");
+        } else {
+            $('.nav').removeClass('affix');
+        }
+    });
+</script>
+
+</body>
+</html>

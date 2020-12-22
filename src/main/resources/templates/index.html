@@ -1,10 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
+
+     <title>FitFocus</title>
+
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+     <meta name="description" content="">
+     <meta name="keywords" content="">
+     <meta name="author" content="">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+     <link rel="stylesheet" href="css/styles.css">
+
 </head>
-<body>
-<img src="/img/logo.jpg" alt="logo">
+<body class="home">
+<nav class="nav">
+    <div class="container">
+        <div class="logo">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+        <div id="mainListDiv" class="main_list">
+            <ul class="navlinks">
+                <li><a class="currentpage" th:href="@{/index}">Home</a></li>
+                <li><a th:href="@{/prices}">Prices</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+                <li><a th:href="@{/login}">Login</a></li>
+                <li><a th:href="@{/register}">Register</a></li>
+<!--                <li><a th:href="@{/admin}">Admin</a></li>-->
+<!--                <li><a th:href="@{/session}">Session</a></li>-->
+<!--                <li><a th:href="@{/profile}">Profile</a></li>-->
+            </ul>
+        </div>
+        <span class="navTrigger">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        <div class="logoright">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+    </div>
+</nav>
+
+
+<!-- SCHEDULE -->
+<section>
+    <div>
+        <div class="schedule-full">
+
+            <div class="col-lg-12 col-12 text-center">
+
+                <h2 class="bigtitle">Workout Timetable</h2>
+            </div>
+
+            <div class="timetable-controls">
+            <ul>
+                <li>All Class</li>
+                <li>Cardio</li>
+                <li>Power Fitness</li>
+                <li>Areobic</li>
+                <li>Boxing</li>
+            </ul>
+            </div>
+
+            <div>
+                <table class="table table-bordered table-responsive schedule-table">
+
+                    <thead class="thead-light">
+                    <th><i></i></th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td><small>8:00 am</small></td>
+                        <td class="colorfull">
+                            <strong class="colorfull">Cardio</strong>
+                            <span>7:00 am - 9:00 am</span>
+                        </td>
+                        <td  class="colorfull">
+                            <strong>Power Fitness</strong>
+                            <span>7:00 am - 9:00 am</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="colorfull">
+                            <strong>Yoga Section</strong>
+                            <span>7:00 am - 9:00 am</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td><small>10:00 am</small></td>
+                        <td></td>
+                        <td></td>
+                        <td class="colorfull">
+                            <strong>Boxing</strong>
+                            <span>8:00 am - 9:00 am</span>
+                        </td>
+                        <td class="colorfull">
+                            <strong>Areobic</strong>
+                            <span>8:00 am - 9:00 am</span>
+                        </td>
+                        <td></td>
+                        <td class="colorfull">
+                            <strong>Cardio</strong>
+                            <span>8:00 am - 9:00 am</span>
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="timetd"><small>12:00 pm</small></td>
+                        <td class="sessiontd"></td>
+                        <td class="sessiontd colorfull">
+                            <strong>Boxing</strong>
+                            <span>11:00 am - 2:00 pm</span>
+                        </td>
+                        <td class="sessiontd colorfull">
+                            <strong>Areobic</strong>
+                            <span>11:30 am - 3:30 pm</span>
+                        </td>
+                        <td class="sessiontd"></td>
+                        <td class="sessiontd colorfull">
+                            <strong>Body work</strong>
+                            <span>11:50 am - 5:20 pm</span>
+                        </td>
+                        <td class="sessiontd"></td>
+                        <td class="sessiontd"></td>
+                    </tr>
+
+                    <tr>
+                        <td><small>2:00 pm</small></td>
+                        <td class="colorfull">
+                            <strong>Boxing</strong>
+                            <span>2:00 pm - 4:00 pm</span>
+                        </td>
+                        <td class="colorfull">
+                            <strong>Power lifting</strong>
+                            <span>3:00 pm - 6:00 pm</span>
+                        </td>
+                        <td></td>
+                        <td class="colorfull">
+                            <strong>Cardio</strong>
+                            <span>6:00 pm - 9:00 pm</span>
+                        </td>
+                        <td></td>
+                        <td class="colorfull">
+                            <strong>Crossfit</strong>
+                            <span>5:00 pm - 7:00 pm</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><small>4:00 pm</small></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><small>6:00 pm</small></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><small>8:00 pm</small></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Jquery needed -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/navbar.js"></script>
+
+<!-- Function used to shrink nav bar removing paddings and adding black background -->
+<script>
+    $(window).scroll(function() {
+        if ($(document).scrollTop() > 50) {
+            $('.nav').addClass('affix');
+            console.log("OK");
+        } else {
+            $('.nav').removeClass('affix');
+        }
+    });
+</script>
+
 </body>
 </html>

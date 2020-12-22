@@ -1,17 +1,21 @@
 package be.spacedandy.FitFocus.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class SubscriptionType {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NonNull
     private String name;
@@ -19,8 +23,8 @@ public class SubscriptionType {
     private int numberOfSessions;
     @NonNull
     private int daysValid;
-    @OneToMany(mappedBy="subscriptionType")
-    private List<User> users;
+    @NonNull
+    private double price;
 
     public int getId() {
         return id;
@@ -48,5 +52,13 @@ public class SubscriptionType {
 
     public void setDaysValid(int daysValid) {
         this.daysValid = daysValid;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
