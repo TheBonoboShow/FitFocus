@@ -30,7 +30,7 @@ public class SessionService {
     }
 
     public Optional<Session> findByCoach(String name){
-        Optional<User> user = userRepository.findByUsername(name);
+        User user = userRepository.findByUsername(name);
         return sessionRepository.findByCoach(user);
     }
 

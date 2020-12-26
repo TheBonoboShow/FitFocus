@@ -1,11 +1,16 @@
 package be.spacedandy.FitFocus;
 
+import be.spacedandy.FitFocus.models.User;
+import be.spacedandy.FitFocus.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ApplicationController {
+
     @GetMapping("/index")
     public String goHome() {
         return "index";
@@ -19,11 +24,6 @@ public class ApplicationController {
     @GetMapping("/logout")
     public String logout() {
         return "login";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        return "register";
     }
 
     @GetMapping("/secret")

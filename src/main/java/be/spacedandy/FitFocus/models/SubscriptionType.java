@@ -24,7 +24,7 @@ public class SubscriptionType {
     @NonNull
     private int daysValid;
     @NonNull
-    private double price;
+    private int price;
 
     public int getId() {
         return id;
@@ -54,11 +54,11 @@ public class SubscriptionType {
         this.daysValid = daysValid;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 }

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>FitFocus | Register</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body class="home">
+<nav class="nav">
+    <div class="container">
+        <div class="logo">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+        <div id="mainListDiv" class="main_list">
+            <ul class="navlinks">
+                <li><a th:href="@{/index}">Home</a></li>
+                <li><a th:href="@{/prices}">Prices</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+                <li><a th:href="@{/login}">Login</a></li>
+                <li><a class="currentpage" th:href="@{/register}">Register</a></li>
+                <!--                <li><a th:href="@{/admin}">Admin</a></li>-->
+                <!--                <li><a th:href="@{/session}">Session</a></li>-->
+                <!--                <li><a th:href="@{/profile}">Profile</a></li>-->
+            </ul>
+        </div>
+        <span class="navTrigger">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        <div class="logoright">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+    </div>
+</nav>
+
+<div class="register-box" style="margin-top: 200px">
+    <div class="card">
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">Register a new account</p>
+
+            <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                    <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" th:field="*{username}" placeholder="Name"
+                           th:errorclass="is-invalid">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" th:field="*{email}" placeholder="Email"
+                           th:errorclass="is-invalid">
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" th:field="*{password}" placeholder="Password"
+                           th:errorclass="is-invalid" id="password">
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <input type="password" class="form-control" placeholder="Confirm Password" id="confirmPassword"> <br>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+    <!-- /.form-box -->
+</div> <!-- /.card -->
+
+
+<script src="js/register.js"></script>
+<script>
+    $(window).scroll(function() {
+        if ($(document).scrollTop() > 50) {
+            $('.nav').addClass('affix');
+            console.log("OK");
+        } else {
+            $('.nav').removeClass('affix');
+        }
+    });
+
+</script>
+</body>
+</html>

@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Integer> {
-    Optional<Session> findByCoach (Optional<User> coach);
+    Optional<Session> findByCoach (User coach);
 }

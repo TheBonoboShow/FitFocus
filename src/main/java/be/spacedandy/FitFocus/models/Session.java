@@ -23,13 +23,15 @@ public class Session {
     @ManyToOne
     @JoinColumn(name="userid", insertable=false, updatable=false)
     private User coach;
+    private Integer userid;
     @Lob
     private String information;
     @ManyToOne
     @JoinColumn(name="sportid", insertable=false, updatable=false)
     private Sport sport;
-    private LocalDate date;
-    private LocalTime startingHour;
+    private Integer sportid;
+    private String date;
+    private String startingHour;
     private int duration;
     private int maxParticipants;
     private boolean onlyFemales;
@@ -70,19 +72,19 @@ public class Session {
         this.sport = sport;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public LocalTime getStartingHour() {
+    public String getStartingHour() {
         return startingHour;
     }
 
-    public void setStartingHour(LocalTime startingHour) {
+    public void setStartingHour(String startingHour) {
         this.startingHour = startingHour;
     }
 

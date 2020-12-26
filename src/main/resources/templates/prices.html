@@ -2,7 +2,11 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 
-    <title>FitFocus Prices</title>
+    <title>FitFocus | Prices</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -11,6 +15,7 @@
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
     <link rel="stylesheet" href="css/styles.css">
 
 </head>
@@ -42,6 +47,34 @@
         </div>
     </div>
 </nav>
+
+<div class="container">
+    <div class="adminTables">
+        <div class="wrapper">
+            <div class="col-lg-12 col-12 text-center">
+                    <h2 class="bigtitle">CHOOSE YOUR PRICING PLAN</h2>
+                    <p class="undertitle">These reports started to surface when Congress was having hearings about the<br>
+                        painkiller, Vioxx. A Food and Drug Administration staff member.</p>
+            </div>
+            <div class="wrappercenter">
+                <div th:each="SubscriptionType:${subTypes}" class="wrapperPricing">
+                    <h4 th:text="${SubscriptionType.name}" class="priceName"></h4>
+                    <div>
+                        <h2 th:text="'€ ' + ${SubscriptionType.price}" class="priceBig"></h2>
+                        <p th:text="${SubscriptionType.daysValid} + ' Days Valid'" class="priceDays"></p>
+                    </div>
+                    <ul style="list-style-type: none; overflow: hidden; display: inline">
+                        <li>1 classes per week</li>
+                        <li th:text="${SubscriptionType.numberOfSessions} + ' Total Sessions'"></li>
+                        <li>1 Free personal training</li>
+                    </ul>
+                    <a href="#">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Jquery needed -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

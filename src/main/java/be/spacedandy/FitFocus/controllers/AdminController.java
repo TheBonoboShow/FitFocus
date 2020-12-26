@@ -1,7 +1,10 @@
 package be.spacedandy.FitFocus.controllers;
 
 import be.spacedandy.FitFocus.models.*;
-import be.spacedandy.FitFocus.services.*;
+import be.spacedandy.FitFocus.services.RoleService;
+import be.spacedandy.FitFocus.services.SportService;
+import be.spacedandy.FitFocus.services.SubscriptionTypeService;
+import be.spacedandy.FitFocus.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,7 +58,7 @@ public class AdminController {
 
     @RequestMapping(value="/admin/updateUser", method= {RequestMethod.PUT, RequestMethod.GET})
     public String update(User user) {
-        userService.save(user);
+        userService.saveAdmin(user);
         return "redirect:/admin";
     }
 
@@ -78,6 +81,12 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    @PostMapping("/admin/addNewUser")
+    public String addNew(User user) {
+        userService.save(user);
+        return "redirect:/admin";
+    }
+
     // all find functions
     @RequestMapping("/admin/findSubscriptionType")
     @ResponseBody
@@ -93,7 +102,7 @@ public class AdminController {
 
     @RequestMapping("/admin/findUser")
     @ResponseBody
-    public Optional<User> findUserById(int id){
+    public User findUserById(int id){
         return userService.findById(id);
     }
 

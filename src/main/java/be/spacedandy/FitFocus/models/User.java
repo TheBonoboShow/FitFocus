@@ -3,10 +3,11 @@ package be.spacedandy.FitFocus.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -15,35 +16,86 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NonNull
+
+    @Size(min = 3, max = 20, message = "Username must be at least 3 characters")
     private String username;
-    @NonNull
+
+    @Size(min = 6, message = "Your password must be at least 6 characters")
     private String password;
+
     private String firstname;
+
     private String lastname;
+
+    @NotBlank(message = "Email can not be empty")
+    @Email(message = "Please provide a valid email address")
     private String email;
-    private boolean reminderSms;
-    private boolean reminderMail;
-    private boolean promotionsActive;
-    private boolean isFemale;
+
+    private boolean reminderSms = false;
+
+    private boolean reminderMail = false;
+
+    private boolean isFemale = false;
+
+    private boolean promotionsActive = false;
+
     @ManyToOne
-    @JoinColumn(name="roleid", insertable=false, updatable=false)
+    @JoinColumn(name = "roleid", insertable = false, updatable = false)
     private Role role;
+
+    private Integer roleid = 2;
+
     @ManyToMany
     private List<Session> reservedSessions;
+
     @ManyToOne
-    @JoinColumn(name="subscriptiontypeid", insertable=false, updatable=false)
+    @JoinColumn(name = "subscriptiontypeid", insertable = false, updatable = false)
     private SubscriptionType subscriptionType;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private boolean profileIsActive;
-    private boolean profileIsSuspended;
+
+    private Integer subscriptiontypeid;
+
+    private String startDate;
+
+    private String endDate;
+
+    private boolean profileIsActive = false;
+
+    private boolean profileIsSuspended = false;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", reminderSms=" + reminderSms +
+                ", reminderMail=" + reminderMail +
+                ", isFemale=" + isFemale +
+                ", promotionsActive=" + promotionsActive +
+                ", role=" + role +
+                ", roleid=" + roleid +
+                ", reservedSessions=" + reservedSessions +
+                ", subscriptionType=" + subscriptionType +
+                ", subscriptiontypeid=" + subscriptiontypeid +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", profileIsActive=" + profileIsActive +
+                ", profileIsSuspended=" + profileIsSuspended +
+                '}';
+    }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -102,14 +154,6 @@ public class User {
         this.reminderMail = reminderMail;
     }
 
-    public boolean isPromotionsActive() {
-        return promotionsActive;
-    }
-
-    public void setPromotionsActive(boolean promotionsActive) {
-        this.promotionsActive = promotionsActive;
-    }
-
     public boolean isFemale() {
         return isFemale;
     }
@@ -118,12 +162,28 @@ public class User {
         isFemale = female;
     }
 
+    public boolean isPromotionsActive() {
+        return promotionsActive;
+    }
+
+    public void setPromotionsActive(boolean promotionsActive) {
+        this.promotionsActive = promotionsActive;
+    }
+
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Integer getRoleid() {
+        return roleid;
+    }
+
+    public void setRoleid(Integer roleid) {
+        this.roleid = roleid;
     }
 
     public List<Session> getReservedSessions() {
@@ -142,6 +202,30 @@ public class User {
         this.subscriptionType = subscriptionType;
     }
 
+    public Integer getSubscriptiontypeid() {
+        return subscriptiontypeid;
+    }
+
+    public void setSubscriptiontypeid(Integer subscriptiontypeid) {
+        this.subscriptiontypeid = subscriptiontypeid;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
     public boolean isProfileIsActive() {
         return profileIsActive;
     }
@@ -156,21 +240,5 @@ public class User {
 
     public void setProfileIsSuspended(boolean profileIsSuspended) {
         this.profileIsSuspended = profileIsSuspended;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
     }
 }
