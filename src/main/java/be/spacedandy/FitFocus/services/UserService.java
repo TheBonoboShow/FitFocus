@@ -1,5 +1,6 @@
 package be.spacedandy.FitFocus.services;
 
+import be.spacedandy.FitFocus.models.EmailAlreadyExistException;
 import be.spacedandy.FitFocus.models.User;
 import be.spacedandy.FitFocus.models.UserAlreadyExistException;
 import be.spacedandy.FitFocus.repositories.UserRepository;

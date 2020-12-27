@@ -38,7 +38,7 @@ public class User {
 
     private boolean reminderMail = false;
 
-    private boolean isFemale = false;
+    private boolean female = false;
 
     private boolean promotionsActive = false;
 
@@ -46,7 +46,7 @@ public class User {
     @JoinColumn(name = "roleid", insertable = false, updatable = false)
     private Role role;
 
-    private Integer roleid = 2;
+    private Integer roleid;
 
     @ManyToMany
     private List<Session> reservedSessions;
@@ -65,6 +65,10 @@ public class User {
 
     private boolean profileIsSuspended = false;
 
+    private int remainingSessions = 1;
+
+    private String gsmNumber;
+
     @Override
     public String toString() {
         return "User{" +
@@ -76,7 +80,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", reminderSms=" + reminderSms +
                 ", reminderMail=" + reminderMail +
-                ", isFemale=" + isFemale +
+                ", isFemale=" + female +
                 ", promotionsActive=" + promotionsActive +
                 ", role=" + role +
                 ", roleid=" + roleid +
@@ -155,11 +159,11 @@ public class User {
     }
 
     public boolean isFemale() {
-        return isFemale;
+        return female;
     }
 
     public void setFemale(boolean female) {
-        isFemale = female;
+        this.female = female;
     }
 
     public boolean isPromotionsActive() {

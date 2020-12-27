@@ -83,7 +83,7 @@ public class AdminController {
 
     @PostMapping("/admin/addNewUser")
     public String addNew(User user) {
-        userService.save(user);
+        userService.saveAdmin(user);
         return "redirect:/admin";
     }
 

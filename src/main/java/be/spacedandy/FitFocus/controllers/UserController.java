@@ -1,9 +1,14 @@
 package be.spacedandy.FitFocus.controllers;
 
+import be.spacedandy.FitFocus.models.EmailAlreadyExistException;
 import be.spacedandy.FitFocus.models.User;
+import be.spacedandy.FitFocus.models.UserAlreadyExistException;
+import be.spacedandy.FitFocus.models.UserPrincipal;
 import be.spacedandy.FitFocus.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +21,9 @@ public class UserController {
     @Autowired UserService userService;
 
     @GetMapping("/profile")
-    public String getUser(){
+    public String getUser(@AuthenticationPrincipal UserPrincipal userPrincipal, Model model){
+        User user = userPrincipal.getUser();
+        model.addAttribute("user", user);
         return "profile";
     }
 
@@ -25,6 +32,7 @@ public class UserController {
         userService.save(user);
         return "redirect:/profile";
     }
+
 
     @RequestMapping("/profile/findById")
     @ResponseBody

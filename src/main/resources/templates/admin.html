@@ -566,6 +566,10 @@
                                     <input type="email" class="form-control" id="emailEditUser" name="email" readonly>
                                 </div>
                                 <div class="form-group">
+                                    <label for="gsmEditUser" class="col-form-label">Gsm Number</label>
+                                    <input type="text" class="form-control" id="gsmEditUser" name="gsmNumber">
+                                </div>
+                                <div class="form-group">
                                     <label for="reminderSmsEdit" class="col-form-label">Reminder SMS</label>
                                     <input type="checkbox" class="form-control" id="reminderSmsEdit" name="reminderSms">
                                 </div>
@@ -590,8 +594,8 @@
                                            name="profileIsSuspended">
                                 </div>
                                 <div class="form-group">
-                                    <label for="isFemaleEditUser" class="col-form-label">Female</label>
-                                    <input type="checkbox" class="form-control" id="isFemaleEditUser" name="isFemale">
+                                    <label for="isFemaleEditUser" class="col-form-label">Gender is female</label>
+                                    <input type="checkbox" class="form-control" id="isFemaleEditUser" name="female">
                                 </div>
                                 <div class="form-group">
                                     <label for="startDateEdit" class="col-form-label">Start Date Subscription</label>
@@ -602,9 +606,23 @@
                                     <input type="date" class="form-control" id="endDateEdit" name="endDate">
                                 </div>
                                 <div class="form-group">
+                                    <label for="remainingSessionsEditUser" class="col-form-label">Remaining Sessions Left</label>
+                                    <input type="number" class="form-control" id="remainingSessionsEditUser" name="remainingSessions">
+                                </div>
+                                <div class="form-group">
                                     <label for="passwordEditUser" class="col-form-label"></label>
                                     <input type="password" class="form-control" id="passwordEditUser" name="password"
                                            hidden>
+                                </div>
+                                <div class="form-group">
+                                    <label for="roleEditUser" class="col-form-label">Role</label>
+                                    <select class="form-control" id="roleEditUser" name="roleid">
+                                        <option>-SELECT-</option>
+                                        <option th:each="Role : ${roles}"
+                                                th:value="${Role.id}"
+                                                th:text="${Role.name}">
+                                        </option>
+                                    </select>
                                 </div>
 
                             </div>

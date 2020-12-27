@@ -1,10 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>FitFocus | Profile</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="stylesheet" href="css/styles.css">
+
 </head>
-<body>
-<p>Profile page</p>
+<body class="home">
+<nav class="nav">
+    <div class="container">
+        <div class="logo">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+        <div id="mainListDiv" class="main_list">
+            <ul class="navlinks">
+                <li><a th:href="@{/index}">Home</a></li>
+                <li><a th:href="@{/prices}">Prices</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+                <li><a th:href="@{/login}">Login</a></li>
+                <li><a th:href="@{/register}">Register</a></li>
+                <li><a class="currentpage" th:href="@{/profile}">Profile</a></li>
+                <!--                <li><a th:href="@{/admin}">Admin</a></li>-->
+                <!--                <li><a th:href="@{/session}">Session</a></li>-->
+                <!--                <li><a th:href="@{/profile}">Profile</a></li>-->
+            </ul>
+        </div>
+        <span class="navTrigger">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        <div class="logoright">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="justify-content: center; display: flex">
+    <div class="adminTables">
+
+        <div class="wrapper" style="text-align: center">
+            <div>
+                <h2 class="collectiontitle" style="float: left; margin-right: 20px">My Profile</h2>
+
+                <a th:href="@{/profile/findById/(id=${user.id})}" class="btn btn-warning"
+                   id="editUser" style="float: left">Edit</a>
+            </div>
+
+            <div class="modal fade" id="editModalUser" tabindex="-1" aria-labelledby="editModalLabel"
+                 aria-hidden="true">
+                <form th:action="@{/profile/update}" method="put">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">Edit My Profile</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="idEditUser" class="col-form-label"></label>
+                                    <input type="text" class="form-control" id="idEditUser" name="id"
+                                           hidden>
+                                </div>
+                                <div class="form-group">
+                                    <label for="usernameEditUser" class="col-form-label">Username</label>
+                                    <input type="text" class="form-control" id="usernameEditUser" name="username"
+                                           readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstnameEditUser" class="col-form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstnameEditUser" name="firstname">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastnameEditUser" class="col-form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastnameEditUser" name="lastname">
+                                </div>
+                                <div class="form-group">
+                                    <label for="emailEditUser" class="col-form-label">Email</label>
+                                    <input type="email" class="form-control" id="emailEditUser" name="email" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gsmEditUser" class="col-form-label">Gsm Number</label>
+                                    <input type="text" class="form-control" id="gsmEditUser" name="gsmNumber">
+                                </div>
+                                <div class="form-group">
+                                    <label for="remainingSessionsEditUser" class="col-form-label">Remaining Sessions
+                                        Left?</label>
+                                    <input type="number" class="form-control" id="remainingSessionsEditUser"
+                                           name="remainingSessions" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reminderSmsEdit" class="col-form-label">Receive SMS reminder of
+                                        session?</label>
+                                    <input type="checkbox" class="form-control" id="reminderSmsEdit" name="reminderSms">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reminderMailEdit" class="col-form-label">Receive email reminder of
+                                        session?</label>
+                                    <input type="checkbox" class="form-control" id="reminderMailEdit"
+                                           name="reminderMail">
+                                </div>
+                                <div class="form-group">
+                                    <label for="promotionsActiveEdit" class="col-form-label">Receive promotion
+                                        emails?</label>
+                                    <input type="checkbox" class="form-control" id="promotionsActiveEdit"
+                                           name="promotionsActive">
+                                </div>
+                                <div class="form-group">
+                                    <label for="isFemaleEditUser" class="col-form-label">Gender is female?</label>
+                                    <input type="checkbox" class="form-control" id="isFemaleEditUser" name="female">
+                                </div>
+                                <div class="form-group">
+                                    <label for="roleEditUser" class="col-form-label"></label>
+                                    <input type="password" class="form-control" id="roleEditUser" name="roleid"
+                                           hidden>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileIsActiveEdit" class="col-form-label"></label>
+                                    <input type="checkbox" class="form-control" id="profileIsActiveEdit"
+                                           name="profileIsActive" hidden>
+                                </div>
+                                <div class="form-group">
+                                    <label for="passwordEditUser" class="col-form-label">Confirm password</label>
+                                    <input type="password" class="form-control" id="passwordEditUser" name="password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileIsSuspendedEdit" class="col-form-label"></label>
+                                    <input type="checkbox" class="form-control" id="profileIsSuspendedEdit"
+                                           name="profileIsSuspended" hidden>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <table class="collectionlist">
+                <tr>
+                    <th>Username</th>
+                    <td th:text="${user.username}"></td>
+                </tr>
+                <tr>
+                    <th>First Name</th>
+                    <td th:text="${user.firstname}"></td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td th:text="${user.lastname}"></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td th:text="${user.email}"></td>
+                </tr>
+            </table>
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Jquery needed -->
+<script src="js/navbar.js"></script>
+<script src="js/profile.js"></script>
+
+<!-- Function used to shrink nav bar removing paddings and adding black background -->
+<script>
+    $(window).scroll(function () {
+        if ($(document).scrollTop() > 50) {
+            $('.nav').addClass('affix');
+            console.log("OK");
+        } else {
+            $('.nav').removeClass('affix');
+        }
+    });
+</script>
+
 </body>
 </html>
