@@ -1,10 +1,12 @@
 package be.spacedandy.FitFocus;
 
-import be.spacedandy.FitFocus.models.CustomAuthenticationFailureHandler;
+import be.spacedandy.FitFocus.security.BeforeAuthenticationFilter;
 import be.spacedandy.FitFocus.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -31,6 +32,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login", "/resources/**", "/css/**", "/fonts/**", "/img/***").permitAll()
                 .antMatchers("/register", "/resources/**", "/css/**", "/fonts/**", "/img/***", "/js/**").permitAll()
+                .antMatchers("/verify", "/resources/**", "/css/**", "/fonts/**", "/img/***", "/js/**").permitAll()
                 .antMatchers("/index").permitAll()
                 .antMatchers("/prices").permitAll()
                 .antMatchers("/contact").permitAll()
@@ -38,6 +40,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
+                .usernameParameter("username")
                 .defaultSuccessUrl("/admin")
                 .failureHandler(new SimpleUrlAuthenticationFailureHandler() {
 
@@ -60,11 +63,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private MyUserDetailsService userDetailsService;
 
     @Bean
-    public AuthenticationFailureHandler authenticationFailureHandler() {
-        return new CustomAuthenticationFailureHandler();
-    }
-
-    @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 
@@ -78,5 +76,4 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
 }

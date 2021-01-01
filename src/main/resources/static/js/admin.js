@@ -1,9 +1,8 @@
-//todo setup password verification on edit profile
-//todo validation on edit user (date order and restrictions)
-//todo email activation users (+authentication)
+//todo make login only for activated users
 //todo setup secret page + reset password logic
 //todo setup change email address
 //todo make contact page
+//todo make email verification page (register_*)
 //todo make logout logic
 //todo change view depending on role
 //todo setup emails promo
@@ -13,6 +12,9 @@
 //todo user.reserved sessions and session.participants
 //todo implement buying subscriptions and payment method?
 //todo add search filter admin page (users - username & email)
+//todo add info on hover for profile edit (readonly cases)
+//todo validation on new user (send mail to Pearl and Patrick)
+//todo launch app on staes.me and change mail redirection
 
 $('document').ready(function () {
     // Subscription Types
@@ -108,6 +110,16 @@ $('document').ready(function () {
 
 
     //Users
+    $('#addUserBtn').on('click', function (event) {
+        event.preventDefault();
+
+            $('#addUsername').val("");
+            $('#addPassword').val("");
+            $('#addEmail').val("");
+
+    })
+
+
     $('table #editUser').on('click', function (event) {
         event.preventDefault();
 

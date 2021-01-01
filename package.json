@@ -1,0 +1,11 @@
+{
+  "name": "FitFocus",
+  "version": "1.0.0",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "requirejs": "^2.3.6"
+  },
+  "devDependencies": {
+    "bcrypt": "^5.0.0"
+  }
+}

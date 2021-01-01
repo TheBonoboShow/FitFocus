@@ -15,4 +15,5 @@ $('document').ready(function () {
     password.onchange = validatePassword;
     confirmPassword.onkeyup = validatePassword;
 
+
 });

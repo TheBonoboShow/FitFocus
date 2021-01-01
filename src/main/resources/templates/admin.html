@@ -51,15 +51,17 @@
     </div>
 </nav>
 
-<div class="container">
+<div class="container" style="justify-content: center; display: flex">
     <div class="adminTables">
         <!--Subscription Types handler-->
-        <div class="wrapper">
-            <h2 class="collectiontitle" style="float: left">Subscription Types</h2>
+        <div class="wrapper" style="text-align: center">
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSubTypes"
-                    style="margin-left: 30px">Add New
-            </button>
+            <div style="display: table-header-group">
+                <h2 class="collectiontitle" style="float: left">Subscription Types</h2>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSubTypes"
+                        style="margin-left: 30px">Add New
+                </button>
+            </div>
 
             <!--add modal-->
             <div class="modal fade" id="addModalSubTypes" tabindex="-1" aria-labelledby="addModalLabel"
@@ -223,12 +225,15 @@
         </div>
 
         <!--Sports handler-->
-        <div class="wrapper">
-            <h2 class="collectiontitle" style="float: left">Sports</h2>
+        <div class="wrapper" style="text-align: center">
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSports"
-                    style="margin-left: 30px">Add New
-            </button>
+            <div style="display: table-header-group">
+                <h2 class="collectiontitle" style="float: left">Sports</h2>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSports"
+                        style="margin-left: 30px">Add New
+                </button>
+            </div>
 
             <!--add modal-->
             <div class="modal fade" id="addModalSports" tabindex="-1" aria-labelledby="addModalLabel"
@@ -362,12 +367,15 @@
         </div>
 
         <!--Role handler-->
-        <div class="wrapper">
-            <h2 class="collectiontitle" style="float: left">Roles</h2>
+        <div class="wrapper" style="text-align: center">
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalRoles"
-                    style="margin-left: 30px">Add New
-            </button>
+            <div style="display: table-header-group">
+                <h2 class="collectiontitle" style="float: left">Roles</h2>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalRoles"
+                        style="margin-left: 30px">Add New
+                </button>
+            </div>
 
             <!--add modal-->
             <div class="modal fade" id="addModalRoles" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
@@ -485,16 +493,20 @@
         </div>
 
         <!--User handler-->
-        <div class="wrapper">
-            <h2 class="collectiontitle" style="float: left">Users</h2>
+        <div class="wrapper" style="text-align: center">
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalUser"
-                    style="margin-left: 30px">Add New
-            </button>
+            <div style="display: table-header-group">
+                <h2 class="collectiontitle" style="float: left">Users</h2>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalUser"
+                        style="margin-left: 30px" id="addUserBtn">Add New
+                </button>
+            </div>
 
             <!--add modal-->
             <div class="modal fade" id="addModalUser" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-                <form th:action="@{/admin/addNewUser}" method="post">
+                <form onsubmit="return validateFormAddUser()" th:action="@{/admin/addNewUser}"
+                      method="post">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -507,19 +519,19 @@
 
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Name</label>
-                                    <input type="text" class="form-control" id="recipient-name" name="username">
+                                    <input type="text" class="form-control" name="username" id="addUsername">
                                 </div>
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Password</label>
-                                    <input type="password" class="form-control" id="recipient-name" name="password">
+                                    <input type="password" class="form-control" name="password" id="addPassword">
                                 </div>
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Email</label>
-                                    <input type="email" class="form-control" id="recipient-name" name="email">
+                                    <input type="email" class="form-control" name="email" id="addEmail">
                                 </div>
 
-
                             </div>
+                            <div id='errorDiv2' class='col-xs-12 pull-right'></div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save</button>
@@ -532,7 +544,7 @@
             <!--edit modal-->
             <div class="modal fade" id="editModalUser" tabindex="-1" aria-labelledby="editModalLabel"
                  aria-hidden="true">
-                <form th:action="@{/admin/updateUser}" method="put">
+                <form onsubmit="return validateFormEditUser()" th:action="@{/admin/updateUser}" method="put">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -553,13 +565,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="firstnameEditUser" class="col-form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstnameEditUser" name="firstname"
-                                           readonly>
+                                    <input type="text" class="form-control" id="firstnameEditUser" name="firstname">
                                 </div>
                                 <div class="form-group">
                                     <label for="lastnameEditUser" class="col-form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastnameEditUser" name="lastname"
-                                           readonly>
+                                    <input type="text" class="form-control" id="lastnameEditUser" name="lastname">
                                 </div>
                                 <div class="form-group">
                                     <label for="emailEditUser" class="col-form-label">Email</label>
@@ -605,9 +615,12 @@
                                     <label for="endDateEdit" class="col-form-label">End Date Subscription</label>
                                     <input type="date" class="form-control" id="endDateEdit" name="endDate">
                                 </div>
+                                <div id='errorDiv' class='col-xs-12 pull-right'></div>
                                 <div class="form-group">
-                                    <label for="remainingSessionsEditUser" class="col-form-label">Remaining Sessions Left</label>
-                                    <input type="number" class="form-control" id="remainingSessionsEditUser" name="remainingSessions">
+                                    <label for="remainingSessionsEditUser" class="col-form-label">Remaining Sessions
+                                        Left</label>
+                                    <input type="number" class="form-control" id="remainingSessionsEditUser"
+                                           name="remainingSessions">
                                 </div>
                                 <div class="form-group">
                                     <label for="passwordEditUser" class="col-form-label"></label>
@@ -655,11 +668,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="usernameDeleteUser" class="col-form-label">Username</label>
-                                    <input type="text" class="form-control" id="usernameDeleteUser" name="username">
+                                    <input type="text" class="form-control" id="usernameDeleteUser" name="username"
+                                           readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="emailDeleteUser" class="col-form-label">Email</label>
-                                    <input type="email" class="form-control" id="emailDeleteUser" name="email">
+                                    <input type="email" class="form-control" id="emailDeleteUser" name="email" readonly>
                                 </div>
 
                             </div>
@@ -699,7 +713,6 @@
     </div>
 </div>
 
-
 <script src="js/admin.js"></script>
 <script src="js/navbar.js"></script>
 <!-- Function used to shrink nav bar removing paddings and adding black background -->
@@ -712,6 +725,37 @@
             $('.nav').removeClass('affix');
         }
     });
+
+    function validateFormEditUser() {
+
+        var date1 = new Date(document.getElementById('startDateEdit').value)
+        var date2 = new Date(document.getElementById('endDateEdit').value)
+
+        if (date1 > date2) {
+            document.getElementById('errorDiv').innerHTML = "End date cannot be before start date";
+            return false;
+        }
+    }
+
+    function validateFormAddUser() {
+
+        if (document.getElementById('addUsername').value.trim().length < 3) {
+            document.getElementById('errorDiv2').innerHTML = "Please enter a username of at least 3 characters";
+            document.getElementById('addUsername').focus();
+            return false;
+        }
+
+        if (document.getElementById('addPassword').value.trim().length < 6) {
+            document.getElementById('errorDiv2').innerHTML = "Please enter a password of at least 6 characters";
+            document.getElementById('addPassword').focus();
+            return false;
+        }
+        if (document.getElementById('addEmail').value.trim() == "") {
+            document.getElementById('errorDiv2').innerHTML = "Please enter a valid Email address";
+            document.getElementById('addEmail').focus();
+            return false;
+        }
+    }
 </script>
 
 </body>

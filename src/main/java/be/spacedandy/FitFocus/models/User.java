@@ -69,6 +69,8 @@ public class User {
 
     private String gsmNumber;
 
+    private String verificationCode;
+
     @Override
     public String toString() {
         return "User{" +
@@ -244,5 +246,29 @@ public class User {
 
     public void setProfileIsSuspended(boolean profileIsSuspended) {
         this.profileIsSuspended = profileIsSuspended;
+    }
+
+    public String getGsmNumber() {
+        return gsmNumber;
+    }
+
+    public void setGsmNumber(String gsmNumber) {
+        this.gsmNumber = gsmNumber;
+    }
+
+    public int getRemainingSessions() {
+        return remainingSessions;
+    }
+
+    public void setRemainingSessions(int remainingSessions) {
+        this.remainingSessions = remainingSessions;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 }

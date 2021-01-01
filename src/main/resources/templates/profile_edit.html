@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>FitFocus | Profile</title>
+    <base href="/">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="stylesheet" th:href="@{css/styles.css}">
+
+</head>
+<body class="home">
+<nav class="nav">
+    <div class="container">
+        <div class="logo">
+            <img th:src="@{img/logo.jpg}" style="height: 65px; width: auto">
+        </div>
+        <div id="mainListDiv" class="main_list">
+            <ul class="navlinks">
+                <li><a th:href="@{/index}">Home</a></li>
+                <li><a th:href="@{/prices}">Prices</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+                <li><a th:href="@{/login}">Login</a></li>
+                <li><a th:href="@{/register}">Register</a></li>
+                <li><a class="currentpage" th:href="@{/profile}">Profile</a></li>
+                <!--                <li><a th:href="@{/admin}">Admin</a></li>-->
+                <!--                <li><a th:href="@{/session}">Session</a></li>-->
+                <!--                <li><a th:href="@{/profile}">Profile</a></li>-->
+            </ul>
+        </div>
+        <span class="navTrigger">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        <div class="logoright">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="justify-content: center; display: flex">
+
+    <div class="adminTables">
+
+        <div class="wrapper" style="text-align: center">
+
+            <h2 class="collectiontitle" style="float: left">My Profile</h2>
+            <form th:action="@{/profile/update}" th:object="${user}" method="post">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <input type="number" id="idEdit" name="id" th:value="${user.id}" hidden>
+                <table class="collectionlist">
+                    <tr>
+                        <th>Username</th>
+                        <td><input type="text" id="usernameEdit" name="username" th:value="${user.username}" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>First Name</th>
+                        <td><input type="text" id="firstnameEdit" name="firstname" th:value="${user.firstname}"></td>
+                    </tr>
+                    <tr>
+                        <th>Last Name</th>
+                        <td><input type="text" id="lastnameEdit" name="lastname" th:value="${user.lastname}"></td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td><input type="email" id="emailEdit" name="email" th:value="${user.email}" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>Receive Reminder Sms</th>
+                        <td><input type="checkbox" id="reminderSmsEdit" name="reminderSms"
+                                   th:checked="${user.reminderSms}"></td>
+                    </tr>
+                    <tr>
+                        <th>Receive Reminder Email</th>
+                        <td><input type="checkbox" id="reminderMailEdit" name="reminderMail"
+                                   th:checked="${user.reminderMail}"></td>
+                    </tr>
+                    <tr>
+                        <th>I am a woman</th>
+                        <td><input type="checkbox" id="femaleEdit" name="female" th:checked="${user.female}"/></td>
+                    </tr>
+                    <tr>
+                        <th>Receive Promotions?</th>
+                        <td><input type="checkbox" id="promotionsActiveEdit" name="promotionsActive"
+                                   th:checked="${user.promotionsActive}"></td>
+                    </tr>
+                    <tr>
+                        <th>Subscription Type</th>
+                        <td><input type="text" id="subscriptionTypeEdit" name="subscriptionType"
+                                   th:value="${user.subscriptionType}" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>Start date Subscription</th>
+                        <td><input type="text" id="startDateEdit" name="startDate" th:value="${user.startDate}" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>End date Subscription</th>
+                        <td><input type="text" id="endDateEdit" name="endDate" th:value="${user.endDate}" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>Remaining Sessions</th>
+                        <td><input type="number" id="remainingSessionsEdit" name="remainingSessions"
+                                   th:value="${user.remainingSessions}" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td><input type="text" id="gsmNumberEdit" name="gsmNumber" th:value="${user.gsmNumber}"></td>
+                    </tr>
+                    <tr>
+                        <th>Confirm Password</th>
+                        <td><input type="text" class="form-control" th:field="*{password}" id="password" placeholder="Your Password"></td>
+                    </tr>
+                </table>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                    <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Jquery needed -->
+<script th:src="@{js/navbar.js}"></script>
+<script th:src="@{js/profile.js}"></script>
+
+<!-- Function used to shrink nav bar removing paddings and adding black background -->
+<script>
+    $(window).scroll(function () {
+        if ($(document).scrollTop() > 50) {
+            $('.nav').addClass('affix');
+            console.log("OK");
+        } else {
+            $('.nav').removeClass('affix');
+        }
+    });
+
+</script>
+
+</body>
+</html>

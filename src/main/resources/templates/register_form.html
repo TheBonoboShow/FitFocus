@@ -53,13 +53,13 @@
         <div class="card-body register-card-body">
             <p class="login-box-msg">Register a new account</p>
 
-            <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+            <form th:action="@{/register}" th:object="${user}" method="post">
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                     <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" th:field="*{username}" placeholder="Name"
-                           th:errorclass="is-invalid">
+                    <input type="text" class="form-control" th:field="*{username}" placeholder="Userame"
+                           th:errorclass="is-invalid" id="username">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="input-group mb-3">
                     <input type="email" class="form-control" th:field="*{email}" placeholder="Email"
-                           th:errorclass="is-invalid">
+                           th:errorclass="is-invalid" id="email">
 
                     <div class="input-group-append">
                         <div class="input-group-text">
