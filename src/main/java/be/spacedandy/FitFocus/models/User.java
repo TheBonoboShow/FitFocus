@@ -69,32 +69,10 @@ public class User {
 
     private String gsmNumber;
 
-    private String verificationCode;
+    private String verificationToken;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", reminderSms=" + reminderSms +
-                ", reminderMail=" + reminderMail +
-                ", isFemale=" + female +
-                ", promotionsActive=" + promotionsActive +
-                ", role=" + role +
-                ", roleid=" + roleid +
-                ", reservedSessions=" + reservedSessions +
-                ", subscriptionType=" + subscriptionType +
-                ", subscriptiontypeid=" + subscriptiontypeid +
-                ", startDate='" + startDate + '\'' +
-                ", endDate='" + endDate + '\'' +
-                ", profileIsActive=" + profileIsActive +
-                ", profileIsSuspended=" + profileIsSuspended +
-                '}';
-    }
+    private String passwordResetToken;
+
 
     public int getId() {
         return id;
@@ -264,11 +242,32 @@ public class User {
         this.remainingSessions = remainingSessions;
     }
 
-    public String getVerificationCode() {
-        return verificationCode;
+    public String getVerificationToken() {
+        return verificationToken;
     }
 
-    public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
+    public void setVerificationToken(String verificationCode) {
+        this.verificationToken = verificationCode;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", passwordResetToken='" + passwordResetToken + '\'' +
+                '}';
     }
 }

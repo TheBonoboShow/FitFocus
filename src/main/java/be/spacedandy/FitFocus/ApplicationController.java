@@ -26,11 +26,6 @@ public class ApplicationController {
         return "login";
     }
 
-    @GetMapping("/secret")
-    public String getSecret(Model model){
-        return "secret";
-    }
-
     @GetMapping("/contact")
     public String getContact(Model model){
         return "contact";

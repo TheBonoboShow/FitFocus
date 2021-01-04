@@ -82,7 +82,7 @@ public class AdminController {
         try {
             registerService.register(user);
             String url = "http://localhost:8080/verify?code=" ;
-            url += user.getVerificationCode();
+            url += user.getVerificationToken();
             registerService.sendVerificationEmail(user, url);
         }catch (UserAlreadyExistException e){
             expandModel(model);

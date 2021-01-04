@@ -29,7 +29,7 @@ public class RegisterService {
         if (checkIfUserExistMail(user.getEmail())) {
             throw new EmailAlreadyExistException("User already exists for this email");
         }
-        user.setVerificationCode(RandomString.make(32));
+        user.setVerificationToken(RandomString.make(32));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -63,11 +63,12 @@ public class RegisterService {
     }
 
     public boolean verify(String code){
-        User user = userRepository.findByVerificationCode(code);
+        User user = userRepository.findByVerificationToken(code);
         if (user == null || user.isProfileIsActive()) {
             return false;
         }
         user.setProfileIsActive(true);
+        user.setVerificationToken(null);
         userRepository.save(user);
         return true;
     }

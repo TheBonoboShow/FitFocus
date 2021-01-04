@@ -39,7 +39,7 @@ public class RegisterController {
         try {
             registerService.register(user);
             String url = "http://localhost:8080/verify?code=" ;
-            url += user.getVerificationCode();
+            url += user.getVerificationToken();
             registerService.sendVerificationEmail(user, url);
         }catch (UserAlreadyExistException e){
             bindingResult.rejectValue("username", "user.username","An account already exists for this name");
@@ -59,9 +59,8 @@ public class RegisterController {
     }
 
     @GetMapping("/verify")
-    public String verifyAccount(@Param("code") String code, Model model){
+    public String verifyAccount(@Param("code") String code){
         boolean verified = registerService.verify(code);
         return verified ? "register_success" : "register_error";
-
     }
 }

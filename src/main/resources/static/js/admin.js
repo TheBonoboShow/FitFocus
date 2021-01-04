@@ -1,8 +1,9 @@
-//todo make login only for activated users
 //todo setup secret page + reset password logic
+//todo after registration link (email is send msg)
+//todo make register_succes and error pages
 //todo setup change email address
 //todo make contact page
-//todo make email verification page (register_*)
+//todo make email verification page (register_*  + add mail in title html page)
 //todo make logout logic
 //todo change view depending on role
 //todo setup emails promo

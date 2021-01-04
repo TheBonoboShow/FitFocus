@@ -49,12 +49,14 @@
 </nav>
 
 <form style="margin-top: 200px" th:action="@{/login}" method="post">
-    <div th:if="${param.error}" class="alert alert-danger">
-        Invalid username and password
+    <h2>Login:</h2>
+    <div th:if="${param.error}">
+        <p class="alert alert-danger" id="errorMsg">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
     </div>
     <input type="text" placeholder="username" name="username">
     <input type="password" placeholder="password" name="password">
     <button type="submit">Login</button>
+    <p><a th:href="@{/secret}">Forgot your password?</a></p>
 </form>
 
 <script>
