@@ -30,7 +30,7 @@ public class RegisterController {
     }
 
     @PostMapping(value = "/register")
-    public String userRegistration(final @Valid User user, BindingResult bindingResult, Model model){
+    public String userRegistration(final @Valid User user, BindingResult bindingResult, Model model) throws InterruptedException {
 
         if(bindingResult.hasErrors()){
             model.addAttribute("user", user);
@@ -55,6 +55,7 @@ public class RegisterController {
             model.addAttribute("user", user);
             return "register_form";
         }
+        Thread.sleep(4000);
         return "index";
     }
 

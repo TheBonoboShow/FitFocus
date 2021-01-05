@@ -51,9 +51,10 @@
 <div class="register-box" style="margin-top: 200px">
     <div class="card">
         <div class="card-body register-card-body">
-            <p class="login-box-msg">Register a new account</p>
+            <p class="login-box-msg" id="errorMsg">Register a new account</p>
+            <p class="login-box-msg" id="errorMsg2"></p>
 
-            <form th:action="@{/register}" th:object="${user}" method="post">
+            <form th:action="@{/register}" th:object="${user}" method="post" onsubmit="return validateForm()">
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                     <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                 </div>
@@ -106,6 +107,11 @@
         }
     });
 
+    function validateForm() {
+
+        document.getElementById('errorMsg').innerHTML = "To complete your registration, please check your mails";
+        document.getElementById('errorMsg2').innerHTML = "You will be redirected to the homepage shortly";
+    }
 </script>
 </body>
 </html>

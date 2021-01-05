@@ -1,20 +1,17 @@
-//todo setup secret page + reset password logic
-//todo after registration link (email is send msg)
-//todo make register_succes and error pages
-//todo setup change email address
+//todo setup change email address on profile page (save mail + sending actual mail + verification)
 //todo make contact page
-//todo make email verification page (register_*  + add mail in title html page)
 //todo make logout logic
-//todo change view depending on role
+//todo change view and accesses depending on role
 //todo setup emails promo
+//todo fix index and link sessions with schedule
+//todo only display sessions by group on index (filter with buttons)
 //todo setup emails reminders
 //todo setup sms reminders
-//todo fix index and link sessions with schedule
 //todo user.reserved sessions and session.participants
 //todo implement buying subscriptions and payment method?
 //todo add search filter admin page (users - username & email)
 //todo add info on hover for profile edit (readonly cases)
-//todo validation on new user (send mail to Pearl and Patrick)
+//todo fix lay-out everything
 //todo launch app on staes.me and change mail redirection
 
 $('document').ready(function () {

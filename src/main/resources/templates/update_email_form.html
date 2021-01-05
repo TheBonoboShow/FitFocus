@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 
-    <title>FitFocus | Reset Password</title>
-
+    <title>FitFocus | Reset Email</title>
+    <base href="/">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -48,16 +48,49 @@
     </div>
 </nav>
 
-<form style="margin-top: 200px" th:action="@{/verifysecret}" onsubmit="return validateForm()" method="post">
-    <h2>Please enter your new password:</h2>
-    <div>
-        <p id="errorMsg"></p>
+<div class="register-box" style="margin-top: 200px">
+    <div class="card">
+        <div class="card-body register-card-body">
+            <p class="login-box-msg"><h2>Enter your new email</h2></p>
+
+            <form th:action="@{/profile/updateEmail}" th:object="${user}" onsubmit="return validateForm()" method="post">
+                <div id="errorMsg" class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                    <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                </div>
+                <div class="input-group mb-3">
+                    <input hidden type="number" name="id" id="id" th:value="${user.id}" >
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="email" placeholder="Email" name="email" id="email">
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="email" placeholder="Confirm Email" id="emailConfirm">
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <input type="password" placeholder="Password" id="password" name="password" th:errorclass="is-invalid"> <br>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Send</button>
+            </form>
+        </div>
     </div>
-    <input hidden type="text" name="passwordResetToken" id="token" th:value="${token}">
-    <input type="password" placeholder="Password" name="password" id="password">
-    <input type="password" placeholder="Confirm password" id="passwordConfirm">
-    <button type="submit">Reset</button>
-</form>
+    <!-- /.form-box -->
+</div> <!-- /.card -->
+
 
 <script>
     $(window).scroll(function() {
@@ -70,17 +103,10 @@
     });
 
     function validateForm() {
-        if (document.getElementById('password').value.trim().length  < 6){
-            document.getElementById('errorMsg').innerHTML = "Your password must be at least 6 characters";
-            document.getElementById('password').focus();
+        if (document.getElementById('email').value.trim() != document.getElementById('emailConfirm').value.trim()) {
+            document.getElementById('errorMsg').innerHTML = "Your email does not match";
             return false;
         }
-
-        if (document.getElementById('password').value.trim() != document.getElementById('passwordConfirm').value.trim()) {
-            document.getElementById('errorMsg').innerHTML = "Your password does not match";
-            return false;
-        }
-        document.getElementById('errorMsg').innerHTML = "Your password is reset, you can now login with your new password!";
     }
 </script>
 </body>

@@ -30,7 +30,7 @@ public class ForgotPasswordController {
     }
 
     @PostMapping("/secret")
-    public String sendMailResetPassword(User user, BindingResult bindingResult, Model model, HttpServletRequest request){
+    public String sendMailResetPassword(User user, BindingResult bindingResult, Model model){
         try {
             String token = RandomString.make(32);
             userService.resetPassword(token,user.getEmail());
@@ -63,7 +63,7 @@ public class ForgotPasswordController {
     public String confirmResetPassword(User user, Model model) throws InterruptedException {
         userService.updatePassword(user);
         model.addAttribute("token", user.getPasswordResetToken());
-        Thread.sleep(2000);
+        Thread.sleep(2500);
         return "redirect:/login";
     }
 }

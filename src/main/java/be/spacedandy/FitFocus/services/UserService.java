@@ -43,7 +43,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    private boolean checkIfPasswordMatches(User user) {
+    public boolean checkIfPasswordMatches(User user) {
         String pass = findById(user.getId()).getPassword();
         return bCryptPasswordEncoder.matches(user.getPassword(), pass);
     }
@@ -74,8 +74,6 @@ public class UserService {
 
     public void updatePassword (User user){
         User oldUser = userRepository.findByPasswordResetToken(user.getPasswordResetToken());
-        System.out.println("EPIC TEST " + user);
-        System.out.println("EPIC TEST " + oldUser);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         oldUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         oldUser.setPasswordResetToken(null);
@@ -108,5 +106,38 @@ public class UserService {
             return false;
         }
         return true;
+    }
+
+    public void sendVerificationEmailEmail(User user, String url) throws UnsupportedEncodingException, MessagingException {
+        String subject = "FitFocus user verification";
+        String senderName = "FitFocus Team";
+        String content = "<p>Dear " + user.getUsername() + ", </p>";
+        content += "<p> Please click on the link below to complete your email change: </p>";
+        content += "<h3><a href=\"" + url + "\"> VERIFY </a></h3>";
+        content += "<p> Thank you, <br> The FitFocus Team<p>";
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setFrom("ibo@staes.me", senderName);
+        helper.setTo(user.getEmail());
+        helper.setSubject(subject);
+        helper.setText(content, true);
+
+        javaMailSender.send(message);
+    }
+
+    public boolean verifyEmail(String code){
+        User user = userRepository.findByVerificationToken(code);
+        if (user == null || user.isProfileIsActive()) {
+            return false;
+        }
+        user.setProfileIsActive(true);
+        user.setVerificationToken(null);
+        userRepository.save(user);
+        return true;
+    }
+
+    public boolean checkIfUserExistMail(String email) {
+        return userRepository.findByEmail(email) != null ? true : false;
     }
 }

@@ -6,7 +6,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>FitFocus | Profile</title>
-
+    <base href="/">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
@@ -115,8 +115,14 @@
                 </tr>
             </table>
 
+            <div class="alert alert-danger" th:if="${message != null}">
+                <p>[[${message}]]</p>
+            </div>
+
         </div>
+
     </div>
+
 </div>
 
 <!-- Jquery needed -->

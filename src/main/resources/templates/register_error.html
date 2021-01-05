@@ -1,12 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+
+    <title>FitFocus | Verify Email</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
     <meta charset="UTF-8">
-    <title>FitFocus Verification Error</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="stylesheet" href="css/styles.css">
+
 </head>
-<body>
+<body class="home">
+<nav class="nav">
+    <div class="container">
+        <div class="logo">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+        <div id="mainListDiv" class="main_list">
+            <ul class="navlinks">
+                <li><a th:href="@{/index}">Home</a></li>
+                <li><a th:href="@{/prices}">Prices</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+                <li><a th:href="@{/login}">Login</a></li>
+                <li><a th:href="@{/register}">Register</a></li>
+                <!--                <li><a th:href="@{/admin}">Admin</a></li>-->
+                <!--                <li><a th:href="@{/session}">Session</a></li>-->
+                <!--                <li><a th:href="@{/profile}">Profile</a></li>-->
+            </ul>
+        </div>
+        <span class="navTrigger">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        <div class="logoright">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+    </div>
+</nav>
 
-<p>NOOOOO</p>
+<div style="margin-top: 200px">
+    <h2 >Verify email</h2>
+    <h3 style="text-align: center; padding-top: 20px">Invalid token</h3>
+</div>
 
+<script>
+    $(window).scroll(function() {
+        if ($(document).scrollTop() > 50) {
+            $('.nav').addClass('affix');
+            console.log("OK");
+        } else {
+            $('.nav').removeClass('affix');
+        }
+    });
+</script>
 </body>
 </html>
