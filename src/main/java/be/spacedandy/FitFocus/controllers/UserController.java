@@ -88,14 +88,19 @@ public class UserController {
             if (user.getEmail().equals("")) throw new UserNotFoundException("");
             if (userService.checkIfUserExistMail(user.getEmail())) throw new EmailAlreadyExistException("");
             if (!userService.checkIfPasswordMatches(user)) throw new WrongPasswordException("");
-//            String token = RandomString.make(32);
-//            userService.resetPassword(token,user.getEmail());
-//            String url = "http://localhost:8080/verifysecret?token=" ;
-//            url += token;
-//            userService.sendVerificationEmail(user, url);
-            model.addAttribute("message", "We have sent you an email to confirm your email address, please check");
+
+            String token = RandomString.make(32);
+            String url = "http://localhost:8080/verify?token=" ;
+            url += token;
             User userP = userService.findByUsername(userPrincipal.getUsername());
+            userP.setEmail(user.getEmail());
+            userP.setVerificationToken(token);
+            userP.setProfileIsActive(false);
+            userService.saveAdmin(userP);
             model.addAttribute("user", userP);
+            userService.sendVerificationEmailEmail(userP, url);
+
+            model.addAttribute("message", "We have sent you an email to confirm your email address, please check");
         }
         catch (UserNotFoundException e) {
             bindingResult.rejectValue("email", "user.email","Please enter a valid email address");
@@ -111,6 +116,10 @@ public class UserController {
             bindingResult.rejectValue("password", "user.password","The password is not correct");
             model.addAttribute("user", user);
             return "update_email_form";
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
         return "profile";
     }

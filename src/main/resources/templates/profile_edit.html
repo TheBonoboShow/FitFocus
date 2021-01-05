@@ -125,6 +125,9 @@
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                     <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                 </div>
+                <input hidden type="text" th:field="*{profileIsActive}" id="profileIsActive">
+                <input hidden type="text" th:field="*{profileIsSuspended}" id="profileIsSuspended">
+                <input hidden type="text" th:field="*{roleid}" id="roleid">
             </form>
         </div>
         <a class="btn btn-warning" th:href="@{/profile/updateEmail}">Change Email</a>

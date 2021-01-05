@@ -126,17 +126,6 @@ public class UserService {
         javaMailSender.send(message);
     }
 
-    public boolean verifyEmail(String code){
-        User user = userRepository.findByVerificationToken(code);
-        if (user == null || user.isProfileIsActive()) {
-            return false;
-        }
-        user.setProfileIsActive(true);
-        user.setVerificationToken(null);
-        userRepository.save(user);
-        return true;
-    }
-
     public boolean checkIfUserExistMail(String email) {
         return userRepository.findByEmail(email) != null ? true : false;
     }

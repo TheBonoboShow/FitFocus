@@ -1,6 +1,6 @@
-//todo setup change email address on profile page (save mail + sending actual mail + verification)
 //todo make contact page
 //todo make logout logic
+//todo automatic logout on e-mail change
 //todo change view and accesses depending on role
 //todo setup emails promo
 //todo fix index and link sessions with schedule

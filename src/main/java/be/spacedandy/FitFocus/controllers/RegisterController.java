@@ -38,7 +38,7 @@ public class RegisterController {
         }
         try {
             registerService.register(user);
-            String url = "http://localhost:8080/verify?code=" ;
+            String url = "http://localhost:8080/verify?token=" ;
             url += user.getVerificationToken();
             registerService.sendVerificationEmail(user, url);
         }catch (UserAlreadyExistException e){
@@ -60,8 +60,8 @@ public class RegisterController {
     }
 
     @GetMapping("/verify")
-    public String verifyAccount(@Param("code") String code){
-        boolean verified = registerService.verify(code);
+    public String verifyAccount(@Param("token") String token){
+        boolean verified = registerService.verify(token);
         return verified ? "register_success" : "register_error";
     }
 }

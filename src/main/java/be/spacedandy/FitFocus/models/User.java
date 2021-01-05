@@ -46,7 +46,7 @@ public class User {
     @JoinColumn(name = "roleid", insertable = false, updatable = false)
     private Role role;
 
-    private Integer roleid;
+    private Integer roleid = 1;
 
     @ManyToMany
     private List<Session> reservedSessions;
