@@ -86,15 +86,17 @@ public class AdminController {
             registerService.sendVerificationEmail(user, url);
         }catch (UserAlreadyExistException e){
             expandModel(model);
-            return "admin_error_username";
+            model.addAttribute("message", "This username already exists");
+            return "admin";
         }
         catch (EmailAlreadyExistException e){
             expandModel(model);
-            return "admin_error_email";
+            model.addAttribute("message", "This email already exists");
+            return "admin";
         }
         catch (UnsupportedEncodingException | MessagingException e){
             model.addAttribute("user", user);
-            return "register_form";
+            return "admin";
         }
         return "redirect:/admin";
     }

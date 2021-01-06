@@ -33,9 +33,9 @@ public class ApplicationController {
         return "login";
     }
 
-    @GetMapping("/contact")
-    public String getContact(Model model){
-        return "contact";
+    @GetMapping("/403")
+    public String accessDenied() {
+        return "403";
     }
 
 }

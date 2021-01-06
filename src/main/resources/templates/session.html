@@ -32,12 +32,10 @@
             <ul class="navlinks">
                 <li><a th:href="@{/index}">Home</a></li>
                 <li><a th:href="@{/prices}">Prices</a></li>
-                <li><a th:href="@{/contact}">Contact</a></li>
-                <li><a th:href="@{/login}">Login</a></li>
-                <li><a th:href="@{/register}">Register</a></li>
-                <!--                <li><a th:href="@{/admin}">Admin</a></li>-->
-                <!--                <li><a th:href="@{/session}">Session</a></li>-->
-                <!--                <li><a th:href="@{/profile}">Profile</a></li>-->
+                <li><a class="currentpage" th:href="@{/sessions}">Sessions</a></li>
+                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
+                <li><a th:href="@{/profile}">Profile</a></li>
+                <li><a th:href="@{/logout}">Logout</a></li>
             </ul>
         </div>
         <span class="navTrigger">
@@ -52,253 +50,258 @@
 </nav>
 
 <div class="container">
-<div class="adminTables">
+    <div class="adminTables">
 
-    <!--Session handler-->
-    <div class="wrapper">
-        <h2 class="collectiontitle" style="float: left">Sessions</h2>
+        <!--Session handler-->
+        <div class="wrapper">
+            <h2 class="collectiontitle" style="float: left">Sessions</h2>
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSession"
-                style="margin-left: 30px">Add New
-        </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSession"
+                    style="margin-left: 30px">Add New
+            </button>
 
-        <!--add modal-->
-        <div class="modal fade" id="addModalSession" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-            <form th:action="@{/sessions/addNew}" method="post">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addModalLabel">New Session</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
+            <!--add modal-->
+            <div class="modal fade" id="addModalSession" tabindex="-1" aria-labelledby="addModalLabel"
+                 aria-hidden="true">
+                <form th:action="@{/sessions/addNew}" method="post">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addModalLabel">New Session</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
 
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Coach</label>
-                                <input type="text" class="form-control" id="recipient-name" name="coach">
-                            </div>
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Information</label>
-                                <input type="text" class="form-control" id="recipient-name" name="information">
-                            </div>
-                            <div class="form-group">
-                                <label for="ddlSports" class="col-form-label">Sport</label>
-                                <select class="form-control" id="ddlSports" name="sportid">
-                                    <option>-SELECT-</option>
-                                    <option th:each="Sport : ${sports}"
-                                            th:value="${Sport.id}"
-                                            th:text="${Sport.name}">
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Date</label>
-                                <input type="date" class="form-control" id="recipient-name" name="date">
-                            </div>
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Starting Time</label>
-                                <input type="time" class="form-control" id="recipient-name" name="startingHour">
-                            </div>
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Duration</label>
-                                <input type="number" class="form-control" id="recipient-name" name="duration">
-                            </div>
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Maximum Participants</label>
-                                <input type="number" class="form-control" id="recipient-name" name="maxParticipants">
-                            </div>
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Woman Only</label>
-                                <input type="checkbox" class="form-control" id="recipient-name" name="onlyFemales">
-                            </div>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Coach</label>
+                                    <input type="text" class="form-control" id="recipient-name" name="coach">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Information</label>
+                                    <input type="text" class="form-control" id="recipient-name" name="information">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ddlSports" class="col-form-label">Sport</label>
+                                    <select class="form-control" id="ddlSports" name="sportid">
+                                        <option>-SELECT-</option>
+                                        <option th:each="Sport : ${sports}"
+                                                th:value="${Sport.id}"
+                                                th:text="${Sport.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Date</label>
+                                    <input type="date" class="form-control" id="recipient-name" name="date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Starting Time</label>
+                                    <input type="time" class="form-control" id="recipient-name" name="startingHour">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Duration</label>
+                                    <input type="number" class="form-control" id="recipient-name" name="duration">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Maximum Participants</label>
+                                    <input type="number" class="form-control" id="recipient-name"
+                                           name="maxParticipants">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Woman Only</label>
+                                    <input type="checkbox" class="form-control" id="recipient-name" name="onlyFemales">
+                                </div>
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <!--edit modal-->
-        <div class="modal fade" id="editModalSession" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-            <form th:action="@{/sessions/update}" method="put">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editModalLabel">Edit Session</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="idEdit" class="col-form-label">Id</label>
-                                <input type="text" class="form-control" id="idEdit" name="id" readonly>
                             </div>
-                            <div class="form-group">
-                                <label for="coachEdit" class="col-form-label">Coach</label>
-                                <input type="text" class="form-control" id="coachEdit" name="coach">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-                            <div class="form-group">
-                                <label for="informationEdit" class="col-form-label">Information</label>
-                                <input type="text" class="form-control" id="informationEdit" name="information">
-                            </div>
-                            <div class="form-group">
-                                <label for="sportEdit" class="col-form-label">Sport</label>
-                                <select class="form-control" id="sportEdit" name="sportid">
-                                    <option>-SELECT-</option>
-                                    <option th:each="Sport : ${sports}"
-                                            th:value="${Sport.id}"
-                                            th:text="${Sport.name}">
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="dateEdit" class="col-form-label">Date</label>
-                                <input type="date" class="form-control" id="dateEdit" name="date">
-                            </div>
-                            <div class="form-group">
-                                <label for="startingHourEdit" class="col-form-label">Starting Time</label>
-                                <input type="time" class="form-control" id="startingHourEdit" name="startingHour">
-                            </div>
-                            <div class="form-group">
-                                <label for="durationEdit" class="col-form-label">Duration</label>
-                                <input type="number" class="form-control" id="durationEdit" name="duration">
-                            </div>
-                            <div class="form-group">
-                                <label for="maxParticipantsEdit" class="col-form-label">Maximum Participants</label>
-                                <input type="number" class="form-control" id="maxParticipantsEdit"
-                                       name="maxParticipants">
-                            </div>
-                            <div class="form-group">
-                                <label for="onlyFemalesEdit" class="col-form-label">Woman Only</label>
-                                <input type="checkbox" class="form-control" id="onlyFemalesEdit" name="onlyFemales">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
 
-        <!--delete modal-->
-        <div class="modal fade" id="deleteModalSession" tabindex="-1" aria-labelledby="deleteModalLabel"
-             aria-hidden="true">
-            <form th:action="@{/sessions/delete}" method="put">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure you want to delete this session?</p>
-                            <div class="form-group">
-                                <label for="idDelete" class="col-form-label">Id</label>
-                                <input type="text" class="form-control" id="idDelete" name="id" readonly>
+            <!--edit modal-->
+            <div class="modal fade" id="editModalSession" tabindex="-1" aria-labelledby="editModalLabel"
+                 aria-hidden="true">
+                <form th:action="@{/sessions/update}" method="put">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">Edit Session</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                            <div class="form-group">
-                                <label for="coachDelete" class="col-form-label">Coach</label>
-                                <input type="text" class="form-control" id="coachDelete" name="coach">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="idEdit" class="col-form-label">Id</label>
+                                    <input type="text" class="form-control" id="idEdit" name="id" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="coachEdit" class="col-form-label">Coach</label>
+                                    <input type="text" class="form-control" id="coachEdit" name="coach">
+                                </div>
+                                <div class="form-group">
+                                    <label for="informationEdit" class="col-form-label">Information</label>
+                                    <input type="text" class="form-control" id="informationEdit" name="information">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sportEdit" class="col-form-label">Sport</label>
+                                    <select class="form-control" id="sportEdit" name="sportid">
+                                        <option>-SELECT-</option>
+                                        <option th:each="Sport : ${sports}"
+                                                th:value="${Sport.id}"
+                                                th:text="${Sport.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dateEdit" class="col-form-label">Date</label>
+                                    <input type="date" class="form-control" id="dateEdit" name="date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="startingHourEdit" class="col-form-label">Starting Time</label>
+                                    <input type="time" class="form-control" id="startingHourEdit" name="startingHour">
+                                </div>
+                                <div class="form-group">
+                                    <label for="durationEdit" class="col-form-label">Duration</label>
+                                    <input type="number" class="form-control" id="durationEdit" name="duration">
+                                </div>
+                                <div class="form-group">
+                                    <label for="maxParticipantsEdit" class="col-form-label">Maximum Participants</label>
+                                    <input type="number" class="form-control" id="maxParticipantsEdit"
+                                           name="maxParticipants">
+                                </div>
+                                <div class="form-group">
+                                    <label for="onlyFemalesEdit" class="col-form-label">Woman Only</label>
+                                    <input type="checkbox" class="form-control" id="onlyFemalesEdit" name="onlyFemales">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="informationDelete" class="col-form-label">Information</label>
-                                <input type="text" class="form-control" id="informationDelete" name="information">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-                            <div class="form-group">
-                                <label for="sportDelete" class="col-form-label">Sport</label>
-                                <select class="form-control" id="sportDelete" name="sportid">
-                                    <option>-SELECT-</option>
-                                    <option th:each="Sport : ${sports}"
-                                            th:value="${Sport.id}"
-                                            th:text="${Sport.name}">
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="dateDelete" class="col-form-label">Date</label>
-                                <input type="date" class="form-control" id="dateDelete" name="date">
-                            </div>
-                            <div class="form-group">
-                                <label for="startingHourDelete" class="col-form-label">Starting Time</label>
-                                <input type="time" class="form-control" id="startingHourDelete" name="startingHour">
-                            </div>
-                            <div class="form-group">
-                                <label for="durationDelete" class="col-form-label">Duration</label>
-                                <input type="number" class="form-control" id="durationDelete" name="duration">
-                            </div>
-                            <div class="form-group">
-                                <label for="maxParticipantsDelete" class="col-form-label">Maximum Participants</label>
-                                <input type="number" class="form-control" id="maxParticipantsDelete"
-                                       name="maxParticipants">
-                            </div>
-                            <div class="form-group">
-                                <label for="onlyFemalesDelete" class="col-form-label">Woman Only</label>
-                                <input type="checkbox" class="form-control" id="onlyFemalesDelete" name="onlyFemales">
-                            </div>
-
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Delete</button>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
+
+            <!--delete modal-->
+            <div class="modal fade" id="deleteModalSession" tabindex="-1" aria-labelledby="deleteModalLabel"
+                 aria-hidden="true">
+                <form th:action="@{/sessions/delete}" method="put">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete this session?</p>
+                                <div class="form-group">
+                                    <label for="idDelete" class="col-form-label">Id</label>
+                                    <input type="text" class="form-control" id="idDelete" name="id" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="coachDelete" class="col-form-label">Coach</label>
+                                    <input type="text" class="form-control" id="coachDelete" name="coach">
+                                </div>
+                                <div class="form-group">
+                                    <label for="informationDelete" class="col-form-label">Information</label>
+                                    <input type="text" class="form-control" id="informationDelete" name="information">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sportDelete" class="col-form-label">Sport</label>
+                                    <select class="form-control" id="sportDelete" name="sportid">
+                                        <option>-SELECT-</option>
+                                        <option th:each="Sport : ${sports}"
+                                                th:value="${Sport.id}"
+                                                th:text="${Sport.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dateDelete" class="col-form-label">Date</label>
+                                    <input type="date" class="form-control" id="dateDelete" name="date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="startingHourDelete" class="col-form-label">Starting Time</label>
+                                    <input type="time" class="form-control" id="startingHourDelete" name="startingHour">
+                                </div>
+                                <div class="form-group">
+                                    <label for="durationDelete" class="col-form-label">Duration</label>
+                                    <input type="number" class="form-control" id="durationDelete" name="duration">
+                                </div>
+                                <div class="form-group">
+                                    <label for="maxParticipantsDelete" class="col-form-label">Maximum
+                                        Participants</label>
+                                    <input type="number" class="form-control" id="maxParticipantsDelete"
+                                           name="maxParticipants">
+                                </div>
+                                <div class="form-group">
+                                    <label for="onlyFemalesDelete" class="col-form-label">Woman Only</label>
+                                    <input type="checkbox" class="form-control" id="onlyFemalesDelete"
+                                           name="onlyFemales">
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <table class="collectionlist">
+                <thead>
+                <tr>
+                    <th>Coach</th>
+                    <th>Information</th>
+                    <th>Sport</th>
+                    <th>Date</th>
+                    <th>Starting Time</th>
+                    <th>Duration</th>
+                    <th>Max Participants</th>
+                    <th>Woman Only</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="Session:${sessions}">
+                    <td th:text="${Session.coach}"></td>
+                    <td th:text="${Session.information}" style="max-width: 15vw"></td>
+                    <td th:text="${Session.sport}"></td>
+                    <td th:text="${Session.date}"></td>
+                    <td th:text="${Session.startingHour}"></td>
+                    <td th:text="${Session.duration}"></td>
+                    <td th:text="${Session.maxParticipants}"></td>
+                    <td th:text="${Session.onlyFemales}"></td>
+                    <td><a th:href="@{/sessions/findById/(id=${Session.id})}" onclick="check()" class="btn btn-warning"
+                           id="editSession">Edit</a>
+                    </td>
+                    <td><a th:href="@{/sessions/findById/(id=${Session.id})}" class="btn btn-danger" id="deleteSession">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-        <table class="collectionlist">
-            <thead>
-            <tr>
-                <th>Coach</th>
-                <th>Information</th>
-                <th>Sport</th>
-                <th>Date</th>
-                <th>Starting Time</th>
-                <th>Duration</th>
-                <th>Max Participants</th>
-                <th>Woman Only</th>
-                <th colspan="2">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="Session:${sessions}">
-                <td th:text="${Session.coach}"></td>
-                <td th:text="${Session.information}" style="max-width: 15vw"></td>
-                <td th:text="${Session.sport}"></td>
-                <td th:text="${Session.date}"></td>
-                <td th:text="${Session.startingHour}"></td>
-                <td th:text="${Session.duration}"></td>
-                <td th:text="${Session.maxParticipants}"></td>
-                <td th:text="${Session.onlyFemales}"></td>
-                <td><a th:href="@{/sessions/findById/(id=${Session.id})}" onclick="check()" class="btn btn-warning"
-                       id="editSession">Edit</a>
-                </td>
-                <td><a th:href="@{/sessions/findById/(id=${Session.id})}" class="btn btn-danger" id="deleteSession">Delete</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </div>
-
-</div>
 </div>
 <script src="js/session.js"></script>
 <script src="js/navbar.js"></script>
 <!-- Function used to shrink nav bar removing paddings and adding black background -->
 <script>
-        $(window).scroll(function () {
+    $(window).scroll(function () {
         if ($(document).scrollTop() > 50) {
             $('.nav').addClass('affix');
             console.log("OK");

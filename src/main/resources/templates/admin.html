@@ -6,7 +6,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>FitFocus | Admin</title>
-
+    <base href="/">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -32,12 +32,10 @@
             <ul class="navlinks">
                 <li><a th:href="@{/index}">Home</a></li>
                 <li><a th:href="@{/prices}">Prices</a></li>
-                <li><a th:href="@{/contact}">Contact</a></li>
-                <li><a th:href="@{/login}">Login</a></li>
-                <li><a th:href="@{/register}">Register</a></li>
-                <!--                <li><a th:href="@{/admin}">Admin</a></li>-->
-                <!--                <li><a th:href="@{/session}">Session</a></li>-->
-                <!--                <li><a th:href="@{/profile}">Profile</a></li>-->
+                <li><a th:href="@{/sessions}">Session</a></li>
+                <li><a class="currentpage" th:href="@{/admin}">Admin</a></li>
+                <li><a th:href="@{/profile}">Profile</a></li>
+                <li><a th:href="@{/logout}">Logout</a></li>
             </ul>
         </div>
         <span class="navTrigger">
@@ -686,6 +684,10 @@
                 </form>
             </div>
 
+            <div class="alert alert-danger" th:if="${message != null}">
+                <p>[[${message}]]</p>
+            </div>
+
             <table class="collectionlist">
                 <thead>
                 <tr>
@@ -709,6 +711,9 @@
                 </tr>
                 </tbody>
             </table>
+
+
+            <a th:href="@{/admin/sendPromo}">PRESS ME</a>
         </div>
     </div>
 </div>

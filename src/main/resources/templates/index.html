@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 
-     <title>FitFocus</title>
+    <title>FitFocus</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -30,12 +30,14 @@
                 <li><a class="currentpage" th:href="@{/index}">Home</a></li>
                 <li><a th:href="@{/prices}">Prices</a></li>
                 <li><a th:href="@{/contact}">Contact</a></li>
-                <li><a th:href="@{/login}">Login</a></li>
-                <li><a th:href="@{/register}">Register</a></li>
-                <li><a th:href="@{/profile}">Profile</a></li>
-<!--                <li><a th:href="@{/admin}">Admin</a></li>-->
-<!--                <li><a th:href="@{/session}">Session</a></li>-->
-<!--                <li><a th:href="@{/profile}">Profile</a></li>-->
+                <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
+                <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
+                <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
+                        th:href="@{/sessions}">Sessions</a></li>
+                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
+                <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
+                </li>
             </ul>
         </div>
         <span class="navTrigger">
@@ -61,13 +63,13 @@
             </div>
 
             <div class="timetable-controls">
-            <ul>
-                <li>All Class</li>
-                <li>Cardio</li>
-                <li>Power Fitness</li>
-                <li>Areobic</li>
-                <li>Boxing</li>
-            </ul>
+                <ul>
+                    <li>All Class</li>
+                    <li>Cardio</li>
+                    <li>Power Fitness</li>
+                    <li>Areobic</li>
+                    <li>Boxing</li>
+                </ul>
             </div>
 
             <div>
@@ -91,7 +93,7 @@
                             <strong class="colorfull">Cardio</strong>
                             <span>7:00 am - 9:00 am</span>
                         </td>
-                        <td  class="colorfull">
+                        <td class="colorfull">
                             <strong>Power Fitness</strong>
                             <span>7:00 am - 9:00 am</span>
                         </td>
@@ -210,7 +212,7 @@
 
 <!-- Function used to shrink nav bar removing paddings and adding black background -->
 <script>
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         if ($(document).scrollTop() > 50) {
             $('.nav').addClass('affix');
             console.log("OK");

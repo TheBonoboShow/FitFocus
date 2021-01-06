@@ -32,12 +32,11 @@
                 <li><a th:href="@{/index}">Home</a></li>
                 <li><a th:href="@{/prices}">Prices</a></li>
                 <li><a th:href="@{/contact}">Contact</a></li>
-                <li><a th:href="@{/login}">Login</a></li>
-                <li><a th:href="@{/register}">Register</a></li>
+                <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
+                        th:href="@{/sessions}">Sessions</a></li>
+                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
                 <li><a class="currentpage" th:href="@{/profile}">Profile</a></li>
-                <!--                <li><a th:href="@{/admin}">Admin</a></li>-->
-                <!--                <li><a th:href="@{/session}">Session</a></li>-->
-                <!--                <li><a th:href="@{/profile}">Profile</a></li>-->
+                <li><a th:href="@{/logout}">Logout</a></li>
             </ul>
         </div>
         <span class="navTrigger">
@@ -114,10 +113,6 @@
                     <td th:text="${user.gsmNumber}"></td>
                 </tr>
             </table>
-
-            <div class="alert alert-danger" th:if="${message != null}">
-                <p>[[${message}]]</p>
-            </div>
 
         </div>
 

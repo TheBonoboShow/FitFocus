@@ -32,9 +32,6 @@
                 <li><a th:href="@{/contact}">Contact</a></li>
                 <li><a class="currentpage" th:href="@{/login}">Login</a></li>
                 <li><a th:href="@{/register}">Register</a></li>
-                <!--                <li><a th:href="@{/admin}">Admin</a></li>-->
-                <!--                <li><a th:href="@{/session}">Session</a></li>-->
-                <!--                <li><a th:href="@{/profile}">Profile</a></li>-->
             </ul>
         </div>
         <span class="navTrigger">
@@ -52,6 +49,9 @@
     <h2>Login:</h2>
     <div th:if="${param.error}">
         <p class="alert alert-danger" id="errorMsg">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+    </div>
+    <div th:if="${param.logout}">
+        <p class="alert alert-danger" id="errorMsg2">You have been logged out</p>
     </div>
     <input type="text" placeholder="username" name="username">
     <input type="password" placeholder="password" name="password">

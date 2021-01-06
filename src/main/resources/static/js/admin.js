@@ -1,8 +1,4 @@
-//todo make contact page
-//todo make logout logic
-//todo automatic logout on e-mail change
-//todo change view and accesses depending on role
-//todo setup emails promo
+//todo setup emails for promo
 //todo fix index and link sessions with schedule
 //todo only display sessions by group on index (filter with buttons)
 //todo setup emails reminders
@@ -11,8 +7,11 @@
 //todo implement buying subscriptions and payment method?
 //todo add search filter admin page (users - username & email)
 //todo add info on hover for profile edit (readonly cases)
+//todo add link in logo's
+//todo style all pages (eg 403 & 404)
 //todo fix lay-out everything
 //todo launch app on staes.me and change mail redirection
+//todo make app responsive
 
 $('document').ready(function () {
     // Subscription Types

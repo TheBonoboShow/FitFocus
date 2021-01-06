@@ -99,8 +99,6 @@ public class UserController {
             userService.saveAdmin(userP);
             model.addAttribute("user", userP);
             userService.sendVerificationEmailEmail(userP, url);
-
-            model.addAttribute("message", "We have sent you an email to confirm your email address, please check");
         }
         catch (UserNotFoundException e) {
             bindingResult.rejectValue("email", "user.email","Please enter a valid email address");
@@ -121,6 +119,7 @@ public class UserController {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-        return "profile";
+        Thread.sleep(1000);
+        return "redirect:/logout";
     }
 }
