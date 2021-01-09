@@ -34,18 +34,19 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register", "/resources/**", "/css/**", "/fonts/**", "/img/***", "/js/**").permitAll()
                 .antMatchers("/verify", "/resources/**", "/css/**", "/fonts/**", "/img/***", "/js/**").permitAll()
                 .antMatchers("/index").permitAll()
+                .antMatchers("/index2").permitAll()
                 .antMatchers("/secret", "/resources/**", "/css/**", "/fonts/**", "/img/***", "/js/**").permitAll()
                 .antMatchers("/verifysecret", "/resources/**", "/css/**", "/fonts/**", "/img/***", "/js/**").permitAll()
                 .antMatchers("/prices").permitAll()
                 .antMatchers("/contact").permitAll()
-                .antMatchers("/admin").hasAuthority("ADMIN")
-                .antMatchers("/sessions").hasAnyAuthority("ADMIN", "COACH")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/sessions/**").hasAnyAuthority("ADMIN", "COACH")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .usernameParameter("username")
-                .defaultSuccessUrl("/admin")
+                .defaultSuccessUrl("/index")
                 .failureHandler(new SimpleUrlAuthenticationFailureHandler() {
 
                     @Override

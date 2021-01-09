@@ -1,11 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>FitFocus | Send Promo Email</title>
     <base href="/">
-    <title>Promo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="stylesheet" href="css/styles.css">
+
 </head>
-<body>
+<body class="home">
+<nav class="nav">
+    <div class="container">
+        <div class="logo">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+        <div id="mainListDiv" class="main_list">
+            <ul class="navlinks">
+                <li><a th:href="@{/index}">Home</a></li>
+                <li><a th:href="@{/prices}">Prices</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+                <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
+                <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
+                <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
+                        th:href="@{/sessions}">Sessions</a></li>
+                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a class="currentpage" th:href="@{/admin}">Admin</a>
+                <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
+                </li>
+            </ul>
+        </div>
+        <span class="navTrigger">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        <div class="logoright">
+            <img src="img/logo.jpg" style="height: 65px; width: auto">
+        </div>
+    </div>
+</nav>
+
+<form style="margin-top: 200px" th:action="@{admin/sendPromo}" onsubmit="return validateForm()" method="post">
+    <h1>Send a promotional email to every user that has this enabled on their profile</h1>
+    <h2>Fill in the subject and the message and click the 'send' button</h2>
+    <div class="alert alert-danger" th:if="${message != null}">
+        <p>[[${message}]]</p>
+    </div>
+    <input type="text" placeholder="The subject of the mail" name="subject" id="subject"> <br>
+    <textarea name="message" cols="40" rows="5" placeholder="Message" id="message" style="padding-top: 10px"></textarea> <br>
+    <button type="submit">Send</button>
+</form>
+
+<script src="js/navbar.js"></script>
+<!-- Function used to shrink nav bar removing paddings and adding black background -->
+<script>
+    $(window).scroll(function () {
+        if ($(document).scrollTop() > 50) {
+            $('.nav').addClass('affix');
+            console.log("OK");
+        } else {
+            $('.nav').removeClass('affix');
+        }
+    });
+
+    function validateForm() {
+        // if (document.getElementById('email').value.trim() == ""){
+        //     document.getElementById('errorMsg').innerHTML = "Please enter a valid email";
+        //     document.getElementById('email').focus();
+        //     return false;
+        // }
+        // if (document.getElementById('message').value.trim() == ""){
+        //     document.getElementById('errorMsg').innerHTML = "Please enter a message";
+        //     document.getElementById('message').focus();
+        //     return false;
+        // }
+    }
+</script>
 
 </body>
 </html>

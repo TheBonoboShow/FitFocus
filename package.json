@@ -2,6 +2,8 @@
   "name": "FitFocus",
   "version": "1.0.0",
   "dependencies": {
+    "@fullcalendar/core": "^5.5.0",
+    "@fullcalendar/daygrid": "^5.5.0",
     "bcryptjs": "^2.4.3",
     "requirejs": "^2.3.6"
   },

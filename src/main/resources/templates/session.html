@@ -32,10 +32,15 @@
             <ul class="navlinks">
                 <li><a th:href="@{/index}">Home</a></li>
                 <li><a th:href="@{/prices}">Prices</a></li>
-                <li><a class="currentpage" th:href="@{/sessions}">Sessions</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+                <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
+                <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
+                <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
+                        class="currentpage" th:href="@{/sessions}">Sessions</a></li>
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
-                <li><a th:href="@{/profile}">Profile</a></li>
-                <li><a th:href="@{/logout}">Logout</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
+                </li>
             </ul>
         </div>
         <span class="navTrigger">
@@ -49,16 +54,18 @@
     </div>
 </nav>
 
-<div class="container">
+<div class="container" style="justify-content: center; display: flex">
     <div class="adminTables">
 
         <!--Session handler-->
         <div class="wrapper">
-            <h2 class="collectiontitle" style="float: left">Sessions</h2>
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSession"
-                    style="margin-left: 30px">Add New
-            </button>
+            <div style="display: table-header-group">
+                <h2 class="collectiontitle" style="float: left">All Sessions</h2>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSession"
+                        style="margin-left: 30px">Add New
+                </button>
+            </div>
 
             <!--add modal-->
             <div class="modal fade" id="addModalSession" tabindex="-1" aria-labelledby="addModalLabel"
@@ -297,6 +304,7 @@
 
     </div>
 </div>
+
 <script src="js/session.js"></script>
 <script src="js/navbar.js"></script>
 <!-- Function used to shrink nav bar removing paddings and adding black background -->

@@ -1,4 +1,3 @@
-//todo setup emails for promo
 //todo fix index and link sessions with schedule
 //todo only display sessions by group on index (filter with buttons)
 //todo setup emails reminders
@@ -6,10 +5,12 @@
 //todo user.reserved sessions and session.participants
 //todo implement buying subscriptions and payment method?
 //todo add search filter admin page (users - username & email)
+//todo add search filter session page (date range & sport & coach)
 //todo add info on hover for profile edit (readonly cases)
 //todo add link in logo's
 //todo style all pages (eg 403 & 404)
 //todo fix lay-out everything
+//todo set passwordresettoken to null on login
 //todo launch app on staes.me and change mail redirection
 //todo make app responsive
 

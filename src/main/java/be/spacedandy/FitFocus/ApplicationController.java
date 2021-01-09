@@ -19,6 +19,11 @@ public class ApplicationController {
         return "index";
     }
 
+    @GetMapping("/index2")
+    public String goHome2() {
+        return "index2";
+    }
+
     @GetMapping("/login")
     public String login() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
