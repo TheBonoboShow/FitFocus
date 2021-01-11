@@ -3,10 +3,12 @@ package be.spacedandy.FitFocus.controllers;
 import be.spacedandy.FitFocus.models.Session;
 import be.spacedandy.FitFocus.models.Sport;
 import be.spacedandy.FitFocus.models.User;
+import be.spacedandy.FitFocus.models.UserPrincipal;
 import be.spacedandy.FitFocus.services.SessionService;
 import be.spacedandy.FitFocus.services.SportService;
 import be.spacedandy.FitFocus.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +26,15 @@ public class SessionController {
     UserService userService;
 
     @GetMapping("/sessions")
-    public String getSessions(Model model){
+    public String getSessions(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
         List<Session> sessionList = sessionService.getSessions();
         model.addAttribute("sessions", sessionList);
         List<Sport> sportsList = sportService.getSports();
         model.addAttribute("sports", sportsList);
         List<User> userList = userService.getUsers();
         model.addAttribute("users", userList);
+        User user = userService.findByUsername(userPrincipal.getUsername());
+        model.addAttribute("user", user);
         return "session";
     }
 

@@ -83,7 +83,7 @@
 
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Coach</label>
-                                    <input type="text" class="form-control" id="recipient-name" name="coach">
+                                    <input type="text" class="form-control" id="recipient-name" name="userid" th:value="${user.id}" th:text="${user.username}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Information</label>
@@ -108,8 +108,8 @@
                                     <input type="time" class="form-control" id="recipient-name" name="startingHour">
                                 </div>
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Duration</label>
-                                    <input type="number" class="form-control" id="recipient-name" name="duration">
+                                    <label for="recipient-name" class="col-form-label">End Time</label>
+                                    <input type="time" class="form-control" id="recipient-name" name="endHour">
                                 </div>
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Maximum Participants</label>
@@ -150,7 +150,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="coachEdit" class="col-form-label">Coach</label>
-                                    <input type="text" class="form-control" id="coachEdit" name="coach">
+                                    <input type="text" class="form-control" id="coachEdit" name="userid" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="informationEdit" class="col-form-label">Information</label>
@@ -175,8 +175,8 @@
                                     <input type="time" class="form-control" id="startingHourEdit" name="startingHour">
                                 </div>
                                 <div class="form-group">
-                                    <label for="durationEdit" class="col-form-label">Duration</label>
-                                    <input type="number" class="form-control" id="durationEdit" name="duration">
+                                    <label for="endHourEdit" class="col-form-label">End Time</label>
+                                    <input type="time" class="form-control" id="endHourEdit" name="endHour">
                                 </div>
                                 <div class="form-group">
                                     <label for="maxParticipantsEdit" class="col-form-label">Maximum Participants</label>
@@ -242,8 +242,8 @@
                                     <input type="time" class="form-control" id="startingHourDelete" name="startingHour">
                                 </div>
                                 <div class="form-group">
-                                    <label for="durationDelete" class="col-form-label">Duration</label>
-                                    <input type="number" class="form-control" id="durationDelete" name="duration">
+                                    <label for="endHourDelete" class="col-form-label">End Time</label>
+                                    <input type="time" class="form-control" id="endHourDelete" name="endHour">
                                 </div>
                                 <div class="form-group">
                                     <label for="maxParticipantsDelete" class="col-form-label">Maximum
@@ -276,7 +276,7 @@
                     <th>Sport</th>
                     <th>Date</th>
                     <th>Starting Time</th>
-                    <th>Duration</th>
+                    <th>End Time</th>
                     <th>Max Participants</th>
                     <th>Woman Only</th>
                     <th colspan="2">Actions</th>
@@ -289,7 +289,7 @@
                     <td th:text="${Session.sport}"></td>
                     <td th:text="${Session.date}"></td>
                     <td th:text="${Session.startingHour}"></td>
-                    <td th:text="${Session.duration}"></td>
+                    <td th:text="${Session.endHour}"></td>
                     <td th:text="${Session.maxParticipants}"></td>
                     <td th:text="${Session.onlyFemales}"></td>
                     <td><a th:href="@{/sessions/findById/(id=${Session.id})}" onclick="check()" class="btn btn-warning"

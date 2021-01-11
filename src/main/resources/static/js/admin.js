@@ -1,4 +1,6 @@
-//todo fix index and link sessions with schedule
+//todo add restrictions on session modals (add + edit | no empty cases)
+//todo no overlapping sessions (+ max time = 120 min)
+//todo fix index page with schedule
 //todo only display sessions by group on index (filter with buttons)
 //todo setup emails reminders
 //todo setup sms reminders
@@ -8,7 +10,8 @@
 //todo add search filter session page (date range & sport & coach)
 //todo add info on hover for profile edit (readonly cases)
 //todo add link in logo's
-//todo style all pages (eg 403 & 404)
+//todo change profile edit button placements (change e-mail)
+//todo style all pages (eg 403 & 404 & /error)
 //todo fix lay-out everything
 //todo set passwordresettoken to null on login
 //todo launch app on staes.me and change mail redirection

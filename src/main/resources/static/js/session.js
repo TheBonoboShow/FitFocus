@@ -5,12 +5,12 @@ $('table #editSession').on('click', function (event){
 
     $.get(href, function(Session, status){
         $('#idEdit').val(Session.id);
-        $('#coachEdit').val(Session.coach);
+        $('#coachEdit').val(Session.userid);
         $('#informationEdit').val(Session.information);
         $('#sportEdit').val(Session.sportid);
         $('#dateEdit').val(Session.date);
         $('#startingHourEdit').val(Session.startingHour);
-        $('#durationEdit').val(Session.duration);
+        $('#endHourEdit').val(Session.endHour);
         $('#maxParticipantsEdit').val(Session.maxParticipants);
         $('#onlyFemalesEdit').prop('checked', Session.onlyFemales);
     });
@@ -30,7 +30,7 @@ $('table #deleteSession').on('click', function (event){
         $('#sportDelete').val(Session.sportid);
         $('#dateDelete').val(Session.date);
         $('#startingHourDelete').val(Session.startingHour);
-        $('#durationDelete').val(Session.duration);
+        $('#endHourDelete').val(Session.endHour);
         $('#maxParticipantsDelete').val(Session.maxParticipants);
         $('#onlyFemalesDelete').prop('checked', Session.onlyFemales);
     });

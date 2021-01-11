@@ -32,7 +32,7 @@ public class Session {
     private Integer sportid;
     private String date;
     private String startingHour;
-    private int duration;
+    private String endHour;
     private int maxParticipants;
     private boolean onlyFemales;
 
@@ -88,12 +88,12 @@ public class Session {
         this.startingHour = startingHour;
     }
 
-    public int getDuration() {
-        return duration;
+    public String getEndHour() {
+        return endHour;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setEndHour(String endHour) {
+        this.endHour = endHour;
     }
 
     public int getMaxParticipants() {
@@ -110,5 +110,23 @@ public class Session {
 
     public void setOnlyFemales(boolean onlyFemales) {
         this.onlyFemales = onlyFemales;
+    }
+
+    @Override
+    public String toString() {
+        return "Session{" +
+                "id=" + id +
+                ", participants=" + participants +
+                ", coach=" + coach +
+                ", userid=" + userid +
+                ", information='" + information + '\'' +
+                ", sport=" + sport +
+                ", sportid=" + sportid +
+                ", date='" + date + '\'' +
+                ", startingHour='" + startingHour + '\'' +
+                ", endHour='" + endHour + '\'' +
+                ", maxParticipants=" + maxParticipants +
+                ", onlyFemales=" + onlyFemales +
+                '}';
     }
 }

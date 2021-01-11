@@ -35,6 +35,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/verify", "/resources/**", "/css/**", "/fonts/**", "/img/***", "/js/**").permitAll()
                 .antMatchers("/index").permitAll()
                 .antMatchers("/index2").permitAll()
+                .antMatchers("/calendar").permitAll()
                 .antMatchers("/secret", "/resources/**", "/css/**", "/fonts/**", "/img/***", "/js/**").permitAll()
                 .antMatchers("/verifysecret", "/resources/**", "/css/**", "/fonts/**", "/img/***", "/js/**").permitAll()
                 .antMatchers("/prices").permitAll()
