@@ -4,6 +4,7 @@
 
     <title>FitFocus</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/main.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -17,6 +18,7 @@
 
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/fullcalendar.css">
 
 </head>
 <body class="home">
@@ -51,8 +53,8 @@
     </div>
 </nav>
 
-
 <!-- SCHEDULE -->
+<div>
 <section>
     <div>
         <div class="schedule-full">
@@ -64,148 +66,26 @@
 
             <div class="timetable-controls">
                 <ul>
-                    <li>All Class</li>
-                    <li>Cardio</li>
-                    <li>Power Fitness</li>
-                    <li>Areobic</li>
-                    <li>Boxing</li>
+                    <li><a class="currentSession" onclick="return showAll()" id="all">All Class</a></li>
+                    <li><a onclick="return showCardio()" id="cardio">Cardio</a></li>
+                    <li><a onclick="return showYoga()" id="yoga">Yoga</a></li>
+                    <li><a onclick="return showAerobic()" id="aerobic">Aerobic</a></li>
+                    <li><a onclick="return showBoxing()" id="boxing">Boxing</a></li>
+                    <li><a onclick="return showCycling()" id="cycling">Cycling</a></li>
                 </ul>
-            </div>
-
-            <div>
-                <table class="table table-bordered table-responsive schedule-table">
-
-                    <thead class="thead-light">
-                    <th><i></i></th>
-                    <th>Mon</th>
-                    <th>Tue</th>
-                    <th>Wed</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                    <th>Sun</th>
-                    </thead>
-
-                    <tbody>
-                    <tr>
-                        <td><small>8:00 am</small></td>
-                        <td class="colorfull">
-                            <strong class="colorfull">Cardio</strong>
-                            <span>7:00 am - 9:00 am</span>
-                        </td>
-                        <td class="colorfull">
-                            <strong>Power Fitness</strong>
-                            <span>7:00 am - 9:00 am</span>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td class="colorfull">
-                            <strong>Yoga Section</strong>
-                            <span>7:00 am - 9:00 am</span>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
-                    <tr>
-                        <td><small>10:00 am</small></td>
-                        <td></td>
-                        <td></td>
-                        <td class="colorfull">
-                            <strong>Boxing</strong>
-                            <span>8:00 am - 9:00 am</span>
-                        </td>
-                        <td class="colorfull">
-                            <strong>Areobic</strong>
-                            <span>8:00 am - 9:00 am</span>
-                        </td>
-                        <td></td>
-                        <td class="colorfull">
-                            <strong>Cardio</strong>
-                            <span>8:00 am - 9:00 am</span>
-                        </td>
-                        <td></td>
-                    </tr>
-
-                    <tr>
-                        <td class="timetd"><small>12:00 pm</small></td>
-                        <td class="sessiontd"></td>
-                        <td class="sessiontd colorfull">
-                            <strong>Boxing</strong>
-                            <span>11:00 am - 2:00 pm</span>
-                        </td>
-                        <td class="sessiontd colorfull">
-                            <strong>Areobic</strong>
-                            <span>11:30 am - 3:30 pm</span>
-                        </td>
-                        <td class="sessiontd"></td>
-                        <td class="sessiontd colorfull">
-                            <strong>Body work</strong>
-                            <span>11:50 am - 5:20 pm</span>
-                        </td>
-                        <td class="sessiontd"></td>
-                        <td class="sessiontd"></td>
-                    </tr>
-
-                    <tr>
-                        <td><small>2:00 pm</small></td>
-                        <td class="colorfull">
-                            <strong>Boxing</strong>
-                            <span>2:00 pm - 4:00 pm</span>
-                        </td>
-                        <td class="colorfull">
-                            <strong>Power lifting</strong>
-                            <span>3:00 pm - 6:00 pm</span>
-                        </td>
-                        <td></td>
-                        <td class="colorfull">
-                            <strong>Cardio</strong>
-                            <span>6:00 pm - 9:00 pm</span>
-                        </td>
-                        <td></td>
-                        <td class="colorfull">
-                            <strong>Crossfit</strong>
-                            <span>5:00 pm - 7:00 pm</span>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td><small>4:00 pm</small></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td><small>6:00 pm</small></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td><small>8:00 pm</small></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
             </div>
 
         </div>
     </div>
 </section>
+
+
+
+<!-- FULLCALENDAR -->
+
+    <div id='calendar'></div>
+
+</div>
 
 <!-- Jquery needed -->
 <script src="js/navbar.js"></script>

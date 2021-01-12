@@ -70,7 +70,7 @@
             <!--add modal-->
             <div class="modal fade" id="addModalSession" tabindex="-1" aria-labelledby="addModalLabel"
                  aria-hidden="true">
-                <form th:action="@{/sessions/addNew}" method="post">
+                <form th:action="@{/sessions/addNew}" onsubmit="return validateFormAddSession()" method="post">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -82,16 +82,17 @@
                             <div class="modal-body">
 
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Coach</label>
-                                    <input type="text" class="form-control" id="recipient-name" name="userid" th:value="${user.id}" th:text="${user.username}" readonly>
+                                    <label for="useridAdd" class="col-form-label">Coach</label>
+                                    <input type="text" class="form-control" id="useridAdd" name="userid"
+                                           th:value="${user.id}" th:text="${user.username}" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Information</label>
-                                    <input type="text" class="form-control" id="recipient-name" name="information">
+                                    <label for="informationAdd" class="col-form-label">Information</label>
+                                    <textarea cols="40" rows="5" class="form-control" id="informationAdd" name="information"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="ddlSports" class="col-form-label">Sport</label>
-                                    <select class="form-control" id="ddlSports" name="sportid">
+                                    <label for="sportidAdd" class="col-form-label">Sport</label>
+                                    <select class="form-control" id="sportidAdd" name="sportid">
                                         <option>-SELECT-</option>
                                         <option th:each="Sport : ${sports}"
                                                 th:value="${Sport.id}"
@@ -100,28 +101,28 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Date</label>
-                                    <input type="date" class="form-control" id="recipient-name" name="date">
+                                    <label for="dateAdd" class="col-form-label">Date</label>
+                                    <input type="date" class="form-control" id="dateAdd" name="date">
                                 </div>
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Starting Time</label>
-                                    <input type="time" class="form-control" id="recipient-name" name="startingHour">
+                                    <label for="startingHourAdd" class="col-form-label">Starting Time</label>
+                                    <input type="time" class="form-control" id="startingHourAdd" name="startingHour">
                                 </div>
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">End Time</label>
-                                    <input type="time" class="form-control" id="recipient-name" name="endHour">
+                                    <label for="endHourAdd" class="col-form-label">End Time</label>
+                                    <input type="time" class="form-control" id="endHourAdd" name="endHour">
                                 </div>
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Maximum Participants</label>
-                                    <input type="number" class="form-control" id="recipient-name"
-                                           name="maxParticipants">
+                                    <label for="maxParticipantsAdd" class="col-form-label">Maximum Participants</label>
+                                    <input type="number" class="form-control" id="maxParticipantsAdd" name="maxParticipants">
                                 </div>
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Woman Only</label>
-                                    <input type="checkbox" class="form-control" id="recipient-name" name="onlyFemales">
+                                    <label for="onlyFemalesAdd" class="col-form-label">Woman Only</label>
+                                    <input type="checkbox" class="form-control" id="onlyFemalesAdd" name="onlyFemales">
                                 </div>
 
                             </div>
+                            <div id='errorDiv1' class='col-xs-12 pull-right'></div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save</button>
@@ -134,7 +135,7 @@
             <!--edit modal-->
             <div class="modal fade" id="editModalSession" tabindex="-1" aria-labelledby="editModalLabel"
                  aria-hidden="true">
-                <form th:action="@{/sessions/update}" method="put">
+                <form th:action="@{/sessions/update}" onsubmit="return validateFormEditSession()" method="put">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -154,7 +155,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="informationEdit" class="col-form-label">Information</label>
-                                    <input type="text" class="form-control" id="informationEdit" name="information">
+                                    <textarea cols="40" rows="5" class="form-control" id="informationEdit" name="information"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="sportEdit" class="col-form-label">Sport</label>
@@ -188,6 +189,7 @@
                                     <input type="checkbox" class="form-control" id="onlyFemalesEdit" name="onlyFemales">
                                 </div>
                             </div>
+                            <div id='errorDiv2' class='col-xs-12 pull-right'></div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save</button>
@@ -272,7 +274,6 @@
                 <thead>
                 <tr>
                     <th>Coach</th>
-                    <th>Information</th>
                     <th>Sport</th>
                     <th>Date</th>
                     <th>Starting Time</th>
@@ -285,13 +286,12 @@
                 <tbody>
                 <tr th:each="Session:${sessions}">
                     <td th:text="${Session.coach}"></td>
-                    <td th:text="${Session.information}" style="max-width: 15vw"></td>
                     <td th:text="${Session.sport}"></td>
                     <td th:text="${Session.date}"></td>
                     <td th:text="${Session.startingHour}"></td>
                     <td th:text="${Session.endHour}"></td>
                     <td th:text="${Session.maxParticipants}"></td>
-                    <td th:text="${Session.onlyFemales}"></td>
+                    <td> <input type="checkbox" th:checked="${Session.onlyFemales}" disabled="true"></td>
                     <td><a th:href="@{/sessions/findById/(id=${Session.id})}" onclick="check()" class="btn btn-warning"
                            id="editSession">Edit</a>
                     </td>
@@ -317,6 +317,97 @@
             $('.nav').removeClass('affix');
         }
     });
+
+    function validateFormAddSession() {
+
+        if (document.getElementById('informationAdd').value.trim() == "") {
+            document.getElementById('errorDiv1').innerHTML = "Please give a short explanation about this session";
+            document.getElementById('informationAdd').focus();
+            return false;
+        }
+
+        if (document.getElementById('sportidAdd').value.trim() == "-SELECT-") {
+            document.getElementById('errorDiv1').innerHTML = "Please select the sport";
+            document.getElementById('sportidAdd').focus();
+            return false;
+        }
+
+        if (document.getElementById('dateAdd').value.trim() == "") {
+            document.getElementById('errorDiv1').innerHTML = "Please enter a date";
+            document.getElementById('dateAdd').focus();
+            return false;
+        }
+
+        if (document.getElementById('startingHourAdd').value.trim() == "") {
+            document.getElementById('errorDiv1').innerHTML = "Please enter a starting hour";
+            document.getElementById('startingHourAdd').focus();
+            return false;
+        }
+
+        if (document.getElementById('endHourAdd').value.trim() == "") {
+            document.getElementById('errorDiv1').innerHTML = "Please enter an end hour";
+            document.getElementById('endHourAdd').focus();
+            return false;
+        }
+
+        if (!(document.getElementById('endHourAdd').value > document.getElementById('startingHourAdd').value )){
+            document.getElementById('errorDiv1').innerHTML = "The end cannot be before the start";
+            return false;
+        }
+
+        if (document.getElementById('maxParticipantsAdd').value.trim() == "") {
+            document.getElementById('errorDiv1').innerHTML = "Please enter the maximum number of participants";
+            document.getElementById('maxParticipantsAdd').focus();
+            return false;
+        }
+
+    }
+
+    function validateFormEditSession() {
+
+
+        if (document.getElementById('informationEdit').value.trim() == "") {
+            document.getElementById('errorDiv2').innerHTML = "Please give a short explanation about this session";
+            document.getElementById('informationEdit').focus();
+            return false;
+        }
+
+        if (document.getElementById('sportEdit').value.trim() == "-SELECT-") {
+            document.getElementById('errorDiv2').innerHTML = "Please select the sport";
+            document.getElementById('sportEdit').focus();
+            return false;
+        }
+
+        if (document.getElementById('dateEdit').value.trim() == "") {
+            document.getElementById('errorDiv2').innerHTML = "Please enter a date";
+            document.getElementById('dateEdit').focus();
+            return false;
+        }
+
+        if (document.getElementById('startingHourEdit').value.trim() == "") {
+            document.getElementById('errorDiv2').innerHTML = "Please enter a starting hour";
+            document.getElementById('startingHourEdit').focus();
+            return false;
+        }
+
+        if (document.getElementById('endHourEdit').value.trim() == "") {
+            document.getElementById('errorDiv2').innerHTML = "Please enter an end hour";
+            document.getElementById('endHourEdit').focus();
+            return false;
+        }
+
+        if (!(document.getElementById('endHourEdit').value > document.getElementById('startingHourEdit').value )){
+            document.getElementById('errorDiv2').innerHTML = "The end cannot be before the start";
+            return false;
+        }
+
+        if (document.getElementById('maxParticipantsEdit').value.trim() == "") {
+            document.getElementById('errorDiv2').innerHTML = "Please enter the maximum number of participants";
+            document.getElementById('maxParticipantsEdit').focus();
+            return false;
+        }
+
+    }
 
 </script>
 

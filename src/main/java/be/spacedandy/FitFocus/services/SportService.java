@@ -26,7 +26,7 @@ public class SportService {
         return sportRepository.findById(id);
     }
 
-    public Optional<Sport> findByName(String name){ return sportRepository.findByName(name);
+    public Sport findByName(String name){ return sportRepository.findByName(name);
     }
 
     public void delete(int id) {

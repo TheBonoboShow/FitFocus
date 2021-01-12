@@ -256,10 +256,6 @@
                                     <label for="recipient-name" class="col-form-label">Name</label>
                                     <input type="text" class="form-control" id="recipient-name" name="name">
                                 </div>
-                                <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Color</label>
-                                    <input type="text" class="form-control" id="recipient-name" name="color">
-                                </div>
 
                             </div>
                             <div class="modal-footer">
@@ -291,10 +287,6 @@
                                 <div class="form-group">
                                     <label for="nameEditSport" class="col-form-label">Name</label>
                                     <input type="text" class="form-control" id="nameEditSport" name="name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="colorEditSport" class="col-form-label">Color</label>
-                                    <input type="text" class="form-control" id="colorEditSport" name="color">
                                 </div>
 
 
@@ -330,12 +322,6 @@
                                     <label for="nameDeleteSport" class="col-form-label">Name</label>
                                     <input type="text" class="form-control" id="nameDeleteSport" name="name">
                                 </div>
-                                <div class="form-group">
-                                    <label for="colorDeleteSport" class="col-form-label">Number of sessions</label>
-                                    <input type="text" class="form-control" id="colorDeleteSport" name="color">
-                                </div>
-
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -350,14 +336,12 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Color</th>
                     <th colspan="2">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="Sport:${sports}">
                     <td th:text="${Sport.name}"></td>
-                    <td th:text="${Sport.color}"></td>
                     <td><a th:href="@{/admin/findSport/(id=${Sport.id})}" class="btn btn-warning"
                            id="editSport">Edit</a>
                     </td>

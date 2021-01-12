@@ -1,18 +1,20 @@
-//todo add restrictions on session modals (add + edit | no empty cases)
-//todo no overlapping sessions (+ max time = 120 min)
-//todo fix index page with schedule
-//todo only display sessions by group on index (filter with buttons)
 //todo setup emails reminders
 //todo setup sms reminders
+//todo make checkboxes clearer on every page
 //todo user.reserved sessions and session.participants
+//todo add way to clone planned sessions
+//todo make events on index clickable with info pop-up and button to book session
 //todo implement buying subscriptions and payment method?
 //todo add search filter admin page (users - username & email)
 //todo add search filter session page (date range & sport & coach)
+//todo add filter session page (no edit on past events)
+//todo no overlapping sessions (+ max time = 120 min + max end is 23:30pm + sessions at least 30min + fix view for smaller screens)
 //todo add info on hover for profile edit (readonly cases)
 //todo add link in logo's
 //todo change profile edit button placements (change e-mail)
 //todo style all pages (eg 403 & 404 & /error)
 //todo fix lay-out everything
+//todo fix error messages lay-out in forms/on pages
 //todo set passwordresettoken to null on login
 //todo launch app on staes.me and change mail redirection
 //todo make app responsive
@@ -61,7 +63,6 @@ $('document').ready(function () {
         $.get(href, function (Sport, status) {
             $('#idEditSport').val(Sport.id);
             $('#nameEditSport').val(Sport.name);
-            $('#colorEditSport').val(Sport.color);
         });
 
         $('#editModalSports').modal();
@@ -75,7 +76,6 @@ $('document').ready(function () {
         $.get(href, function (Sport, status) {
             $('#idDeleteSport').val(Sport.id);
             $('#nameDeleteSport').val(Sport.name);
-            $('#colorDeleteSport').val(Sport.color);
         });
 
         $('#deleteModalSports').modal();

@@ -163,6 +163,10 @@ body {
     border-bottom: 1px solid #e4381c;
 }
 
+.currentSession {
+    color: #e4381c;
+}
+
 
 /* Home section */
 
@@ -522,15 +526,14 @@ body {
     margin-left: 40px;
     position: relative;
     padding-top: 20px;
-    padding-bottom: 10px;
 }
 
 
 .schedule-full {
-    padding-top: 90px;
-    padding-bottom: 100px;
+    padding-top: 150px;
     text-align: center;
 }
+
 
 .schedule {
 }
