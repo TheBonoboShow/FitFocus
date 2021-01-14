@@ -18,7 +18,7 @@ public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToMany
+    @ManyToMany(mappedBy = "reservedSessions", fetch = FetchType.EAGER)
     private List<User> participants;
     @ManyToOne
     @JoinColumn(name="userid", insertable=false, updatable=false)

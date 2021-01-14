@@ -291,7 +291,8 @@
                     <td th:text="${Session.startingHour}"></td>
                     <td th:text="${Session.endHour}"></td>
                     <td th:text="${Session.maxParticipants}"></td>
-                    <td> <input type="checkbox" th:checked="${Session.onlyFemales}" disabled="true"></td>
+                    <td> <input type="checkbox" th:checked="${Session.onlyFemales}" disabled="true" class="css-checkbox" id="nlfmls"><label for="nlfmls" name="checkbox1_lbl"
+                                                                                                                               class="css-label lite-red-check"></label></td>
                     <td><a th:href="@{/sessions/findById/(id=${Session.id})}" onclick="check()" class="btn btn-warning"
                            id="editSession">Edit</a>
                     </td>

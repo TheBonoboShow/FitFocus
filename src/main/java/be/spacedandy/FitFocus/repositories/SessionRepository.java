@@ -15,4 +15,8 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
     Optional<Session> findByCoach (User coach);
 
     List<Session> findAllBySport (Sport sport);
+
+    List<Session> findAllByDate (String date);
+
+
 }

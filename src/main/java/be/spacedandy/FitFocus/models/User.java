@@ -34,8 +34,6 @@ public class User {
     @Email(message = "Please provide a valid email address")
     private String email;
 
-    private boolean reminderSms = false;
-
     private boolean reminderMail = false;
 
     private boolean female = false;
@@ -49,6 +47,10 @@ public class User {
     private Integer roleid = 1;
 
     @ManyToMany
+    @JoinTable(
+            name = "session_participants",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "session_id"))
     private List<Session> reservedSessions;
 
     @ManyToOne
@@ -66,8 +68,6 @@ public class User {
     private boolean profileIsSuspended = false;
 
     private int remainingSessions = 1;
-
-    private String gsmNumber;
 
     private String verificationToken;
 
@@ -120,14 +120,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isReminderSms() {
-        return reminderSms;
-    }
-
-    public void setReminderSms(boolean reminderSms) {
-        this.reminderSms = reminderSms;
     }
 
     public boolean isReminderMail() {
@@ -224,14 +216,6 @@ public class User {
 
     public void setProfileIsSuspended(boolean profileIsSuspended) {
         this.profileIsSuspended = profileIsSuspended;
-    }
-
-    public String getGsmNumber() {
-        return gsmNumber;
-    }
-
-    public void setGsmNumber(String gsmNumber) {
-        this.gsmNumber = gsmNumber;
     }
 
     public int getRemainingSessions() {

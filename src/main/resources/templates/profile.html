@@ -81,19 +81,18 @@
                 </tr>
                 <tr>
                     <th>I am a woman</th>
-                    <td><input type="checkbox" th:checked="${user.female}" disabled="true"></td>
-                </tr>
-                <tr>
-                    <th>Receive Reminder Sms</th>
-                    <td><input type="checkbox" th:checked="${user.reminderSms}" disabled="true"></td>
+                    <td><input type="checkbox" id="femaleView" th:checked="${user.female}" disabled="true" class="css-checkbox"><label for="femaleView" name="checkbox1_lbl"
+                                                                                                  class="css-label lite-red-check"></label></td>
                 </tr>
                 <tr>
                     <th>Receive Reminder Email</th>
-                    <td><input type="checkbox" th:checked="${user.reminderMail}" disabled="true"></td>
+                    <td><input type="checkbox" id="emailView" th:checked="${user.reminderMail}" disabled="true" class="css-checkbox"><label for="emailView" name="checkbox1_lbl"
+                                                                                                        class="css-label lite-red-check"></label></td>
                 </tr>
                 <tr>
                     <th>Receive Promotions?</th>
-                    <td><input type="checkbox" th:checked="${user.promotionsActive}" disabled="true"></td>
+                    <td><input type="checkbox" id="promoView" th:checked="${user.promotionsActive}" disabled="true" class="css-checkbox"><label for="promoView" name="checkbox1_lbl"
+                                                                                                            class="css-label lite-red-check"></label></td>
                 </tr>
                 <tr>
                     <th>Subscription Type</th>
@@ -110,10 +109,6 @@
                 <tr>
                     <th>Remaining Sessions</th>
                     <td th:text="${user.remainingSessions}"></td>
-                </tr>
-                <tr>
-                    <th>Phone Number</th>
-                    <td th:text="${user.gsmNumber}"></td>
                 </tr>
             </table>
 

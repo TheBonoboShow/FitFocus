@@ -35,7 +35,8 @@
                 <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                         th:href="@{/sessions}">Sessions</a></li>
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
-                <li th:if="${#authorization.expression('isAuthenticated()')}"><a class="currentpage" th:href="@{/profile}">Profile</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}"><a class="currentpage"
+                                                                                 th:href="@{/profile}">Profile</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                 </li>
             </ul>
@@ -64,7 +65,8 @@
                 <table class="collectionlist">
                     <tr>
                         <th>Username</th>
-                        <td><input type="text" id="usernameEdit" name="username" th:value="${user.username}" readonly></td>
+                        <td><input type="text" id="usernameEdit" name="username" th:value="${user.username}" readonly>
+                        </td>
                     </tr>
                     <tr>
                         <th>First Name</th>
@@ -79,23 +81,26 @@
                         <td><input type="email" id="emailEdit" name="email" th:value="${user.email}" readonly></td>
                     </tr>
                     <tr>
-                        <th>Receive Reminder Sms</th>
-                        <td><input type="checkbox" id="reminderSmsEdit" name="reminderSms"
-                                   th:checked="${user.reminderSms}"></td>
+                        <th>I am a woman</th>
+                        <td><input type="checkbox" id="femaleEdit" name="female" th:checked="${user.female}"
+                                   class="css-checkbox"/><label for="femaleEdit" name="checkbox1_lbl"
+                                                                class="css-label lite-red-check"></label>
+                        </td>
                     </tr>
                     <tr>
                         <th>Receive Reminder Email</th>
                         <td><input type="checkbox" id="reminderMailEdit" name="reminderMail"
-                                   th:checked="${user.reminderMail}"></td>
-                    </tr>
-                    <tr>
-                        <th>I am a woman</th>
-                        <td><input type="checkbox" id="femaleEdit" name="female" th:checked="${user.female}"/></td>
+                                   th:checked="${user.reminderMail}" class="css-checkbox"><label for="reminderMailEdit"
+                                                                                                 name="checkbox1_lbl"
+                                                                                                 class="css-label lite-red-check"></label>
+                        </td>
                     </tr>
                     <tr>
                         <th>Receive Promotions?</th>
                         <td><input type="checkbox" id="promotionsActiveEdit" name="promotionsActive"
-                                   th:checked="${user.promotionsActive}"></td>
+                                   th:checked="${user.promotionsActive}" class="css-checkbox"><label
+                                for="promotionsActiveEdit" name="checkbox1_lbl"
+                                class="css-label lite-red-check"></label></td>
                     </tr>
                     <tr>
                         <th>Subscription Type</th>
@@ -104,7 +109,8 @@
                     </tr>
                     <tr>
                         <th>Start date Subscription</th>
-                        <td><input type="text" id="startDateEdit" name="startDate" th:value="${user.startDate}" readonly></td>
+                        <td><input type="text" id="startDateEdit" name="startDate" th:value="${user.startDate}"
+                                   readonly></td>
                     </tr>
                     <tr>
                         <th>End date Subscription</th>
@@ -116,12 +122,9 @@
                                    th:value="${user.remainingSessions}" readonly></td>
                     </tr>
                     <tr>
-                        <th>Phone Number</th>
-                        <td><input type="text" id="gsmNumberEdit" name="gsmNumber" th:value="${user.gsmNumber}"></td>
-                    </tr>
-                    <tr>
                         <th>Confirm Password</th>
-                        <td><input type="password" class="form-control" th:field="*{password}" id="password" placeholder="Your Password"></td>
+                        <td><input type="password" class="form-control" th:field="*{password}" id="password"
+                                   placeholder="Your Password"></td>
                     </tr>
                 </table>
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">

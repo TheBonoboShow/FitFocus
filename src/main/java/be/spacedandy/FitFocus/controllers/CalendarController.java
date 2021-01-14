@@ -83,6 +83,11 @@ public class CalendarController {
             e.setEnd(s.getDate().concat("T").concat(s.getEndHour()));
             e.setStart(s.getDate().concat("T").concat(s.getStartingHour()));
             e.setTitle(s.getSport().getName());
+            e.setInformation(s.getInformation());
+            e.setCoach(s.getCoach().getFirstname() + " " + s.getCoach().getLastname());
+            e.setParticipants(s.getParticipants());
+            e.setMaxParticipants(s.getMaxParticipants());
+            e.setOnlyFemales(s.isOnlyFemales());
             events.add(e);
         }
 
@@ -90,7 +95,8 @@ public class CalendarController {
         headers.add("Content-Type", "application/json; charset=utf-8");
         if (events.size() > 0)
         {
-            return new ResponseEntity<String>(new JSONSerializer().include("title","end","start").exclude("*").serialize(events), headers, HttpStatus.OK);
+            return new ResponseEntity<String>(new JSONSerializer().include("title","end","start","information",
+                    "maxParticipants", "coach", "onlyFemales", "participants" ).exclude("*").serialize(events), headers, HttpStatus.OK);
         }
         return new ResponseEntity<String>(null, headers, HttpStatus.OK);
     }

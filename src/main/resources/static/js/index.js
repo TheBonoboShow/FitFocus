@@ -8,6 +8,23 @@ document.addEventListener('DOMContentLoaded', function () {
         slotDuration: '01:00:00',
         allDaySlot: false,
 
+        eventClick: function(info) {
+            // alert('Event: ' + info.event.extendedProps.information + "    " + info.event.title);
+            var modal = document.getElementById("eventModal");
+            modal.style.display = "block"
+
+            fillModalSession(info);
+
+            var span = document.getElementsByClassName("closeModal")[0];
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        },
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -22,7 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
             hour: '2-digit',
             minute: '2-digit',
             hour12: false
-        }
+        },
+
     });
 
     calendar.render();
@@ -254,4 +272,47 @@ function showAll(){
     });
 
     calendar.render();
+}
+
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
+
+function fillModalSession(info){
+
+    document.getElementById("information").innerHTML = "Information: " + info.event.extendedProps.information;
+    document.getElementById("sport").innerHTML = info.event.title;
+    document.getElementById("timeslot").innerHTML = addZero(info.event.start.getHours()).toString() + ":" + addZero(info.event.start.getMinutes()).toString()
+         + " - " + addZero(info.event.end.getHours()).toString() + ":" + addZero(info.event.end.getMinutes()).toString();
+    document.getElementById("coach").innerHTML = "Coach: " + info.event.extendedProps.coach;
+    document.getElementById("maxParticipants").innerHTML = "Maximum participants: " + info.event.extendedProps.maxParticipants;
+    document.getElementById("freePlaces").innerHTML = "Free spots left: " + info.event.extendedProps.participants; //not ok yet
+    document.getElementById("femaleOnly").innerHTML = "Woman only course!" //make hidden on false
+    if (!info.event.extendedProps.onlyFemales){
+        document.getElementById("femaleOnly").style.visibility = "hidden";
+    } else {
+        document.getElementById("femaleOnly").style.visibility = "visible";
+    }
+
+
+    var sport = info.event.title;
+    if (sport == "Boxing"){
+    document.getElementById("eventModalSidebar").style.backgroundImage="url(img/boxing.jpg)";
+    }
+    else if (sport == "Yoga"){
+        document.getElementById("eventModalSidebar").style.backgroundImage="url(img/yoga.jpg)";
+    }
+    else if (sport == "Aerobic"){
+        document.getElementById("eventModalSidebar").style.backgroundImage="url(img/aerobic.jpg)";
+    }
+    else if (sport == "Cycling"){
+        document.getElementById("eventModalSidebar").style.backgroundImage="url(img/cycling.jpg)";
+    }
+    else {
+        document.getElementById("eventModalSidebar").style.backgroundImage="url(img/cardio.jpg)";
+    }
+
 }

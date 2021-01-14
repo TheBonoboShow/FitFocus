@@ -1,9 +1,7 @@
-//todo setup emails reminders
-//todo setup sms reminders
-//todo make checkboxes clearer on every page
+//todo make events on index with a button to book session
 //todo user.reserved sessions and session.participants
+//todo fix session-info (free spot count + lay-out)
 //todo add way to clone planned sessions
-//todo make events on index clickable with info pop-up and button to book session
 //todo implement buying subscriptions and payment method?
 //todo add search filter admin page (users - username & email)
 //todo add search filter session page (date range & sport & coach)
@@ -16,7 +14,7 @@
 //todo fix lay-out everything
 //todo fix error messages lay-out in forms/on pages
 //todo set passwordresettoken to null on login
-//todo launch app on staes.me and change mail redirection
+//todo launch app on staes.me and change mail redirection adresses to staes.me/*
 //todo make app responsive
 
 $('document').ready(function () {
@@ -132,9 +130,7 @@ $('document').ready(function () {
             $('#firstnameEditUser').val(User.firstname);
             $('#lastnameEditUser').val(User.lastname);
             $('#emailEditUser').val(User.email);
-            $('#gsmEditUser').val(User.gsmNumber);
             $('#remainingSessionsEditUser').val(User.remainingSessions);
-            $('#reminderSmsEdit').prop('checked', User.reminderSms);
             $('#reminderMailEdit').prop('checked', User.reminderMail);
             $('#promotionsActiveEdit').prop('checked', User.promotionsActive);
             $('#profileIsActiveEdit').prop('checked', User.profileIsActive);

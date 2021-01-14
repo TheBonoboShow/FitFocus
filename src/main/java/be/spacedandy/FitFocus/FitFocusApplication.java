@@ -8,6 +8,7 @@ public class FitFocusApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FitFocusApplication.class, args);
+
 	}
 
 }
