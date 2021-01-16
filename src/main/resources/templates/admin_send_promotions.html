@@ -54,7 +54,7 @@
     </div>
 </nav>
 
-<form style="margin-top: 200px" th:action="@{admin/sendPromo}" onsubmit="return validateForm()" method="post">
+<form style="margin-top: 200px" th:action="@{admin/sendPromo}" method="post">
     <h1>Send a promotional email to every user that has this enabled on their profile</h1>
     <h2>Fill in the subject and the message and click the 'send' button</h2>
     <div class="alert alert-danger" th:if="${message != null}">
@@ -77,18 +77,6 @@
         }
     });
 
-    function validateForm() {
-        // if (document.getElementById('email').value.trim() == ""){
-        //     document.getElementById('errorMsg').innerHTML = "Please enter a valid email";
-        //     document.getElementById('email').focus();
-        //     return false;
-        // }
-        // if (document.getElementById('message').value.trim() == ""){
-        //     document.getElementById('errorMsg').innerHTML = "Please enter a message";
-        //     document.getElementById('message').focus();
-        //     return false;
-        // }
-    }
 </script>
 
 </body>

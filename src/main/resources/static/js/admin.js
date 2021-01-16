@@ -1,6 +1,9 @@
-//todo make events on index with a button to book session
-//todo user.reserved sessions and session.participants
-//todo fix session-info (free spot count + lay-out)
+//todo see userService (finish booking a session)
+//todo deleting a session
+//todo fix edit&delete on session & admin page
+//todo add session annulation (5h buffer)
+//todo add booking session link in navbar users
+//todo fix session-info (lay-out)
 //todo add way to clone planned sessions
 //todo implement buying subscriptions and payment method?
 //todo add search filter admin page (users - username & email)
@@ -14,6 +17,10 @@
 //todo fix lay-out everything
 //todo fix error messages lay-out in forms/on pages
 //todo set passwordresettoken to null on login
+//todo make index.js ok (add eventclick on all)
+//todo add pagination on big tables (e.g. admin)
+//todo make maxParticipants check on creating newSession
+//todo make footer
 //todo launch app on staes.me and change mail redirection adresses to staes.me/*
 //todo make app responsive
 

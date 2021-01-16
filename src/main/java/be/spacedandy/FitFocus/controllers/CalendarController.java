@@ -2,7 +2,9 @@ package be.spacedandy.FitFocus.controllers;
 
 import be.spacedandy.FitFocus.models.Event;
 import be.spacedandy.FitFocus.models.Session;
+import be.spacedandy.FitFocus.models.User;
 import be.spacedandy.FitFocus.services.SessionService;
+import be.spacedandy.FitFocus.services.UserService;
 import flexjson.JSONSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +22,8 @@ import java.util.List;
 public class CalendarController {
     @Autowired
     SessionService sessionService;
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/calendar", method = RequestMethod.GET,produces="application/json")
     @ResponseBody
@@ -85,7 +89,7 @@ public class CalendarController {
             e.setTitle(s.getSport().getName());
             e.setInformation(s.getInformation());
             e.setCoach(s.getCoach().getFirstname() + " " + s.getCoach().getLastname());
-            e.setParticipants(s.getParticipants());
+            e.setParticipants(sessionService.findUsersBySessionId(s.getId()).size());
             e.setMaxParticipants(s.getMaxParticipants());
             e.setOnlyFemales(s.isOnlyFemales());
             events.add(e);

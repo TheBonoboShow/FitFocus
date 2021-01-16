@@ -4,13 +4,18 @@ import be.spacedandy.FitFocus.models.Session;
 import be.spacedandy.FitFocus.models.Sport;
 import be.spacedandy.FitFocus.models.User;
 import be.spacedandy.FitFocus.models.UserPrincipal;
+import be.spacedandy.FitFocus.security.NoSessionsLeftException;
 import be.spacedandy.FitFocus.services.SessionService;
 import be.spacedandy.FitFocus.services.SportService;
 import be.spacedandy.FitFocus.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,7 +57,7 @@ public class SessionController {
 
     @RequestMapping("/sessions/findById")
     @ResponseBody
-    public Optional<Session> findById(int id){
+    public Session findById(int id){
         return sessionService.findById(id);
     }
 
@@ -60,5 +65,40 @@ public class SessionController {
     public String delete(Integer id){
         sessionService.delete(id);
         return "redirect:/sessions";
+    }
+
+    @GetMapping("/bookSession")
+    public String bookSession(@AuthenticationPrincipal UserPrincipal userPrincipal, Model model){
+        //add user to session
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken){
+            model.addAttribute("message", "You need to be logged in to book a session");
+            return "login";
+        }
+        User user = userService.findByUsername(userPrincipal.getUsername());
+        model.addAttribute("user", user);
+        List<Session> sessionList = sessionService.getUserSessions(user);
+        model.addAttribute("sessions", sessionList);
+        List<Session> sessionList2 = sessionService.getNonBookedSessions(user);
+        model.addAttribute("sessionsFuture", sessionList2);
+        return "bookSession";
+    }
+
+    @PostMapping("/bookSession")
+    public String bookSession(Session session, @AuthenticationPrincipal UserPrincipal userPrincipal, BindingResult bindingResult, Model model) throws NoSessionsLeftException{
+        User user = userService.findByUsername(userPrincipal.getUsername());
+        try {
+            userService.addSessionToUser(session, user);
+        }
+        catch (NoSessionsLeftException e){
+//            bindingResult.rejectValue("session", "session.date","You don't have any sessions left, consider buying a subscription type upgrade");
+            return "bookSession";
+        }
+        model.addAttribute("user", user);
+        List<Session> sessionList = sessionService.getUserSessions(user);
+        model.addAttribute("sessions", sessionList);
+        List<Session> sessionList2 = sessionService.getNonBookedSessions(user);
+        model.addAttribute("sessionsFuture", sessionList2);
+        return "bookSession";
     }
 }

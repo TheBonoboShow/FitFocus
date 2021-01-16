@@ -56,7 +56,7 @@
                     <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" th:field="*{username}" placeholder="Userame"
+                    <input type="text" class="form-control" th:field="*{username}" placeholder="Username"
                            th:errorclass="is-invalid" id="username">
                     <div class="input-group-append">
                         <div class="input-group-text">

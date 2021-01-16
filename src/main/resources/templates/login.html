@@ -50,6 +50,9 @@
     <div th:if="${param.error}">
         <p class="alert alert-danger" id="errorMsg">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
     </div>
+    <div class="alert alert-danger" style="width: auto" th:if="${message != null}">
+        <p>[[${message}]]</p>
+    </div>
     <div th:if="${param.logout}">
         <p class="alert alert-danger" id="errorMsg2">You have been logged out</p>
     </div>

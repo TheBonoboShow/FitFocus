@@ -8,18 +8,18 @@ document.addEventListener('DOMContentLoaded', function () {
         slotDuration: '01:00:00',
         allDaySlot: false,
 
-        eventClick: function(info) {
+        eventClick: function (info) {
             // alert('Event: ' + info.event.extendedProps.information + "    " + info.event.title);
             var modal = document.getElementById("eventModal");
-            modal.style.display = "block"
+            modal.style.display = "block";
 
             fillModalSession(info);
 
             var span = document.getElementsByClassName("closeModal")[0];
-            span.onclick = function() {
+            span.onclick = function () {
                 modal.style.display = "none";
             }
-            window.onclick = function(event) {
+            window.onclick = function (event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
@@ -46,45 +46,45 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
 });
 
-function showYoga(){
+function showYoga() {
 
-        $('#all').removeClass('currentSession');
-        $('#cycling').removeClass('currentSession');
-        $('#boxing').removeClass('currentSession');
-        $('#aerobic').removeClass('currentSession');
-        $('#cardio').removeClass('currentSession');
-        $("#yoga").addClass('currentSession');
+    $('#all').removeClass('currentSession');
+    $('#cycling').removeClass('currentSession');
+    $('#boxing').removeClass('currentSession');
+    $('#aerobic').removeClass('currentSession');
+    $('#cardio').removeClass('currentSession');
+    $("#yoga").addClass('currentSession');
 
-        var calendarEl = document.getElementById('calendar');
+    var calendarEl = document.getElementById('calendar');
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'timeGridWeek',
-            slotMinTime: '08:00:00',
-            slotMaxTime: '23:30:00',
-            slotDuration: '01:00:00',
-            allDaySlot: false,
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'timeGridWeek',
+        slotMinTime: '08:00:00',
+        slotMaxTime: '23:30:00',
+        slotDuration: '01:00:00',
+        allDaySlot: false,
 
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: '',
-            },
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: '',
+        },
 
-            height: 'auto',
+        height: 'auto',
 
-            events: '/calendarYoga',
+        events: '/calendarYoga',
 
-            eventTimeFormat: {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            }
-        });
+        eventTimeFormat: {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }
+    });
 
-        calendar.render();
+    calendar.render();
 }
 
-function showCardio(){
+function showCardio() {
 
     $('#all').removeClass('currentSession');
     $('#cycling').removeClass('currentSession');
@@ -122,7 +122,7 @@ function showCardio(){
     calendar.render();
 }
 
-function showBoxing(){
+function showBoxing() {
 
     $('#all').removeClass('currentSession');
     $('#cycling').removeClass('currentSession');
@@ -160,7 +160,7 @@ function showBoxing(){
     calendar.render();
 }
 
-function showAerobic(){
+function showAerobic() {
 
     $('#all').removeClass('currentSession');
     $('#cycling').removeClass('currentSession');
@@ -198,7 +198,7 @@ function showAerobic(){
     calendar.render();
 }
 
-function showCycling(){
+function showCycling() {
 
     $('#all').removeClass('currentSession');
     $('#yoga').removeClass('currentSession');
@@ -236,7 +236,7 @@ function showCycling(){
     calendar.render();
 }
 
-function showAll(){
+function showAll() {
 
     $('#yoga').removeClass('currentSession');
     $('#cycling').removeClass('currentSession');
@@ -281,38 +281,41 @@ function addZero(i) {
     return i;
 }
 
-function fillModalSession(info){
+function fillModalSession(info) {
+    var freeSpots = info.event.extendedProps.maxParticipants - info.event.extendedProps.participants;
 
     document.getElementById("information").innerHTML = "Information: " + info.event.extendedProps.information;
     document.getElementById("sport").innerHTML = info.event.title;
     document.getElementById("timeslot").innerHTML = addZero(info.event.start.getHours()).toString() + ":" + addZero(info.event.start.getMinutes()).toString()
-         + " - " + addZero(info.event.end.getHours()).toString() + ":" + addZero(info.event.end.getMinutes()).toString();
+        + " - " + addZero(info.event.end.getHours()).toString() + ":" + addZero(info.event.end.getMinutes()).toString();
     document.getElementById("coach").innerHTML = "Coach: " + info.event.extendedProps.coach;
     document.getElementById("maxParticipants").innerHTML = "Maximum participants: " + info.event.extendedProps.maxParticipants;
-    document.getElementById("freePlaces").innerHTML = "Free spots left: " + info.event.extendedProps.participants; //not ok yet
-    document.getElementById("femaleOnly").innerHTML = "Woman only course!" //make hidden on false
-    if (!info.event.extendedProps.onlyFemales){
+    document.getElementById("freePlaces").innerHTML = "Free spots: " + freeSpots;
+    document.getElementById("femaleOnly").innerHTML = "Woman only course!"
+    if (!info.event.extendedProps.onlyFemales) {
         document.getElementById("femaleOnly").style.visibility = "hidden";
     } else {
         document.getElementById("femaleOnly").style.visibility = "visible";
     }
 
+    if (freeSpots == 0) {
+        document.getElementById("bookSessions").style.visibility = "hidden";
+    } else {
+        document.getElementById("bookSessions").style.visibility = "visible";
+    }
+
 
     var sport = info.event.title;
-    if (sport == "Boxing"){
-    document.getElementById("eventModalSidebar").style.backgroundImage="url(img/boxing.jpg)";
-    }
-    else if (sport == "Yoga"){
-        document.getElementById("eventModalSidebar").style.backgroundImage="url(img/yoga.jpg)";
-    }
-    else if (sport == "Aerobic"){
-        document.getElementById("eventModalSidebar").style.backgroundImage="url(img/aerobic.jpg)";
-    }
-    else if (sport == "Cycling"){
-        document.getElementById("eventModalSidebar").style.backgroundImage="url(img/cycling.jpg)";
-    }
-    else {
-        document.getElementById("eventModalSidebar").style.backgroundImage="url(img/cardio.jpg)";
+    if (sport == "Boxing") {
+        document.getElementById("eventModalSidebar").style.backgroundImage = "url(img/boxing.jpg)";
+    } else if (sport == "Yoga") {
+        document.getElementById("eventModalSidebar").style.backgroundImage = "url(img/yoga.jpg)";
+    } else if (sport == "Aerobic") {
+        document.getElementById("eventModalSidebar").style.backgroundImage = "url(img/aerobic.jpg)";
+    } else if (sport == "Cycling") {
+        document.getElementById("eventModalSidebar").style.backgroundImage = "url(img/cycling.jpg)";
+    } else {
+        document.getElementById("eventModalSidebar").style.backgroundImage = "url(img/cardio.jpg)";
     }
 
 }

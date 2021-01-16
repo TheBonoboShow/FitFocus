@@ -6,7 +6,7 @@ public class Event {
     private String title;
     private String start;
     private String end;
-    private List<User> participants;
+    private int participants;
     private String coach;
     private String information;
     private int maxParticipants;
@@ -36,11 +36,11 @@ public class Event {
         this.end = end;
     }
 
-    public List<User> getParticipants() {
+    public int getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<User> participants) {
+    public void setParticipants(int participants) {
         this.participants = participants;
     }
 

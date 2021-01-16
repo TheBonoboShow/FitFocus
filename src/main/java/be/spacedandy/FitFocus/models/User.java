@@ -46,7 +46,7 @@ public class User {
 
     private Integer roleid = 1;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "session_participants",
             joinColumns = @JoinColumn(name = "user_id"),

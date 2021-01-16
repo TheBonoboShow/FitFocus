@@ -37,10 +37,11 @@
                 <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                         th:href="@{/sessions}">Sessions</a></li>
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
-                <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}" id="navProfile"><a th:href="@{/profile}">Profile</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                 </li>
             </ul>
+
         </div>
         <span class="navTrigger">
                 <i></i>
@@ -67,6 +68,9 @@
             <p id="maxParticipants"></p>
             <p id="freePlaces"></p>
             <p id="femaleOnly" style="color: #e16521"> </p>
+            <form th:action="@{/bookSession}" method="get" id="bookSessions">
+                <button type="submit" id="bookSession">Book Session</button>
+            </form>
         </div>
         <span class="closeModal" style="width: 2%">&times;</span>
     </div>

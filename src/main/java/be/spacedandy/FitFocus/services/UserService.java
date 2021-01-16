@@ -1,6 +1,8 @@
 package be.spacedandy.FitFocus.services;
 
+import be.spacedandy.FitFocus.models.Session;
 import be.spacedandy.FitFocus.models.User;
+import be.spacedandy.FitFocus.security.NoSessionsLeftException;
 import be.spacedandy.FitFocus.security.UserNotFoundException;
 import be.spacedandy.FitFocus.security.WrongPasswordException;
 import be.spacedandy.FitFocus.repositories.UserRepository;
@@ -33,6 +35,22 @@ public class UserService {
 
     public void saveAdmin(User user){
         userRepository.save(user);
+    }
+
+    public void addSessionToUser(Session session, User user) throws NoSessionsLeftException{
+        if (!checkIfUserHasSession(user)){
+            throw new NoSessionsLeftException("User has no valid sessions");
+        }
+        //controle females -> in service (sessionservice)
+        //subtract from user.remainingSessions + check if copied well in on admin/profile page
+        List<Session> s = user.getReservedSessions();
+        s.add(session);
+        user.setReservedSessions(s);
+        saveAdmin(user);
+    }
+
+    public boolean checkIfUserHasSession(User user) {
+        return user.getRemainingSessions() != 0 ? true : false;
     }
 
     public void update(User user) throws WrongPasswordException{
