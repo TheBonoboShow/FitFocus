@@ -23,7 +23,6 @@ public class SessionService {
     @Autowired private UserRepository userRepository;
     @Autowired private SportRepository sportRepository;
 
-
     public List<Session> getSessions(){
         return sessionRepository.findAllByOrderByDateAsc();
     }
@@ -80,12 +79,14 @@ public class SessionService {
         List<Session> sessions = getFutureSessions();
         List<Session> full = new ArrayList<>();
         List<Session> sessionsUser = getUserSessions(user);
+        //removes sessions with no free spots
         for (Session s : sessions){
             if (s.getMaxParticipants() - findUsersBySessionId(s.getId()).size() <= 0){
                 full.add(s);
             }
         }
         sessions.removeAll(full);
+        //removes already booked sessions by user
         List<Session> sessionsNew = new ArrayList<>();
         if (sessions != null && sessionsUser != null){
             for (int i = 0; i<sessions.size(); i++){
@@ -98,6 +99,12 @@ public class SessionService {
                 }
             }
         }
+
+        //removes female only sessions if user is male
+        if (!user.isFemale()){
+            return sessionsNew.stream().filter(s -> !s.isOnlyFemales()).collect(Collectors.toList());
+        }
+
         return sessionsNew;
     }
 
@@ -115,7 +122,14 @@ public class SessionService {
     }
 
     public void delete(int id) {
+        //todo make a list of all the users that booked the deleted session, send a mail and add a session to their balance
+        sessionRepository.deleteSession(id);
         sessionRepository.deleteById(id);
     }
 
+    public void deleteSession(Integer id, User user) {
+        sessionRepository.deleteUserSession(id, user.getId());
+        user.setRemainingSessions(user.getRemainingSessions()+1);
+        userRepository.save(user);
+    }
 }

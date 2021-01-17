@@ -69,7 +69,8 @@ public class SessionController {
 
     @GetMapping("/bookSession")
     public String bookSession(@AuthenticationPrincipal UserPrincipal userPrincipal, Model model){
-        //add user to session
+        List<Sport> sportsList = sportService.getSports();
+        model.addAttribute("sports", sportsList);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken){
             model.addAttribute("message", "You need to be logged in to book a session");
@@ -84,21 +85,28 @@ public class SessionController {
         return "bookSession";
     }
 
-    @PostMapping("/bookSession")
-    public String bookSession(Session session, @AuthenticationPrincipal UserPrincipal userPrincipal, BindingResult bindingResult, Model model) throws NoSessionsLeftException{
+    @PostMapping("/bookSessionX")
+    public String bookSession(Session session, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
         User user = userService.findByUsername(userPrincipal.getUsername());
         try {
             userService.addSessionToUser(session, user);
         }
         catch (NoSessionsLeftException e){
-//            bindingResult.rejectValue("session", "session.date","You don't have any sessions left, consider buying a subscription type upgrade");
+            model.addAttribute("message","You don't have any sessions left, consider upgrading your subscription type");
+            model.addAttribute("user", user);
+            List<Session> sessionList = sessionService.getUserSessions(user);
+            model.addAttribute("sessions", sessionList);
+            List<Session> sessionList2 = sessionService.getNonBookedSessions(user);
+            model.addAttribute("sessionsFuture", sessionList2);
             return "bookSession";
         }
-        model.addAttribute("user", user);
-        List<Session> sessionList = sessionService.getUserSessions(user);
-        model.addAttribute("sessions", sessionList);
-        List<Session> sessionList2 = sessionService.getNonBookedSessions(user);
-        model.addAttribute("sessionsFuture", sessionList2);
-        return "bookSession";
+        return "redirect:/bookSession";
+    }
+
+    @RequestMapping(value = "/bookSession/delete", method = {RequestMethod.DELETE, RequestMethod.GET})
+    public String deleteSession(Integer id, @AuthenticationPrincipal UserPrincipal userPrincipal){
+        User user = userService.findByUsername(userPrincipal.getUsername());
+        sessionService.deleteSession(id, user);
+        return "redirect:/bookSession";
     }
 }

@@ -1,5 +1,6 @@
 package be.spacedandy.FitFocus.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -19,6 +21,7 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToMany(mappedBy = "reservedSessions", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<User> participants;
     @ManyToOne
     @JoinColumn(name="userid", insertable=false, updatable=false)
@@ -116,7 +119,6 @@ public class Session {
     public String toString() {
         return "Session{" +
                 "id=" + id +
-                ", participants=" + participants +
                 ", coach=" + coach +
                 ", userid=" + userid +
                 ", information='" + information + '\'' +
@@ -128,5 +130,18 @@ public class Session {
                 ", maxParticipants=" + maxParticipants +
                 ", onlyFemales=" + onlyFemales +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Session session = (Session) o;
+        return id == session.id && maxParticipants == session.maxParticipants && onlyFemales == session.onlyFemales && coach.equals(session.coach) && userid.equals(session.userid) && information.equals(session.information) && sport.equals(session.sport) && sportid.equals(session.sportid) && date.equals(session.date) && startingHour.equals(session.startingHour) && endHour.equals(session.endHour);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, coach, userid, information, sport, sportid, date, startingHour, endHour, maxParticipants, onlyFemales);
     }
 }

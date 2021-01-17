@@ -30,6 +30,7 @@ public class UserService {
 
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
         userRepository.save(user);
     }
 
@@ -41,16 +42,15 @@ public class UserService {
         if (!checkIfUserHasSession(user)){
             throw new NoSessionsLeftException("User has no valid sessions");
         }
-        //controle females -> in service (sessionservice)
-        //subtract from user.remainingSessions + check if copied well in on admin/profile page
-        List<Session> s = user.getReservedSessions();
-        s.add(session);
-        user.setReservedSessions(s);
+        List<Session> ss = user.getReservedSessions();
+        ss.add(session);
+        user.setReservedSessions(ss);
+        user.setRemainingSessions(user.getRemainingSessions()-1);
         saveAdmin(user);
     }
 
     public boolean checkIfUserHasSession(User user) {
-        return user.getRemainingSessions() != 0 ? true : false;
+        return user.getRemainingSessions() > 0;
     }
 
     public void update(User user) throws WrongPasswordException{
@@ -79,7 +79,8 @@ public class UserService {
     }
 
     public void delete(int id) {
-        userRepository.deleteById(id);
+        userRepository.deleteSessionsUser(id);
+        userRepository.deleteById(id); //delete does not work if user is also coaching a session
     }
 
     public void resetPassword (String token, String email) throws UserNotFoundException {

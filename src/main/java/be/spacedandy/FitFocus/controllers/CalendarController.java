@@ -2,7 +2,6 @@ package be.spacedandy.FitFocus.controllers;
 
 import be.spacedandy.FitFocus.models.Event;
 import be.spacedandy.FitFocus.models.Session;
-import be.spacedandy.FitFocus.models.User;
 import be.spacedandy.FitFocus.services.SessionService;
 import be.spacedandy.FitFocus.services.UserService;
 import flexjson.JSONSerializer;

@@ -6,7 +6,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>FitFocus | Sessions View</title>
-
+    <base href="/">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -36,7 +36,7 @@
                 <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
                 <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
                 <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
-                         th:href="@{/sessions}">Sessions</a></li>
+                        th:href="@{/sessions}">Sessions</a></li>
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
@@ -57,24 +57,28 @@
 <div class="container" style="justify-content: center; display: flex">
     <div class="adminTables">
         <div class="wrapper">
+            <div class="alert alert-danger" th:if="${message != null}">
+                <p>[[${message}]]</p>
+            </div>
+            <div>
+                <p id="errorMsg" class="alert-danger alert" style="visibility: hidden"></p>
+            </div>
             <div style="display: table-header-group">
                 <h2 class="collectiontitle" style="float: left">Book A Session</h2>
             </div>
 
-            <form th:action="@{/bookSession}" method="post">
-<!--            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">-->
-<!--                <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>-->
-<!--            </div>-->
-                <div class="form-group">
-                    <select class="form-control" id="selectSession" name="session">
-                        <option>-SELECT-</option>
-                        <option th:each="Session : ${sessionsFuture}"
-                                th:value="${Session.id}"
-                                th:text="${Session.date} + ' - '+${Session.sport} + ' - ' + ${Session.startingHour}">
-                        </option>
-                    </select>
-                </div>
-            <button class="btn btn-primary btn-lg btn-block" style="background-color: #e16521; border: #e16521" type="submit">Book Now</button>
+            <form th:action="@{/bookSessionX}" onsubmit="return validateBookSession()" method="post">
+                <select class="form-control" id="selectSession" name="session">
+                    <option>-SELECT-</option>
+                    <option th:each="Session : ${sessionsFuture}"
+                            th:value="${Session.id}"
+                            th:text="${Session.date} + ' - '+${Session.sport} + ' - ' + ${Session.startingHour}">
+                    </option>
+                </select>
+                <br>
+                <button class="btn btn-primary btn-lg btn-block" style="background-color: #e16521; border: #e16521"
+                        type="submit">Book Now
+                </button>
             </form>
 
             <br>
@@ -101,18 +105,63 @@
                     <td th:text="${Session.date}"></td>
                     <td th:text="${Session.startingHour}"></td>
                     <td th:text="${Session.endHour}"></td>
-                    <td><a th:href="@{/sessions/(id=${Session.id})}" class="btn btn-danger" id="deleteSession">X</a>
-<!--                        needs changing + validation on delete-->
+                    <td><a th:href="@{/sessions/findById/(id=${Session.id})}" class="btn btn-danger" id="deleteSession">X</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
+
+            <!--delete modal-->
+            <div class="modal fade" id="deleteModalSesh" tabindex="-1" aria-labelledby="deleteModalLabel"
+                 aria-hidden="true">
+                <form th:action="@{/bookSession/delete}" method="put">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p style="font-size: 14px">Are you sure you want to delete this session?</p>
+                                <input type="text" class="form-control" id="idDelete" name="id" hidden>
+
+                                <div class="form-group">
+                                    <label for="sportDelete" class="col-form-label">Sport</label>
+                                    <select disabled="true" class="form-control" id="sportDelete" name="sportid">
+                                        <option th:each="Sport : ${sports}"
+                                                th:value="${Sport.id}"
+                                                th:text="${Sport.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dateDelete" class="col-form-label">Date</label>
+                                    <input type="date" class="form-control" id="dateDelete" name="date" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="startingHourDelete" class="col-form-label">Starting Time</label>
+                                    <input type="time" class="form-control" id="startingHourDelete" name="startingHour"
+                                           readonly>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
 
     </div>
 </div>
 
-<script src="js/session.js"></script>
+<script src="js/bookSession.js"></script>
 <script src="js/navbar.js"></script>
 <!-- Function used to shrink nav bar removing paddings and adding black background -->
 <script>
@@ -125,95 +174,13 @@
         }
     });
 
-    function validateFormAddSession() {
-
-        if (document.getElementById('informationAdd').value.trim() == "") {
-            document.getElementById('errorDiv1').innerHTML = "Please give a short explanation about this session";
-            document.getElementById('informationAdd').focus();
+    function validateBookSession() {
+        if (document.getElementById('selectSession').value.trim() == "-SELECT-") {
+            document.getElementById('errorMsg').style.visibility = "visible";
+            document.getElementById('errorMsg').innerHTML = "Please select a session";
+            document.getElementById('selectSession').focus();
             return false;
         }
-
-        if (document.getElementById('sportidAdd').value.trim() == "-SELECT-") {
-            document.getElementById('errorDiv1').innerHTML = "Please select the sport";
-            document.getElementById('sportidAdd').focus();
-            return false;
-        }
-
-        if (document.getElementById('dateAdd').value.trim() == "") {
-            document.getElementById('errorDiv1').innerHTML = "Please enter a date";
-            document.getElementById('dateAdd').focus();
-            return false;
-        }
-
-        if (document.getElementById('startingHourAdd').value.trim() == "") {
-            document.getElementById('errorDiv1').innerHTML = "Please enter a starting hour";
-            document.getElementById('startingHourAdd').focus();
-            return false;
-        }
-
-        if (document.getElementById('endHourAdd').value.trim() == "") {
-            document.getElementById('errorDiv1').innerHTML = "Please enter an end hour";
-            document.getElementById('endHourAdd').focus();
-            return false;
-        }
-
-        if (!(document.getElementById('endHourAdd').value > document.getElementById('startingHourAdd').value )){
-            document.getElementById('errorDiv1').innerHTML = "The end cannot be before the start";
-            return false;
-        }
-
-        if (document.getElementById('maxParticipantsAdd').value.trim() == "") {
-            document.getElementById('errorDiv1').innerHTML = "Please enter the maximum number of participants";
-            document.getElementById('maxParticipantsAdd').focus();
-            return false;
-        }
-
-    }
-
-    function validateFormEditSession() {
-
-
-        if (document.getElementById('informationEdit').value.trim() == "") {
-            document.getElementById('errorDiv2').innerHTML = "Please give a short explanation about this session";
-            document.getElementById('informationEdit').focus();
-            return false;
-        }
-
-        if (document.getElementById('sportEdit').value.trim() == "-SELECT-") {
-            document.getElementById('errorDiv2').innerHTML = "Please select the sport";
-            document.getElementById('sportEdit').focus();
-            return false;
-        }
-
-        if (document.getElementById('dateEdit').value.trim() == "") {
-            document.getElementById('errorDiv2').innerHTML = "Please enter a date";
-            document.getElementById('dateEdit').focus();
-            return false;
-        }
-
-        if (document.getElementById('startingHourEdit').value.trim() == "") {
-            document.getElementById('errorDiv2').innerHTML = "Please enter a starting hour";
-            document.getElementById('startingHourEdit').focus();
-            return false;
-        }
-
-        if (document.getElementById('endHourEdit').value.trim() == "") {
-            document.getElementById('errorDiv2').innerHTML = "Please enter an end hour";
-            document.getElementById('endHourEdit').focus();
-            return false;
-        }
-
-        if (!(document.getElementById('endHourEdit').value > document.getElementById('startingHourEdit').value )){
-            document.getElementById('errorDiv2').innerHTML = "The end cannot be before the start";
-            return false;
-        }
-
-        if (document.getElementById('maxParticipantsEdit').value.trim() == "") {
-            document.getElementById('errorDiv2').innerHTML = "Please enter the maximum number of participants";
-            document.getElementById('maxParticipantsEdit').focus();
-            return false;
-        }
-
     }
 
 </script>

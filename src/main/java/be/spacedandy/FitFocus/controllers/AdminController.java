@@ -27,6 +27,9 @@ public class AdminController {
     @Autowired
     RegisterService registerService;
 
+    @Autowired
+    SessionService sessionService;
+
     @GetMapping("/admin")
     public String getAdmin(Model model){
         expandModel(model);
@@ -54,6 +57,7 @@ public class AdminController {
 
     @RequestMapping(value="/admin/updateUser", method= {RequestMethod.PUT, RequestMethod.GET})
     public String update(User user) {
+        user.setReservedSessions(sessionService.getUserSessions(userService.findById(user.getId())));
         userService.saveAdmin(user);
         return "redirect:/admin";
     }

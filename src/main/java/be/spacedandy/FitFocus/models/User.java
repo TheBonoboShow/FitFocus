@@ -1,5 +1,6 @@
 package be.spacedandy.FitFocus.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -48,9 +50,10 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "session_participants",
+            name = "session_participants_join",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "session_id"))
+    @JsonIgnore
     private List<Session> reservedSessions;
 
     @ManyToOne
@@ -245,5 +248,18 @@ public class User {
     @Override
     public String toString() {
         return firstname + " " + lastname;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && reminderMail == user.reminderMail && female == user.female && promotionsActive == user.promotionsActive && profileIsActive == user.profileIsActive && profileIsSuspended == user.profileIsSuspended && remainingSessions == user.remainingSessions && username.equals(user.username) && password.equals(user.password) && Objects.equals(firstname, user.firstname) && Objects.equals(lastname, user.lastname) && email.equals(user.email) && Objects.equals(role, user.role) && Objects.equals(roleid, user.roleid) && Objects.equals(subscriptionType, user.subscriptionType) && Objects.equals(subscriptiontypeid, user.subscriptiontypeid) && Objects.equals(startDate, user.startDate) && Objects.equals(endDate, user.endDate) && Objects.equals(verificationToken, user.verificationToken) && Objects.equals(passwordResetToken, user.passwordResetToken);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, firstname, lastname, email, reminderMail, female, promotionsActive, role, roleid, subscriptionType, subscriptiontypeid, startDate, endDate, profileIsActive, profileIsSuspended, remainingSessions, verificationToken, passwordResetToken);
     }
 }
