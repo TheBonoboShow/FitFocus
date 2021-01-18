@@ -35,6 +35,7 @@
                 <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                         th:href="@{/sessions}">Sessions</a></li>
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
+                <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession}">My Sessions</a>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a class="currentpage" th:href="@{/profile}">Profile</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                 </li>

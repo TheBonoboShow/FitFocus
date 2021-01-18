@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>FitFocus | Send Promo Email</title>
+    <title>FitFocus | Sessions</title>
     <base href="/">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -36,8 +36,8 @@
                 <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
                 <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
                 <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
-                        th:href="@{/sessions}">Sessions</a></li>
-                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a class="currentpage" th:href="@{/admin}">Admin</a>
+                        class="currentpage" th:href="@{/sessions}">Sessions</a></li>
+                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                 </li>
@@ -54,17 +54,46 @@
     </div>
 </nav>
 
-<form style="margin-top: 200px" th:action="@{admin/sendPromo}" onsubmit="return validateForm()" method="post">
-    <h2>Send a promotional email to every user that has this enabled on their profile</h2>
-    <h3>Fill in the subject and the message and click the 'send' button</h3>
-    <div class="alert alert-danger" th:if="${message != null}">
-        <p>[[${message}]]</p>
+<div class="container" style="justify-content: center; display: flex">
+    <div class="adminTables">
+
+        <!--Session handler-->
+        <div class="wrapper">
+
+            <div style="display: table-header-group">
+                <h2 class="collectiontitle" style="float: left">All Past Sessions</h2>
+            </div>
+
+            <table class="collectionlist">
+                <thead>
+                <tr>
+                    <th>Coach</th>
+                    <th>Sport</th>
+                    <th>Date</th>
+                    <th>Starting Time</th>
+                    <th>End Time</th>
+                    <th>Participants</th>
+                    <th>Woman Only</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="Session:${sessions}">
+                    <td th:text="${Session.coach}"></td>
+                    <td th:text="${Session.sport}"></td>
+                    <td th:text="${Session.date}"></td>
+                    <td th:text="${Session.startingHour}"></td>
+                    <td th:text="${Session.endHour}"></td>
+                    <td th:text="${Session.participants.size()}"></td>
+                    <td><input type="checkbox" th:checked="${Session.onlyFemales}" disabled="true" class="css-checkbox"
+                               id="nlfmls"><label for="nlfmls" name="checkbox1_lbl"
+                                                  class="css-label lite-red-check"></label></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
-    <div id='errorDiv1' class='col-xs-12 pull-right'></div>
-    <input type="text" placeholder="The subject of the mail" name="subject" id="subject"> <br>
-    <textarea name="message" cols="40" rows="5" placeholder="Message" id="message" style="padding-top: 10px"></textarea> <br>
-    <button type="submit">Send</button>
-</form>
+</div>
 
 <script src="js/navbar.js"></script>
 <!-- Function used to shrink nav bar removing paddings and adding black background -->
@@ -77,19 +106,6 @@
             $('.nav').removeClass('affix');
         }
     });
-
-    function validateForm() {
-        if (document.getElementById('subject').value.trim() == ""){
-            document.getElementById('errorDiv1').innerHTML = "Please enter a valid subject";
-            document.getElementById('subject').focus();
-            return false;
-        }
-        if (document.getElementById('message').value.trim() == ""){
-            document.getElementById('errorDiv1').innerHTML = "Please enter a message";
-            document.getElementById('message').focus();
-            return false;
-        }
-    }
 
 </script>
 

@@ -5,6 +5,8 @@ import be.spacedandy.FitFocus.models.Sport;
 import be.spacedandy.FitFocus.models.User;
 import be.spacedandy.FitFocus.models.UserPrincipal;
 import be.spacedandy.FitFocus.security.NoSessionsLeftException;
+import be.spacedandy.FitFocus.security.NoValidSubscriptionException;
+import be.spacedandy.FitFocus.security.SessionOverlapException;
 import be.spacedandy.FitFocus.services.SessionService;
 import be.spacedandy.FitFocus.services.SportService;
 import be.spacedandy.FitFocus.services.UserService;
@@ -18,6 +20,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +36,7 @@ public class SessionController {
 
     @GetMapping("/sessions")
     public String getSessions(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        List<Session> sessionList = sessionService.getSessions();
+        List<Session> sessionList = sessionService.getFutureSessions();
         model.addAttribute("sessions", sessionList);
         List<Sport> sportsList = sportService.getSports();
         model.addAttribute("sports", sportsList);
@@ -44,14 +48,28 @@ public class SessionController {
     }
 
     @RequestMapping(value="/sessions/update", method= {RequestMethod.PUT, RequestMethod.GET})
-    public String update(Session session) {
+    public String update(Session session) throws SessionOverlapException {
         sessionService.save(session);
         return "redirect:/sessions";
     }
 
     @PostMapping("/sessions/addNew")
-    public String addNew(Session session){
+    public String addNew(Session session, Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
+        try{
         sessionService.save(session);
+        }
+        catch (SessionOverlapException e){
+            model.addAttribute("message","Sessions cannot overlap, please pick another timeslot");
+            List<Session> sessionList = sessionService.getFutureSessions();
+            model.addAttribute("sessions", sessionList);
+            List<Sport> sportsList = sportService.getSports();
+            model.addAttribute("sports", sportsList);
+            List<User> userList = userService.getUsers();
+            model.addAttribute("users", userList);
+            User user = userService.findByUsername(userPrincipal.getUsername());
+            model.addAttribute("user", user);
+            return "session";
+        }
         return "redirect:/sessions";
     }
 
@@ -62,7 +80,7 @@ public class SessionController {
     }
 
     @RequestMapping(value = "/sessions/delete", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String delete(Integer id){
+    public String delete(Integer id) throws UnsupportedEncodingException, MessagingException {
         sessionService.delete(id);
         return "redirect:/sessions";
     }
@@ -100,6 +118,15 @@ public class SessionController {
             model.addAttribute("sessionsFuture", sessionList2);
             return "bookSession";
         }
+        catch (NoValidSubscriptionException e){
+            model.addAttribute("message","You don't have a valid subscription at the moment, consider buying one");
+            model.addAttribute("user", user);
+            List<Session> sessionList = sessionService.getUserSessions(user);
+            model.addAttribute("sessions", sessionList);
+            List<Session> sessionList2 = sessionService.getNonBookedSessions(user);
+            model.addAttribute("sessionsFuture", sessionList2);
+            return "bookSession";
+        }
         return "redirect:/bookSession";
     }
 
@@ -108,5 +135,18 @@ public class SessionController {
         User user = userService.findByUsername(userPrincipal.getUsername());
         sessionService.deleteSession(id, user);
         return "redirect:/bookSession";
+    }
+
+    @GetMapping("/sessions/past")
+    public String getSessionsPast(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
+        List<Session> sessionList = sessionService.getPastSessions();
+        model.addAttribute("sessions", sessionList);
+        List<Sport> sportsList = sportService.getSports();
+        model.addAttribute("sports", sportsList);
+        List<User> userList = userService.getUsers();
+        model.addAttribute("users", userList);
+        User user = userService.findByUsername(userPrincipal.getUsername());
+        model.addAttribute("user", user);
+        return "session_past";
     }
 }

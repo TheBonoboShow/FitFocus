@@ -37,6 +37,7 @@
                 <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                         th:href="@{/sessions}">Sessions</a></li>
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
+                <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession}">My Sessions</a>
                 <li th:if="${#authorization.expression('isAuthenticated()')}" id="navProfile"><a th:href="@{/profile}">Profile</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                 </li>
@@ -60,16 +61,16 @@
     <!-- Modal content -->
     <div class="modal-content5">
         <div class="eventModalSidebar" id="eventModalSidebar"></div>
-        <div class="eventModalMain" id="eventModalMain" style="color: green">
+        <div class="eventModalMain" id="eventModalMain" style="color: #212122">
             <h3 id="timeslot"></h3>
             <h2 id="sport"></h2>
             <p id="coach"></p>
             <p id="information"></p>
             <p id="maxParticipants"></p>
             <p id="freePlaces"></p>
-            <p id="femaleOnly" style="color: #e16521"> </p>
+            <p id="femaleOnly" style="color: #e4381C"> </p>
             <form th:action="@{/bookSession}" method="get" id="bookSessions">
-                <button type="submit" id="bookSession">Book Session</button>
+                <button type="submit" id="bookSession" class="btn btn-primary" style="background-color: #e16521; border: #e16521; color: white; padding: 10px; cursor: pointer">Book Session</button>
             </form>
         </div>
         <span class="closeModal" style="width: 2%">&times;</span>

@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
+    var startCalendar = new Date(Date.now());
+    startCalendar.setDate(startCalendar.getDate() - startCalendar.getDay())
+    var endCalendar = new Date(startCalendar);
+    endCalendar.setDate(endCalendar.getDate() + 21)
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'timeGridWeek',
@@ -7,6 +11,11 @@ document.addEventListener('DOMContentLoaded', function () {
         slotMaxTime: '23:30:00',
         slotDuration: '01:00:00',
         allDaySlot: false,
+
+        validRange: {
+            start: startCalendar.toISOString().substr(0,10),
+            end: endCalendar.toISOString().substr(0,10),
+        },
 
         eventClick: function (info) {
             // alert('Event: ' + info.event.extendedProps.information + "    " + info.event.title);
@@ -286,7 +295,7 @@ function fillModalSession(info) {
 
     document.getElementById("information").innerHTML = "Information: " + info.event.extendedProps.information;
     document.getElementById("sport").innerHTML = info.event.title;
-    document.getElementById("timeslot").innerHTML = addZero(info.event.start.getHours()).toString() + ":" + addZero(info.event.start.getMinutes()).toString()
+    document.getElementById("timeslot").innerHTML =  info.event.start.toISOString().substr(0, 10) + "  |  " + addZero(info.event.start.getHours()).toString() + ":" + addZero(info.event.start.getMinutes()).toString()
         + " - " + addZero(info.event.end.getHours()).toString() + ":" + addZero(info.event.end.getMinutes()).toString();
     document.getElementById("coach").innerHTML = "Coach: " + info.event.extendedProps.coach;
     document.getElementById("maxParticipants").innerHTML = "Maximum participants: " + info.event.extendedProps.maxParticipants;

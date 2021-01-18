@@ -38,6 +38,7 @@
                 <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                         th:href="@{/sessions}">Sessions</a></li>
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
+                <li th:if="${#authorization.expression('hasAuthority(''USER'')')}" class="currentSession"><a th:href="@{/bookSession}">My Sessions</a>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                 </li>
@@ -68,7 +69,7 @@
             </div>
 
             <form th:action="@{/bookSessionX}" onsubmit="return validateBookSession()" method="post">
-                <select class="form-control" id="selectSession" name="session">
+                <select class="form-control" id="selectSession" name="session" style="font-size: 14px">
                     <option>-SELECT-</option>
                     <option th:each="Session : ${sessionsFuture}"
                             th:value="${Session.id}"
@@ -114,7 +115,7 @@
             <!--delete modal-->
             <div class="modal fade" id="deleteModalSesh" tabindex="-1" aria-labelledby="deleteModalLabel"
                  aria-hidden="true">
-                <form th:action="@{/bookSession/delete}" method="put">
+                <form th:action="@{/bookSession/delete}" onsubmit="return validateDeleteSession()" method="put">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -145,7 +146,8 @@
                                     <input type="time" class="form-control" id="startingHourDelete" name="startingHour"
                                            readonly>
                                 </div>
-
+                                <div id='errorMsg2' style="color: red; font-size: 12px"
+                                     class='col-xs-12 pull-right'></div>
 
                             </div>
                             <div class="modal-footer">
@@ -182,6 +184,21 @@
             return false;
         }
     }
+
+    function validateDeleteSession() {
+        var date1 = new Date(Date.now());
+        var date2 = new Date(document.getElementById('dateDelete').value.trim());
+        var h = document.getElementById('startingHourDelete').value.trim().substr(0, 2)
+        var m = document.getElementById('startingHourDelete').value.trim().substr(3, 5)
+        date2.setHours(h);
+        date2.setMinutes(m);
+        var date11 = new Date(2020, 0, date1.getDay(), date1.getHours(), date1.getMinutes());
+        var date22 = new Date(2020, 0, date2.getDay(), date2.getHours() - 5, date2.getMinutes());
+        if (date22 < date11) {
+                document.getElementById('errorMsg2').innerHTML = "You cannot cancel a session less than 5h before the start";
+                return false;
+            }
+        }
 
 </script>
 

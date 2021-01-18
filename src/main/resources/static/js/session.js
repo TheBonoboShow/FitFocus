@@ -5,8 +5,8 @@ $('table #editSession').on('click', function (event){
 
     $.get(href, function(Session, status){
         $('#idEdit').val(Session.id);
-        $('#coachEdit').val(Session.userid);
         $('#informationEdit').val(Session.information);
+        $('#coachEdit').val(Session.userid);
         $('#sportEdit').val(Session.sportid);
         $('#dateEdit').val(Session.date);
         $('#startingHourEdit').val(Session.startingHour);
@@ -25,7 +25,6 @@ $('table #deleteSession').on('click', function (event){
 
     $.get(href, function(Session, status){
         $('#idDelete').val(Session.id);
-        $('#coachDelete').val(Session.coach);
         $('#informationDelete').val(Session.information);
         $('#sportDelete').val(Session.sportid);
         $('#dateDelete').val(Session.date);

@@ -3,10 +3,12 @@ package be.spacedandy.FitFocus.services;
 import be.spacedandy.FitFocus.models.Session;
 import be.spacedandy.FitFocus.models.User;
 import be.spacedandy.FitFocus.security.NoSessionsLeftException;
+import be.spacedandy.FitFocus.security.NoValidSubscriptionException;
 import be.spacedandy.FitFocus.security.UserNotFoundException;
 import be.spacedandy.FitFocus.security.WrongPasswordException;
 import be.spacedandy.FitFocus.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -38,9 +42,12 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void addSessionToUser(Session session, User user) throws NoSessionsLeftException{
+    public void addSessionToUser(Session session, User user) throws NoSessionsLeftException, NoValidSubscriptionException {
         if (!checkIfUserHasSession(user)){
             throw new NoSessionsLeftException("User has no valid sessions");
+        }
+        if (!checkIfValidSubscription(user, session)){
+            throw new NoValidSubscriptionException("User has no running subsciption");
         }
         List<Session> ss = user.getReservedSessions();
         ss.add(session);
@@ -49,8 +56,20 @@ public class UserService {
         saveAdmin(user);
     }
 
+
     public boolean checkIfUserHasSession(User user) {
         return user.getRemainingSessions() > 0;
+    }
+
+    private boolean checkIfValidSubscription(User user, Session session) {
+        LocalDate sessionDate = LocalDate.parse(session.getDate());
+        if (LocalDate.parse(user.getStartDate()).isAfter(sessionDate)){
+            return false;
+        }
+        if (LocalDate.parse(user.getEndDate()).isBefore(sessionDate)){
+            return false;
+        }
+        return true;
     }
 
     public void update(User user) throws WrongPasswordException{
@@ -108,13 +127,16 @@ public class UserService {
         content += "<h3><a href=\"" + url + "\"> RESET PASSWORD </a></h3>";
         content += "<br><p>Ignore this mail if you did not make this request or remember your password<p>";
         content += "<br><p>The FitFocus Team<p>";
+        content += "<img src='cid:logo' style='height: 65px; width: auto'/>";
 
         MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom("ibo@staes.me", senderName);
         helper.setTo(user.getEmail());
         helper.setSubject(subject);
+        FileSystemResource image = new FileSystemResource(new File("src/main/resources/static/img/logo.jpg"));
         helper.setText(content, true);
+        helper.addInline("logo", image);
 
         javaMailSender.send(message);
     }
@@ -134,13 +156,16 @@ public class UserService {
         content += "<p> Please click on the link below to complete your email change: </p>";
         content += "<h3><a href=\"" + url + "\"> VERIFY </a></h3>";
         content += "<p> Thank you, <br> The FitFocus Team<p>";
+        content += "<img src='cid:logo' style='height: 65px; width: auto'/>";
 
         MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom("ibo@staes.me", senderName);
         helper.setTo(user.getEmail());
         helper.setSubject(subject);
+        FileSystemResource image = new FileSystemResource(new File("src/main/resources/static/img/logo.jpg"));
         helper.setText(content, true);
+        helper.addInline("logo", image);
 
         javaMailSender.send(message);
     }

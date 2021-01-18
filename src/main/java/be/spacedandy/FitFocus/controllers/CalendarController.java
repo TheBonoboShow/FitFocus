@@ -29,7 +29,7 @@ public class CalendarController {
     public ResponseEntity<String> getPlanificado()
     {
         List<Event> events = new ArrayList<>();
-        List<Session> sessions = sessionService.getSessions();
+        List<Session> sessions = sessionService.getSessionsCalendar();
         return getAllSessions(sessions, events);
     }
 

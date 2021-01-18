@@ -1,29 +1,26 @@
-//todo send mail to users when session is deleted + update balance (see sessionService)
-//todo delete coach field from session edit and delete
-//todo make searchbar bigger on bookSession page
-//todo add session annulation 5h buffer
-//todo add booking session link in navbar users
-//todo fix session-info (lay-out on index page)
+//todo implement sessionService.checkSessionOverlap
+//todo add link to register page on login page
 //todo add way to clone planned sessions
 //todo implement buying subscriptions and payment method?
 //todo add search filter admin page (users - username & email)
 //todo add search filter session page (date range & sport & coach)
-//todo add filter session page (no edit on past events)
 //todo add pagination on big tables (e.g. admin)
-//todo no overlapping sessions (+ max time = 120 min + max end is 23:30pm + sessions at least 30min + fix view for smaller screens)
 //todo add info on hover for profile edit (readonly cases)
 //todo add link in logo's
 //todo edit text on prices page + add subsciption types on admin page
 //todo change profile edit button placements (change e-mail)
 //todo style all pages (eg 403 & 404 & /error)
 //todo fix lay-out everything
+//todo fix promo-mail button on admin page (press me!!) + fix body of that page (admin_send_promotions)
 //todo fix error messages lay-out in forms/on pages
 //todo set passwordresettoken to null on login
 //todo make index.js ok (add eventclick on all)
-//todo make maxParticipants check on creating newSession
+//todo make maxParticipants check on creating newSession (2+)
+//todo change role on new user (-> user)
 //todo make footer
 //todo launch app on staes.me and change mail redirection adresses to staes.me/*
 //todo make app responsive
+//todo prepare for presentation (show all sessions on home page in nice pattern)
 
 $('document').ready(function () {
     // Subscription Types

@@ -6,6 +6,7 @@ import be.spacedandy.FitFocus.security.UserAlreadyExistException;
 import be.spacedandy.FitFocus.repositories.UserRepository;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 @Service
@@ -51,13 +53,16 @@ public class RegisterService {
         content += "<p> Please click on the link below to complete your account registration: </p>";
         content += "<h3><a href=\"" + url + "\"> VERIFY </a></h3>";
         content += "<p> Thank you, <br> The FitFocus Team<p>";
+        content += "<img src='cid:logo' style='height: 65px; width: auto'/>";
 
         MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom("ibo@staes.me", senderName);
         helper.setTo(user.getEmail());
         helper.setSubject(subject);
+        FileSystemResource image = new FileSystemResource(new File("src/main/resources/static/img/logo.jpg"));
         helper.setText(content, true);
+        helper.addInline("logo", image);
 
         javaMailSender.send(message);
     }

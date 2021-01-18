@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,9 +63,9 @@ public class User {
 
     private Integer subscriptiontypeid;
 
-    private String startDate;
+    private String startDate = LocalDate.now().toString();
 
-    private String endDate;
+    private String endDate = LocalDate.now().plusMonths(3).toString();
 
     private boolean profileIsActive = false;
 
