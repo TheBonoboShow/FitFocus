@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>FitFocus | Sessions View</title>
+    <title>FitFocus | Book Session</title>
     <base href="/">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -58,11 +58,11 @@
 <div class="container" style="justify-content: center; display: flex">
     <div class="adminTables">
         <div class="wrapper">
-            <div class="alert alert-danger" th:if="${message != null}">
+            <div class="formError" th:if="${message != null}">
                 <p>[[${message}]]</p>
             </div>
             <div>
-                <p id="errorMsg" class="alert-danger alert" style="visibility: hidden"></p>
+                <p id="errorMsg" class="formError"></p>
             </div>
             <div style="display: table-header-group">
                 <h2 class="collectiontitle" style="float: left">Book A Session</h2>
@@ -146,8 +146,7 @@
                                     <input type="time" class="form-control" id="startingHourDelete" name="startingHour"
                                            readonly>
                                 </div>
-                                <div id='errorMsg2' style="color: red; font-size: 12px"
-                                     class='col-xs-12 pull-right'></div>
+                                <div id='errorMsg2' class="formError"></div>
 
                             </div>
                             <div class="modal-footer">
@@ -178,7 +177,6 @@
 
     function validateBookSession() {
         if (document.getElementById('selectSession').value.trim() == "-SELECT-") {
-            document.getElementById('errorMsg').style.visibility = "visible";
             document.getElementById('errorMsg').innerHTML = "Please select a session";
             document.getElementById('selectSession').focus();
             return false;

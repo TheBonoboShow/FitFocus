@@ -1,18 +1,12 @@
-//todo implement sessionService.checkSessionOverlap
-//todo add link to register page on login page
-//todo add way to clone planned sessions
-//todo implement buying subscriptions and payment method?
 //todo add search filter admin page (users - username & email)
 //todo add search filter session page (date range & sport & coach)
-//todo add pagination on big tables (e.g. admin)
 //todo add info on hover for profile edit (readonly cases)
 //todo add link in logo's
-//todo edit text on prices page + add subsciption types on admin page
 //todo change profile edit button placements (change e-mail)
 //todo style all pages (eg 403 & 404 & /error)
 //todo fix lay-out everything
 //todo fix promo-mail button on admin page (press me!!) + fix body of that page (admin_send_promotions)
-//todo fix error messages lay-out in forms/on pages
+//todo fix error messages lay-out in forms/on pages (formError styling)
 //todo set passwordresettoken to null on login
 //todo make index.js ok (add eventclick on all)
 //todo make maxParticipants check on creating newSession (2+)

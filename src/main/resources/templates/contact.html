@@ -35,7 +35,8 @@
                 <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                         th:href="@{/sessions}">Sessions</a></li>
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
-                <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession}">My Sessions</a>
+                <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession}">My
+                    Sessions</a>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                 </li>
@@ -52,22 +53,48 @@
     </div>
 </nav>
 
-<form style="margin-top: 200px" th:action="@{/contact}" onsubmit="return validateForm()" method="post">
-    <h1>Get in touch</h1>
-    <h2>We will try to answer you as quickly as possible</h2>
-    <div>
-        <p id="errorMsg"></p>
+<div style="display: flex">
+    <div class="credentialsWrapper">
+        <h2 class="pageHeader">Get in touch</h2>
+        <h2 class="pageSubHeader">We will try to answer you as quickly as possible</h2>
+        <div class="formWrapper">
+            <form th:action="@{/contact}" onsubmit="return validateForm()" method="post">
+                <div>
+                    <p id="errorMsg" class="formError"></p>
+                </div>
+                <div class="formError" th:if="${message != null}">
+                    <p>[[${message}]]</p>
+                </div>
+                <div class="inputWrapper">
+                    <label for="email" class="labelHeader">Your email-address:</label>
+                    <input type="email" placeholder="Email" name="email" id="email" class="inputField">
+                </div>
+                <div class="inputWrapper">
+                    <label for="message" class="labelHeader">Your message:</label>
+                    <textarea name="message" cols="40" rows="5" placeholder="Message" id="message"
+                              class="inputField"></textarea> <br>
+                </div>
+                <button type="submit" class="loginBtn" style="margin-top: -10px">Send</button>
+            </form>
+        </div>
     </div>
-    <div class="alert alert-danger" th:if="${message != null}">
-        <p>[[${message}]]</p>
+    <div class="credentialsWrapper">
+        <div class="pageSubHeader" style="margin-top: 50px">
+            <img src="img/home_logo.png" class="logoContact">
+            Nerviërsstraat 34, 1730 Asse
+        </div>
+        <div class="pageSubHeader">
+            <img src="img/tel_logo.png" class="logoContact">
+            0483/09.14.88
+        </div>
+        <div class="pageSubHeader">
+            <img src="img/mail_logo.png"  class="logoContact">
+            fitfocusteam@gmail.com</div>
     </div>
-    <input type="email" placeholder="Your Email Address" name="email" id="email"> <br>
-    <textarea name="message" cols="40" rows="5" placeholder="Message" id="message" style="padding-top: 10px"></textarea> <br>
-    <button type="submit">Send</button>
-</form>
+</div>
 
 <script>
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         if ($(document).scrollTop() > 50) {
             $('.nav').addClass('affix');
             console.log("OK");
@@ -77,12 +104,12 @@
     });
 
     function validateForm() {
-        if (document.getElementById('email').value.trim() == ""){
+        if (document.getElementById('email').value.trim() == "") {
             document.getElementById('errorMsg').innerHTML = "Please enter a valid email";
             document.getElementById('email').focus();
             return false;
         }
-        if (document.getElementById('message').value.trim() == ""){
+        if (document.getElementById('message').value.trim() == "") {
             document.getElementById('errorMsg').innerHTML = "Please enter a message";
             document.getElementById('message').focus();
             return false;

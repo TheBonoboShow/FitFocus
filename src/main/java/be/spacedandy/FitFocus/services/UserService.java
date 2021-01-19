@@ -9,6 +9,9 @@ import be.spacedandy.FitFocus.security.WrongPasswordException;
 import be.spacedandy.FitFocus.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -172,5 +175,10 @@ public class UserService {
 
     public boolean checkIfUserExistMail(String email) {
         return userRepository.findByEmail(email) != null ? true : false;
+    }
+
+    public Page<User> findPaginated(int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber -1, pageSize);
+        return this.userRepository.findAll(pageable);
     }
 }

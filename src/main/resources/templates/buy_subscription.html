@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>FitFocus | Sessions</title>
+    <title>FitFocus | Subscriptions</title>
     <base href="/">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -36,8 +36,10 @@
                 <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
                 <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
                 <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
-                        class="currentpage" th:href="@{/sessions}">Sessions</a></li>
+                        th:href="@{/sessions}">Sessions</a></li>
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
+                <li th:if="${#authorization.expression('hasAuthority(''USER'')')}" class="currentSession"><a
+                        th:href="@{/bookSession}">My Sessions</a>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                 </li>
@@ -56,62 +58,56 @@
 
 <div class="container" style="justify-content: center; display: flex">
     <div class="adminTables">
-
-        <!--Session handler-->
         <div class="wrapper">
+            <div class="formError" style="font-size: 14px" th:if="${message != null}">
+                <p>[[${message}]]</p>
+            </div>
+            <div>
+                <p id="errorMsg" style="font-size: 14px" class="formError"></p>
+            </div>
+            <div style="display: table-header-group">
+                <h2 class="collectiontitle" style="float: left">Buy A New Subscription</h2>
+            </div>
+
+            <form th:action="@{/buySubscription}" onsubmit="return validateBuy()" method="post">
+                <select class="form-control" id="selectSubscription" name="subscriptionType" style="font-size: 14px">
+                    <option>-SELECT-</option>
+                    <option th:each="subscriptionType : ${subTypes}"
+                            th:value="${subscriptionType.id}"
+                            th:text="${subscriptionType.name} + ' - '+${subscriptionType.numberOfSessions} + ' session - '
+                            + ${subscriptionType.daysValid} + ' days valid - ' + ${subscriptionType.price} + '€'">
+                    </option>
+                </select>
+                <br>
+                <button class="btn btn-primary btn-lg btn-block" style="background-color: #e16521; border: #e16521"
+                        type="submit">Buy
+                </button>
+            </form>
+            <br>
+            <br>
+            <br>
+            <br>
 
             <div style="display: table-header-group">
-                <h2 class="collectiontitle" style="float: left">All Past Sessions</h2>
+                <h2 class="collectiontitle" style="float: left">Your Current Subscription</h2>
             </div>
 
             <table class="collectionlist">
                 <thead>
                 <tr>
-                    <th>Coach</th>
-                    <th>Sport</th>
-                    <th>Date</th>
-                    <th>Starting Time</th>
-                    <th>End Time</th>
-                    <th>Participants</th>
-                    <th>Woman Only</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Remaining Sessions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="Session:${sessions}">
-                    <td th:text="${Session.coach}"></td>
-                    <td th:text="${Session.sport}"></td>
-                    <td th:text="${Session.date}"></td>
-                    <td th:text="${Session.startingHour}"></td>
-                    <td th:text="${Session.endHour}"></td>
-                    <td th:text="${Session.participants.size()}"></td>
-                    <td><input type="checkbox" th:checked="${Session.onlyFemales}" disabled="true" class="css-checkbox"
-                               id="nlfmls"><label for="nlfmls" name="checkbox1_lbl"
-                                                  class="css-label lite-red-check"></label></td>
+                <tr>
+                    <td th:text="${user.startDate}"></td>
+                    <td th:text="${user.endDate}"></td>
+                    <td th:text="${user.remainingSessions}"></td>
                 </tr>
                 </tbody>
             </table>
-
-            <div th:if="${totalPages > 1}" style="display: block; font-size: 14px;">
-                <div class="row col-sm-10">
-                    <div class="col-sm-3">
-                        Total Sessions: [[${totalItems}]]
-                    </div>
-                    <div class="col-sm-3" style="display:block">
-                        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                            <a th:if="${currentPage != i}" th:href="@{'/pageS/' + ${i}}">[[${i}]]</a>
-                            <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-                        </span>
-                    </div>
-                    <div class="col-sm-1" style="display: block">
-                        <a th:if="${currentPage > 1}" th:href="@{'/pageS/' + ${currentPage -1}}">Prev</a>
-                        <span th:unless="${currentPage > 1}">Prev</span>
-                    </div>
-                    <div class="col-sm-1" style="display: block">
-                        <a th:if="${currentPage < totalPages}" th:href="@{'/pageS/' + ${currentPage +1}}">Next</a>
-                        <span th:unless="${currentPage < totalPages}">Next</span>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>
@@ -128,6 +124,18 @@
             $('.nav').removeClass('affix');
         }
     });
+
+    function validateBuy() {
+        if (document.getElementById('selectSubscription').value.trim() == "-SELECT-") {
+            document.getElementById('errorMsg').innerHTML = "Please select a subscription";
+            document.getElementById('selectSubscription').focus();
+            return false;
+        }
+    }
+
+    if (document.getElementById('subName').value.trim() == "") {
+        document.getElementById('subName').innerHTML = "Trial";
+    }
 
 </script>
 

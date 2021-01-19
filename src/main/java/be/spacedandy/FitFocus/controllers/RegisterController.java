@@ -55,8 +55,8 @@ public class RegisterController {
             model.addAttribute("user", user);
             return "register_form";
         }
-        Thread.sleep(4000);
-        return "index";
+        model.addAttribute("message", "To complete your registration, please check your mails");
+        return "login";
     }
 
     @GetMapping("/verify")

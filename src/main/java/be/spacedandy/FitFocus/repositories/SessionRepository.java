@@ -3,6 +3,8 @@ package be.spacedandy.FitFocus.repositories;
 import be.spacedandy.FitFocus.models.Session;
 import be.spacedandy.FitFocus.models.Sport;
 import be.spacedandy.FitFocus.models.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +28,11 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
     List<Session> findAllByDate (String date);
 
     List<Session> findAllByOrderByDateAsc ();
+
+    Page<Session> findByDateIsAfterOrderByDateAsc(String date, Pageable pageable);
+
+    Page<Session> findByDateIsBeforeOrderByDateDesc (String date, Pageable pageable);
+
 
     @Query(value = "SELECT session_id FROM session_participants_join WHERE user_id = ?1", nativeQuery = true)
     List<Integer> findSessionsByUserid(int userid);

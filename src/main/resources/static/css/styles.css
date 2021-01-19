@@ -175,6 +175,119 @@ body {
     background-color: green;
 }
 
+/*Login and Register Page*/
+.credentialsWrapper {
+    font-family: "Oswald", sans-serif;
+    margin-top: 200px;
+    color: #19191a;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    padding-left: 5rem;
+    padding-right: 5rem;
+}
+
+.formError{
+    color: #a72c18;
+}
+
+.pageHeader {
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.pageSubHeader {
+    font-size: 16px;
+    letter-spacing: 1px;
+    display: flex;
+}
+
+.formWrapper {
+    font-size: 16px;
+    display: block;
+}
+
+.inputWrapper {
+    display: block;
+    padding-bottom: 12px;
+}
+
+.labelHeader {
+    display: block;
+    padding-bottom: 5px;
+}
+
+.inputField {
+    padding: 5px 0px 5px 5px;
+    display: block;
+    width: 100%;
+}
+
+.loginBtn{
+    color: #fff;
+    background-color: #e16521;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    font-weight: 700;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    transition: all .1s ease-in-out;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.loginBtn:hover{
+    cursor: pointer;
+    border-color: #212122;
+}
+
+.forgotPasswordLink {
+    float: left;
+}
+
+.registerLink {
+    float: right;
+}
+
+.registerLink, .forgotPasswordLink{
+    text-decoration: none;
+    display: block;
+}
+
+.registerLink:hover, .forgotPasswordLink:hover{
+    text-decoration: underline;
+}
+
+.logoContact{
+    height: 16px;
+    padding-right: 10px;
+    margin-top: 5px;
+}
+
+.priceBtn{
+    color: #fff;
+    background-color: #e16521;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    font-weight: 700;
+    border-radius: 2px;
+    border: 0px;
+    transition: all .1s ease-in-out;
+    padding: 15px 35px;
+    margin-top: 25px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.priceBtn:hover{
+    cursor: pointer;
+    background-color: #e4381C;
+    font-weight: bold;
+}
 
 /* Home section */
 
@@ -650,83 +763,90 @@ input[type=checkbox].css-checkbox {
     position: absolute;
     overflow: hidden;
     clip: rect(0 0 0 0);
-    height:1px;
-    width:1px;
-    margin:-1px;
-    padding:0;
-    border:0;
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
 }
 
 input[type=checkbox].css-checkbox + label.css-label {
-    padding-left:20px;
-    height:15px;
-    display:inline-block;
-    line-height:15px;
-    background-repeat:no-repeat;
+    padding-left: 20px;
+    height: 15px;
+    display: inline-block;
+    line-height: 15px;
+    background-repeat: no-repeat;
     background-position: 0 0;
-    font-size:15px;
-    vertical-align:middle;
-    cursor:pointer;
+    font-size: 15px;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
 input[type=checkbox].css-checkbox:checked + label.css-label {
     background-position: 0 -15px;
 }
 
-.css-label{
-    background-image:url(http://csscheckbox.com/checkboxes/dark-check-green.png);
+.css-label {
+    background-image: url(http://csscheckbox.com/checkboxes/dark-check-green.png);
 }
 
 /*specific classes related to Checkbox skins*/
 
-.lite-green-check{background-image:url(http://csscheckbox.com/checkboxes/lite-green-check.png);}
-.lite-red-check{background-image:url(http://csscheckbox.com/checkboxes/lite-red-check.png);}
+.lite-green-check {
+    background-image: url(http://csscheckbox.com/checkboxes/lite-green-check.png);
+}
+
+.lite-red-check {
+    background-image: url(http://csscheckbox.com/checkboxes/lite-red-check.png);
+}
 
 input[type=checkbox].css-checkbox.med + label.css-label.med {
-    padding-left:22px;
-    height:17px;
-    display:inline-block;
-    line-height:17px;
-    background-repeat:no-repeat;
+    padding-left: 22px;
+    height: 17px;
+    display: inline-block;
+    line-height: 17px;
+    background-repeat: no-repeat;
     background-position: 0 0;
-    font-size:15px;
-    vertical-align:middle;
-    cursor:pointer;
+    font-size: 15px;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
 input[type=checkbox].css-checkbox.med:checked + label.css-label.med {
 
     background-position: 0 -17px;
 }
+
 input[type=checkbox].css-checkbox.sme + label.css-label.sme {
-    padding-left:22px;
-    height:16px;
-    display:inline-block;
-    line-height:16px;
-    background-repeat:no-repeat;
+    padding-left: 22px;
+    height: 16px;
+    display: inline-block;
+    line-height: 16px;
+    background-repeat: no-repeat;
     background-position: 0 0;
-    font-size:15px;
-    vertical-align:middle;
-    cursor:pointer;
+    font-size: 15px;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
-input[type=checkbox].css-checkbox.sme:checked + label.css-label.sme{
+input[type=checkbox].css-checkbox.sme:checked + label.css-label.sme {
 
     background-position: 0 -16px;
 }
+
 input[type=checkbox].css-checkbox.lrg + label.css-label.lrg {
-    padding-left:22px;
-    height:20px;
-    display:inline-block;
-    line-height:20px;
-    background-repeat:no-repeat;
+    padding-left: 22px;
+    height: 20px;
+    display: inline-block;
+    line-height: 20px;
+    background-repeat: no-repeat;
     background-position: 0 0;
-    font-size:15px;
-    vertical-align:middle;
-    cursor:pointer;
+    font-size: 15px;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
-input[type=checkbox].css-checkbox.lrg:checked + label.css-label.lrg{
+input[type=checkbox].css-checkbox.lrg:checked + label.css-label.lrg {
 
     background-position: 0 -20px;
 }
@@ -743,8 +863,8 @@ input[type=checkbox].css-checkbox.lrg:checked + label.css-label.lrg{
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
     flex-direction: column;
 }
 
@@ -776,22 +896,22 @@ input[type=checkbox].css-checkbox.lrg:checked + label.css-label.lrg{
     cursor: pointer;
 }
 
-.eventModalSidebar{
+.eventModalSidebar {
     width: 49%;
     background-size: cover;
 }
 
-.eventModalMain{
+.eventModalMain {
     width: 49%;
     padding: 30px;
     font-size: 12px;
 }
 
-.eventModalMain p{
+.eventModalMain p {
     line-height: 2;
 }
 
-.eventModalMain h2{
+.eventModalMain h2 {
     padding-top: 0px;
     padding-bottom: 5px;
 }

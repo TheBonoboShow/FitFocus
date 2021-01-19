@@ -6,7 +6,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>FitFocus | Sessions</title>
-
+    <base href="/">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -56,10 +56,12 @@
 
 <div class="container" style="justify-content: center; display: flex">
     <div class="adminTables">
-
         <!--Session handler-->
         <div class="wrapper">
 
+            <div class="formError" style="font-size: 16px; padding-bottom: 12px" th:if="${message != null}">
+                <p>[[${message}]]</p>
+            </div>
             <div style="display: table-header-group">
                 <h2 class="collectiontitle" style="float: left">All Sessions</h2>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSession"
@@ -88,7 +90,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="informationAdd" class="col-form-label">Information</label>
-                                    <textarea cols="40" rows="5" class="form-control" id="informationAdd" name="information"></textarea>
+                                    <textarea cols="40" rows="5" class="form-control" id="informationAdd"
+                                              name="information"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="sportidAdd" class="col-form-label">Sport</label>
@@ -114,7 +117,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="maxParticipantsAdd" class="col-form-label">Maximum Participants</label>
-                                    <input type="number" class="form-control" id="maxParticipantsAdd" name="maxParticipants">
+                                    <input type="number" class="form-control" id="maxParticipantsAdd"
+                                           name="maxParticipants">
                                 </div>
                                 <div class="form-group">
                                     <label for="onlyFemalesAdd" class="col-form-label">Woman Only</label>
@@ -155,7 +159,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="informationEdit" class="col-form-label">Information</label>
-                                    <textarea cols="40" rows="5" class="form-control" id="informationEdit" name="information"></textarea>
+                                    <textarea cols="40" rows="5" class="form-control" id="informationEdit"
+                                              name="information"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="sportEdit" class="col-form-label">Sport</label>
@@ -276,7 +281,7 @@
                     <th>End Time</th>
                     <th>Max Participants</th>
                     <th>Woman Only</th>
-                    <th colspan="2">Actions</th>
+                    <th colspan="3">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -287,16 +292,41 @@
                     <td th:text="${Session.startingHour}"></td>
                     <td th:text="${Session.endHour}"></td>
                     <td th:text="${Session.maxParticipants}"></td>
-                    <td> <input type="checkbox" th:checked="${Session.onlyFemales}" disabled="true" class="css-checkbox" id="nlfmls"><label for="nlfmls" name="checkbox1_lbl"
-                                                                                                                               class="css-label lite-red-check"></label></td>
+                    <td><input type="checkbox" th:checked="${Session.onlyFemales}" disabled="true" class="css-checkbox"
+                               id="nlfmls"><label for="nlfmls" name="checkbox1_lbl"
+                                                  class="css-label lite-red-check"></label></td>
                     <td><a th:href="@{/sessions/findById/(id=${Session.id})}" onclick="check()" class="btn btn-warning"
                            id="editSession">Edit</a>
                     </td>
                     <td><a th:href="@{/sessions/findById/(id=${Session.id})}" class="btn btn-danger" id="deleteSession">Delete</a>
                     </td>
+                    <td><a th:href="@{/sessions/findById/(id=${Session.id})}" class="btn btn-primary" id="cloneSession">Clone</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
+            <div th:if="${totalPages > 1}" style="display: block; font-size: 14px;">
+                <div class="row col-sm-10">
+                    <div class="col-sm-3">
+                        Total Sessions: [[${totalItems}]]
+                    </div>
+                    <div class="col-sm-3" style="display:block">
+                        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                            <a th:if="${currentPage != i}" th:href="@{'/pages/' + ${i}}">[[${i}]]</a>
+                            <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                        </span>
+                    </div>
+                    <div class="col-sm-1" style="display: block">
+                        <a th:if="${currentPage > 1}" th:href="@{'/pages/' + ${currentPage -1}}">Prev</a>
+                        <span th:unless="${currentPage > 1}">Prev</span>
+                    </div>
+                    <div class="col-sm-1" style="display: block">
+                        <a th:if="${currentPage < totalPages}" th:href="@{'/pages/' + ${currentPage +1}}">Next</a>
+                        <span th:unless="${currentPage < totalPages}">Next</span>
+                    </div>
+                </div>
+            </div>
+
             <br>
             <a class="btn btn-primary" th:href="@{sessions/past}">View all past events</a>
         </div>
@@ -343,7 +373,7 @@
             return false;
         }
 
-        if (document.getElementById('startingHourAdd').value.trim() < "08:00" ) {
+        if (document.getElementById('startingHourAdd').value.trim() < "08:00") {
             document.getElementById('errorDiv1').innerHTML = "The starting hour cannot be before 08:00";
             document.getElementById('startingHourAdd').focus();
             return false;
@@ -355,15 +385,14 @@
             return false;
         }
 
-        if (document.getElementById('startingHourAdd').value.trim() > "23:30" ) {
+        if (document.getElementById('startingHourAdd').value.trim() > "23:30") {
             document.getElementById('errorDiv1').innerHTML = "The end hour cannot be after 23:30";
             document.getElementById('startingHourAdd').focus();
             return false;
         }
 
 
-
-        if (!(document.getElementById('endHourAdd').value > document.getElementById('startingHourAdd').value )){
+        if (!(document.getElementById('endHourAdd').value > document.getElementById('startingHourAdd').value)) {
             document.getElementById('errorDiv1').innerHTML = "The end cannot be before the start";
             return false;
         }
@@ -372,7 +401,7 @@
         var date2 = new Date(document.getElementById('dateAdd').value.trim());
         date2.setDate(date2.getDate() + 1)
 
-        if (date2 < date1){
+        if (date2 < date1) {
             document.getElementById('errorDiv1').innerHTML = "The session cannot be in the past";
             return false;
         }
@@ -382,7 +411,7 @@
         var endh = document.getElementById('endHourAdd').value.trim().substr(0, 2)
         var endm = document.getElementById('endHourAdd').value.trim().substr(3, 5)
 
-        if ((h == endh && parseInt(m)+30 > endm) || (parseInt(h)+1 == endh && parseInt(m)-30 > endm )) {
+        if ((h == endh && parseInt(m) + 30 > endm) || (parseInt(h) + 1 == endh && parseInt(m) - 30 > endm)) {
             document.getElementById('errorDiv1').innerHTML = "The session must be at least 30min long";
             return false;
         }
@@ -438,7 +467,7 @@
             return false;
         }
 
-        if (!(document.getElementById('endHourEdit').value > document.getElementById('startingHourEdit').value )){
+        if (!(document.getElementById('endHourEdit').value > document.getElementById('startingHourEdit').value)) {
             document.getElementById('errorDiv2').innerHTML = "The end cannot be before the start";
             return false;
         }

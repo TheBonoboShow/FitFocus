@@ -36,3 +36,21 @@ $('table #deleteSession').on('click', function (event){
 
     $('#deleteModalSession').modal();
 })
+
+$('table #cloneSession').on('click', function (event){
+    event.preventDefault();
+
+    var href = $(this).attr('href');
+
+    $.get(href, function(Session, status){
+        $('#informationAdd').val(Session.information);
+        $('#sportidAdd').val(Session.sportid);
+        $('#dateAdd').val(Session.date);
+        $('#startingHourAdd').val(Session.startingHour);
+        $('#endHourAdd').val(Session.endHour);
+        $('#maxParticipantsAdd').val(Session.maxParticipants);
+        $('#onlyFemalesAdd').prop('checked', Session.onlyFemales);
+    });
+
+    $('#addModalSession').modal();
+})

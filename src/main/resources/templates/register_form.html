@@ -45,53 +45,40 @@
     </div>
 </nav>
 
-<div class="register-box" style="margin-top: 200px">
-    <div class="card">
-        <div class="card-body register-card-body">
-            <p class="login-box-msg" id="errorMsg">Register a new account</p>
-            <p class="login-box-msg" id="errorMsg2"></p>
 
-            <form th:action="@{/register}" th:object="${user}" method="post" onsubmit="return validateForm()">
-                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                    <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" th:field="*{username}" placeholder="Username"
-                           th:errorclass="is-invalid" id="username">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="email" class="form-control" th:field="*{email}" placeholder="Email"
-                           th:errorclass="is-invalid" id="email">
+<div class="credentialsWrapper">
+    <h2 class="pageHeader">Register a new account</h2>
+    <div class="formWrapper">
+        <form th:action="@{/register}" th:object="${user}" method="post" onsubmit="return validateForm()">
+            <div class="inputWrapper">
+                <label for="username" class="labelHeader">Username</label>
+                <input class="inputField" type="text" th:field="*{username}" placeholder="Username"
+                       th:errorclass="is-invalid" id="username">
+            </div>
+            <div class="inputWrapper">
+                <label for="email" class="labelHeader">Email</label>
+                <input class="inputField" type="email" th:field="*{email}" placeholder="Email"
+                       th:errorclass="is-invalid" id="email">
+            </div>
+            <div class="inputWrapper">
+                <label for="password" class="labelHeader">Password</label>
+                <input class="inputField" type="password" th:field="*{password}" placeholder="Password"
+                th:errorclass="is-invalid" id="password">
+            </div>
+            <div class="inputWrapper">
+                <label for="confirmPassword" class="labelHeader">Confirm Password</label>
+                <input class="inputField" type="password" placeholder="Confirm Password" id="confirmPassword">
+            </div>
+            <div class="formError" th:if="${#fields.hasErrors('*')}">
+                <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+            </div>
+            <div class="formError" id="errorMsg"></div>
+            <div class="formError" id="errorMsg2"></div>
+            <button type="submit" class="loginBtn">Register</button>
 
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="password" class="form-control" th:field="*{password}" placeholder="Password"
-                           th:errorclass="is-invalid" id="password">
-
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
-                        </div>
-                    </div>
-                </div>
-                <input type="password" class="form-control" placeholder="Confirm Password" id="confirmPassword"> <br>
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
-            </form>
-        </div>
+        </form>
     </div>
-    <!-- /.form-box -->
-</div> <!-- /.card -->
-
+</div>
 
 <script src="js/register.js"></script>
 <script>
@@ -104,11 +91,6 @@
         }
     });
 
-    function validateForm() {
-
-        document.getElementById('errorMsg').innerHTML = "To complete your registration, please check your mails";
-        document.getElementById('errorMsg2').innerHTML = "You will be redirected to the homepage shortly";
-    }
 </script>
 </body>
 </html>

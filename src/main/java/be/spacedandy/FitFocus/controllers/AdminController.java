@@ -5,6 +5,7 @@ import be.spacedandy.FitFocus.security.EmailAlreadyExistException;
 import be.spacedandy.FitFocus.security.UserAlreadyExistException;
 import be.spacedandy.FitFocus.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,13 +27,31 @@ public class AdminController {
     SubscriptionTypeService subscriptionTypeService;
     @Autowired
     RegisterService registerService;
-
     @Autowired
     SessionService sessionService;
 
     @GetMapping("/admin")
     public String getAdmin(Model model){
-        expandModel(model);
+        return findPaginated(1, model);
+    }
+
+    @GetMapping("/page/{pageNumber}")
+    public String findPaginated(@PathVariable(value = "pageNumber") int pageNumber, Model model){
+        int pageSize = 10;
+
+        Page<User> page = userService.findPaginated(pageNumber, pageSize);
+        List<User> users = page.getContent();
+
+        model.addAttribute("currentPage" , pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("users", users);
+        List<Role> roleList = roleService.getRoles();
+        model.addAttribute("roles", roleList);
+        List<Sport> sportList = sportService.getSports();
+        model.addAttribute("sports", sportList);
+        List<SubscriptionType> subscriptionTypeList = subscriptionTypeService.getSubscriptionTypes();
+        model.addAttribute("subTypes", subscriptionTypeList);
         return "admin";
     }
 

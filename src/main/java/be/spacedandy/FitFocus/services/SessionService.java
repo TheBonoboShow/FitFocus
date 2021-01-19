@@ -9,6 +9,10 @@ import be.spacedandy.FitFocus.security.NoSessionsLeftException;
 import be.spacedandy.FitFocus.security.SessionOverlapException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -133,8 +138,21 @@ public class SessionService {
     }
 
     private boolean checkSessionOverlap(Session session) {
-        //todo implement
+        List<Session> sessions = getSessionsByDate(session.getDate());
+        LocalTime startTime1 = LocalTime.parse(session.getStartingHour());
+        LocalTime endTime1 = LocalTime.parse(session.getEndHour());
+        for (Session s : sessions){
+            LocalTime startTime2 = LocalTime.parse(s.getStartingHour());
+            LocalTime endTime2 = LocalTime.parse(s.getEndHour());
+            if (startTime1.isBefore(endTime2) && startTime2.isBefore(endTime1)){
+                return false;
+            }
+        }
         return true;
+    }
+
+    private List<Session> getSessionsByDate(String date){
+        return sessionRepository.findAllByDate(date);
     }
 
     public Session findById(int id){
@@ -190,5 +208,15 @@ public class SessionService {
         sessionRepository.deleteUserSession(id, user.getId());
         user.setRemainingSessions(user.getRemainingSessions()+1);
         userRepository.save(user);
+    }
+
+    public Page<Session> findPaginated(int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber -1, pageSize);
+        return this.sessionRepository.findByDateIsAfterOrderByDateAsc(LocalDate.now().minusDays(1).toString(), pageable);
+    }
+
+    public Page<Session> findPaginatedPast(int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber -1, pageSize);
+        return this.sessionRepository.findByDateIsBeforeOrderByDateDesc(LocalDate.now().toString(), pageable);
     }
 }

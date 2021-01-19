@@ -1,9 +1,6 @@
 package be.spacedandy.FitFocus.controllers;
 
-import be.spacedandy.FitFocus.models.Session;
-import be.spacedandy.FitFocus.models.Sport;
-import be.spacedandy.FitFocus.models.User;
-import be.spacedandy.FitFocus.models.UserPrincipal;
+import be.spacedandy.FitFocus.models.*;
 import be.spacedandy.FitFocus.security.NoSessionsLeftException;
 import be.spacedandy.FitFocus.security.NoValidSubscriptionException;
 import be.spacedandy.FitFocus.security.SessionOverlapException;
@@ -11,6 +8,7 @@ import be.spacedandy.FitFocus.services.SessionService;
 import be.spacedandy.FitFocus.services.SportService;
 import be.spacedandy.FitFocus.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,13 +34,25 @@ public class SessionController {
 
     @GetMapping("/sessions")
     public String getSessions(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        List<Session> sessionList = sessionService.getFutureSessions();
-        model.addAttribute("sessions", sessionList);
+        User user = userService.findByUsername(userPrincipal.getUsername());
+        return findPaginatedSession(1, model, user);
+    }
+
+    @GetMapping("/pages/{pageNumber}")
+    public String findPaginatedSession(@PathVariable(value = "pageNumber") int pageNumber, Model model, User user){
+        int pageSize = 15;
+
+        Page<Session> page = sessionService.findPaginated(pageNumber, pageSize);
+        List<Session> sessions = page.getContent();
+
+        model.addAttribute("currentPage" , pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("sessions", sessions);
         List<Sport> sportsList = sportService.getSports();
         model.addAttribute("sports", sportsList);
         List<User> userList = userService.getUsers();
         model.addAttribute("users", userList);
-        User user = userService.findByUsername(userPrincipal.getUsername());
         model.addAttribute("user", user);
         return "session";
     }
@@ -60,15 +70,9 @@ public class SessionController {
         }
         catch (SessionOverlapException e){
             model.addAttribute("message","Sessions cannot overlap, please pick another timeslot");
-            List<Session> sessionList = sessionService.getFutureSessions();
-            model.addAttribute("sessions", sessionList);
-            List<Sport> sportsList = sportService.getSports();
-            model.addAttribute("sports", sportsList);
-            List<User> userList = userService.getUsers();
-            model.addAttribute("users", userList);
             User user = userService.findByUsername(userPrincipal.getUsername());
-            model.addAttribute("user", user);
-            return "session";
+            return findPaginatedSession(1, model, user);
+
         }
         return "redirect:/sessions";
     }
@@ -138,15 +142,25 @@ public class SessionController {
     }
 
     @GetMapping("/sessions/past")
-    public String getSessionsPast(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
-        List<Session> sessionList = sessionService.getPastSessions();
-        model.addAttribute("sessions", sessionList);
+    public String getSessionsPast(Model model){
+        return findPaginatedSessionPast(1, model);
+    }
+
+    @GetMapping("/pageS/{pageNumber}")
+    public String findPaginatedSessionPast(@PathVariable(value = "pageNumber") int pageNumber, Model model){
+        int pageSize = 15;
+
+        Page<Session> page = sessionService.findPaginatedPast(pageNumber, pageSize);
+        List<Session> sessions = page.getContent();
+
+        model.addAttribute("currentPage" , pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("sessions", sessions);
         List<Sport> sportsList = sportService.getSports();
         model.addAttribute("sports", sportsList);
         List<User> userList = userService.getUsers();
         model.addAttribute("users", userList);
-        User user = userService.findByUsername(userPrincipal.getUsername());
-        model.addAttribute("user", user);
         return "session_past";
     }
 }

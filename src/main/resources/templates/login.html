@@ -45,25 +45,40 @@
     </div>
 </nav>
 
-<form style="margin-top: 200px" th:action="@{/login}" method="post">
-    <h2>Login:</h2>
-    <div th:if="${param.error}">
-        <p class="alert alert-danger" id="errorMsg">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+<div class="credentialsWrapper">
+    <h2 class="pageHeader">Log In to FitFocus</h2>
+    <div class="formWrapper">
+        <form th:action="@{/login}" method="post">
+            <div class="inputWrapper">
+                <label for="username" class="labelHeader">Username</label>
+                <input type="text" placeholder="username" name="username" id="username" class="inputField">
+            </div>
+            <div class="inputWrapper">
+                <label for="password" class="labelHeader">Password</label>
+                <input type="password" placeholder="password" name="password" id="password" class="inputField">
+            </div>
+            <div th:if="${param.error}">
+                <p class="formError" id="errorMsg">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+            </div>
+            <div class="formError" style="width: auto" th:if="${message != null}">
+                <p>[[${message}]]</p>
+            </div>
+            <div class="formError" style="width: auto" th:if="${message2 != null}">
+                <p>[[${message2}]]</p>
+            </div>
+            <div th:if="${param.logout}">
+                <p class="formError" id="errorMsg2">You have been logged out</p>
+            </div>
+            <a th:href="@{/secret}" class="forgotPasswordLink">Forgot your password?</a>
+            <button type="submit" class="loginBtn">Login</button>
+            <a th:href="@{/register}" class="registerLink">Not a member yet? <b>Register for free</b></a>
+
+        </form>
     </div>
-    <div class="alert alert-danger" style="width: auto" th:if="${message != null}">
-        <p>[[${message}]]</p>
-    </div>
-    <div th:if="${param.logout}">
-        <p class="alert alert-danger" id="errorMsg2">You have been logged out</p>
-    </div>
-    <input type="text" placeholder="username" name="username">
-    <input type="password" placeholder="password" name="password">
-    <button type="submit">Login</button>
-    <p><a th:href="@{/secret}">Forgot your password?</a></p>
-</form>
+</div>
 
 <script>
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         if ($(document).scrollTop() > 50) {
             $('.nav').addClass('affix');
             console.log("OK");

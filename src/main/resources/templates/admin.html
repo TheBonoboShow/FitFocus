@@ -37,7 +37,8 @@
                 <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
                 <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                         th:href="@{/sessions}">Sessions</a></li>
-                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a class="currentpage" th:href="@{/admin}">Admin</a>
+                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a class="currentpage"
+                                                                                       th:href="@{/admin}">Admin</a>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                 </li>
@@ -618,7 +619,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="reservedSessions" class="col-form-label"></label>
-                                    <input type="text" class="form-control" id="reservedSessions" name="reservedSessions"
+                                    <input type="text" class="form-control" id="reservedSessions"
+                                           name="reservedSessions"
                                            hidden>
                                 </div>
 
@@ -697,9 +699,29 @@
                 </tr>
                 </tbody>
             </table>
+            <div th:if="${totalPages > 1}" style="display: block; font-size: 14px;">
+                <div class="row col-sm-10">
+                    <div class="col-sm-3">
+                        Total Users: [[${totalItems}]]
+                    </div>
+                    <div class="col-sm-3" style="display:block">
+                        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                            <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+                            <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                        </span>
+                    </div>
+                    <div class="col-sm-1" style="display: block">
+                        <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage -1}}">Prev</a>
+                        <span th:unless="${currentPage > 1}">Prev</span>
+                    </div>
+                    <div class="col-sm-1" style="display: block">
+                        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage +1}}">Next</a>
+                        <span th:unless="${currentPage < totalPages}">Next</span>
+                    </div>
+                </div>
+            </div>
 
-
-            <a th:href="@{/admin/sendPromo}">PRESS ME</a>
+            <a th:href="@{/admin/sendPromo}" class="priceBtn" style="margin-bottom: 100px; margin-top: 50px">Send Promo Mail</a>
         </div>
     </div>
 </div>
