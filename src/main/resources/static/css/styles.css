@@ -242,6 +242,8 @@ body {
 .loginBtn:hover{
     cursor: pointer;
     border-color: #212122;
+    color: white;
+    text-decoration: none;
 }
 
 .forgotPasswordLink {
@@ -287,6 +289,17 @@ body {
     cursor: pointer;
     background-color: #e4381C;
     font-weight: bold;
+}
+
+.hide {
+    display: none;
+    font-size: 9px;
+}
+
+.tip:hover + .hide {
+    display: block;
+    color: #e4381C;
+    padding-top: 5px;
 }
 
 /* Home section */

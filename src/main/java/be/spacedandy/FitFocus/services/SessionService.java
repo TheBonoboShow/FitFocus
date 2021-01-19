@@ -97,13 +97,17 @@ public class SessionService {
         return users;
     }
 
+    public Integer findUserAmountBySessionId (int sessionid){
+        return sessionRepository.findUserAmountBySessionId(sessionid);
+    }
+
     public List<Session> getNonBookedSessions(User user){
         List<Session> sessions = getFutureSessions();
         List<Session> full = new ArrayList<>();
         List<Session> sessionsUser = getUserSessions(user);
         //removes sessions with no free spots
         for (Session s : sessions){
-            if (s.getMaxParticipants() - findUsersBySessionId(s.getId()).size() <= 0){
+            if (s.getMaxParticipants() - findUserAmountBySessionId(s.getId()) <= 0){
                 full.add(s);
             }
         }
@@ -218,5 +222,15 @@ public class SessionService {
     public Page<Session> findPaginatedPast(int pageNumber, int pageSize){
         Pageable pageable = PageRequest.of(pageNumber -1, pageSize);
         return this.sessionRepository.findByDateIsBeforeOrderByDateDesc(LocalDate.now().toString(), pageable);
+    }
+
+    public Page<Session> findByDateRange(String startDate, String endDate,int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber -1, pageSize);
+        return sessionRepository.findByDateRange(startDate, endDate,LocalDate.now().toString(), pageable);
+    }
+
+    public Page<Session> findByDateRangePast(String startDate, String endDate,int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber -1, pageSize);
+        return sessionRepository.findByDateRangePast(startDate, endDate,LocalDate.now().toString(), pageable);
     }
 }

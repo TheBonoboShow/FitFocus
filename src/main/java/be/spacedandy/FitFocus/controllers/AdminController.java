@@ -1,6 +1,9 @@
 package be.spacedandy.FitFocus.controllers;
 
-import be.spacedandy.FitFocus.models.*;
+import be.spacedandy.FitFocus.models.Role;
+import be.spacedandy.FitFocus.models.Sport;
+import be.spacedandy.FitFocus.models.SubscriptionType;
+import be.spacedandy.FitFocus.models.User;
 import be.spacedandy.FitFocus.security.EmailAlreadyExistException;
 import be.spacedandy.FitFocus.security.UserAlreadyExistException;
 import be.spacedandy.FitFocus.services.*;
@@ -31,50 +34,54 @@ public class AdminController {
     SessionService sessionService;
 
     @GetMapping("/admin")
-    public String getAdmin(Model model){
-        return findPaginated(1, model);
+    public String getAdmin(Model model, String keyword) {
+        return findPaginated(1, model, keyword);
     }
 
     @GetMapping("/page/{pageNumber}")
-    public String findPaginated(@PathVariable(value = "pageNumber") int pageNumber, Model model){
+    public String findPaginated(@PathVariable(value = "pageNumber") int pageNumber, Model model, String keyword) {
         int pageSize = 10;
-
-        Page<User> page = userService.findPaginated(pageNumber, pageSize);
+        Page<User> page;
+        if (keyword != null) {
+            page = userService.findByKeyword(keyword, pageNumber, pageSize);
+        } else {
+            page = userService.findPaginated(pageNumber, pageSize);
+        }
         List<User> users = page.getContent();
-
-        model.addAttribute("currentPage" , pageNumber);
+        model.addAttribute("users", users);
+        model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("users", users);
         List<Role> roleList = roleService.getRoles();
         model.addAttribute("roles", roleList);
         List<Sport> sportList = sportService.getSports();
         model.addAttribute("sports", sportList);
         List<SubscriptionType> subscriptionTypeList = subscriptionTypeService.getSubscriptionTypes();
         model.addAttribute("subTypes", subscriptionTypeList);
+        model.addAttribute("keyword", keyword);
         return "admin";
     }
 
     // all edit functions
-    @RequestMapping(value="/admin/updateSport", method= {RequestMethod.PUT, RequestMethod.GET})
+    @RequestMapping(value = "/admin/updateSport", method = {RequestMethod.PUT, RequestMethod.GET})
     public String update(Sport sport) {
         sportService.save(sport);
         return "redirect:/admin";
     }
 
-    @RequestMapping(value="/admin/updateRole", method= {RequestMethod.PUT, RequestMethod.GET})
+    @RequestMapping(value = "/admin/updateRole", method = {RequestMethod.PUT, RequestMethod.GET})
     public String update(Role role) {
         roleService.save(role);
         return "redirect:/admin";
     }
 
-    @RequestMapping(value="/admin/updateSubscriptionType", method= {RequestMethod.PUT, RequestMethod.GET})
+    @RequestMapping(value = "/admin/updateSubscriptionType", method = {RequestMethod.PUT, RequestMethod.GET})
     public String update(SubscriptionType subscriptionType) {
         subscriptionTypeService.save(subscriptionType);
         return "redirect:/admin";
     }
 
-    @RequestMapping(value="/admin/updateUser", method= {RequestMethod.PUT, RequestMethod.GET})
+    @RequestMapping(value = "/admin/updateUser", method = {RequestMethod.PUT, RequestMethod.GET})
     public String update(User user) {
         user.setReservedSessions(sessionService.getUserSessions(userService.findById(user.getId())));
         userService.saveAdmin(user);
@@ -83,19 +90,19 @@ public class AdminController {
 
     // all create new functions
     @PostMapping("/admin/addNewSport")
-    public String addNew(Sport sport){
+    public String addNew(Sport sport) {
         sportService.save(sport);
         return "redirect:/admin";
     }
 
     @PostMapping("/admin/addNewRole")
-    public String addNew(Role role){
+    public String addNew(Role role) {
         roleService.save(role);
         return "redirect:/admin";
     }
 
     @PostMapping("/admin/addNewSubscriptionType")
-    public String addNew(SubscriptionType subscriptionType){
+    public String addNew(SubscriptionType subscriptionType) {
         subscriptionTypeService.save(subscriptionType);
         return "redirect:/admin";
     }
@@ -104,20 +111,18 @@ public class AdminController {
     public String addNew(User user, Model model) {
         try {
             registerService.register(user);
-            String url = "http://localhost:8080/verify?token=" ;
+            String url = "http://localhost:8080/verify?token=";
             url += user.getVerificationToken();
             registerService.sendVerificationEmail(user, url);
-        }catch (UserAlreadyExistException e){
+        } catch (UserAlreadyExistException e) {
             expandModel(model);
             model.addAttribute("message", "This username already exists");
             return "admin";
-        }
-        catch (EmailAlreadyExistException e){
+        } catch (EmailAlreadyExistException e) {
             expandModel(model);
             model.addAttribute("message", "This email already exists");
             return "admin";
-        }
-        catch (UnsupportedEncodingException | MessagingException e){
+        } catch (UnsupportedEncodingException | MessagingException e) {
             model.addAttribute("user", user);
             return "admin";
         }
@@ -127,54 +132,54 @@ public class AdminController {
     // all find functions
     @RequestMapping("/admin/findSubscriptionType")
     @ResponseBody
-    public Optional<SubscriptionType> findSubscriptionTypeById(int id){
+    public Optional<SubscriptionType> findSubscriptionTypeById(int id) {
         return subscriptionTypeService.findById(id);
     }
 
     @RequestMapping("/admin/findSport")
     @ResponseBody
-    public Optional<Sport> findSportById(int id){
+    public Optional<Sport> findSportById(int id) {
         return sportService.findById(id);
     }
 
     @RequestMapping("/admin/findUser")
     @ResponseBody
-    public User findUserById(int id){
+    public User findUserById(int id) {
         return userService.findById(id);
     }
 
     @RequestMapping("/admin/findRole")
     @ResponseBody
-    public Optional<Role> findRoleById(int id){
+    public Optional<Role> findRoleById(int id) {
         return roleService.findById(id);
     }
 
     // all delete functions
     @RequestMapping(value = "/admin/deleteSport", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String deleteSport(Integer id){
+    public String deleteSport(Integer id) {
         sportService.delete(id);
         return "redirect:/admin";
     }
 
     @RequestMapping(value = "/admin/deleteSubscriptionType", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String deleteSubscriptionType(Integer id){
+    public String deleteSubscriptionType(Integer id) {
         subscriptionTypeService.delete(id);
         return "redirect:/admin";
     }
 
     @RequestMapping(value = "/admin/deleteRole", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String deleteRole(Integer id){
+    public String deleteRole(Integer id) {
         roleService.delete(id);
         return "redirect:/admin";
     }
 
     @RequestMapping(value = "/admin/deleteUser", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String deleteUser(Integer id){
+    public String deleteUser(Integer id) {
         userService.delete(id);
         return "redirect:/admin";
     }
 
-    public void expandModel(Model model){
+    public void expandModel(Model model) {
         List<User> userList = userService.getUsers();
         model.addAttribute("users", userList);
         List<Role> roleList = roleService.getRoles();

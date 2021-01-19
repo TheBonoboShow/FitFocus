@@ -47,7 +47,7 @@ public class User {
     @JoinColumn(name = "roleid", insertable = false, updatable = false)
     private Role role;
 
-    private Integer roleid = 1;
+    private Integer roleid = 3;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

@@ -33,18 +33,23 @@ public class SessionController {
     UserService userService;
 
     @GetMapping("/sessions")
-    public String getSessions(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal){
+    public String getSessions(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal, String startDate, String endDate){
         User user = userService.findByUsername(userPrincipal.getUsername());
-        return findPaginatedSession(1, model, user);
+        return findPaginatedSession(1, model, user, startDate, endDate);
     }
 
     @GetMapping("/pages/{pageNumber}")
-    public String findPaginatedSession(@PathVariable(value = "pageNumber") int pageNumber, Model model, User user){
+    public String findPaginatedSession(@PathVariable(value = "pageNumber") int pageNumber, Model model, User user, String startDate, String endDate){
         int pageSize = 15;
+        Page<Session> page;
 
-        Page<Session> page = sessionService.findPaginated(pageNumber, pageSize);
+        if (startDate != null) {
+            page = sessionService.findByDateRange(startDate, endDate, pageNumber, pageSize);
+        } else {
+            page = sessionService.findPaginated(pageNumber, pageSize);
+        }
+
         List<Session> sessions = page.getContent();
-
         model.addAttribute("currentPage" , pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
@@ -54,6 +59,8 @@ public class SessionController {
         List<User> userList = userService.getUsers();
         model.addAttribute("users", userList);
         model.addAttribute("user", user);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
         return "session";
     }
 
@@ -71,7 +78,7 @@ public class SessionController {
         catch (SessionOverlapException e){
             model.addAttribute("message","Sessions cannot overlap, please pick another timeslot");
             User user = userService.findByUsername(userPrincipal.getUsername());
-            return findPaginatedSession(1, model, user);
+            return findPaginatedSession(1, model, user, null, null);
 
         }
         return "redirect:/sessions";
@@ -142,15 +149,19 @@ public class SessionController {
     }
 
     @GetMapping("/sessions/past")
-    public String getSessionsPast(Model model){
-        return findPaginatedSessionPast(1, model);
+    public String getSessionsPast(Model model, String startDate, String endDate){
+        return findPaginatedSessionPast(1, model, startDate, endDate);
     }
 
     @GetMapping("/pageS/{pageNumber}")
-    public String findPaginatedSessionPast(@PathVariable(value = "pageNumber") int pageNumber, Model model){
+    public String findPaginatedSessionPast(@PathVariable(value = "pageNumber") int pageNumber, Model model, String startDate, String endDate){
         int pageSize = 15;
-
-        Page<Session> page = sessionService.findPaginatedPast(pageNumber, pageSize);
+        Page<Session> page;
+        if (startDate != null) {
+            page = sessionService.findByDateRangePast(startDate, endDate, pageNumber, pageSize);
+        } else {
+            page = sessionService.findPaginatedPast(pageNumber, pageSize);
+        }
         List<Session> sessions = page.getContent();
 
         model.addAttribute("currentPage" , pageNumber);
@@ -161,6 +172,8 @@ public class SessionController {
         model.addAttribute("sports", sportsList);
         List<User> userList = userService.getUsers();
         model.addAttribute("users", userList);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
         return "session_past";
     }
 }

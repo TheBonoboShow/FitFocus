@@ -26,21 +26,26 @@
 <nav class="nav">
     <div class="container">
         <div class="logo">
-            <img src="img/logo.jpg" style="height: 65px; width: auto">
+            <a href="/index">
+                <img src="img/logo.jpg" style="height: 65px; width: auto">
+            </a>
         </div>
         <div id="mainListDiv" class="main_list">
             <ul class="navlinks">
-                <li><a th:href="@{/index}">Home</a></li>
-                <li><a th:href="@{/prices}">Prices</a></li>
-                <li><a th:href="@{/contact}">Contact</a></li>
-                <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
-                <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
-                <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
-                        class="currentpage" th:href="@{/sessions}">Sessions</a></li>
-                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
-                <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
-                </li>
+                <ul class="navlinks">
+                    <li><a class="currentpage" th:href="@{/index}">Home</a></li>
+                    <li><a th:href="@{/prices}">Prices</a></li>
+                    <li><a th:href="@{/contact}">Contact</a></li>
+                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
+                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
+                    <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
+                            th:href="@{/sessions}">Sessions</a></li>
+                    <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
+                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession}">My Sessions</a>
+                    <li th:if="${#authorization.expression('isAuthenticated()')}" id="navProfile"><a th:href="@{/profile}">Profile</a></li>
+                    <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
+                    </li>
+                </ul>
             </ul>
         </div>
         <span class="navTrigger">
@@ -49,7 +54,9 @@
                 <i></i>
             </span>
         <div class="logoright">
-            <img src="img/logo.jpg" style="height: 65px; width: auto">
+            <a href="/index">
+                <img src="img/logo.jpg" style="height: 65px; width: auto">
+            </a>
         </div>
     </div>
 </nav>
@@ -62,7 +69,17 @@
 
             <div style="display: table-header-group">
                 <h2 class="collectiontitle" style="float: left">All Past Sessions</h2>
+            <div id='errorDiv' class='formError' style="font-size: 16px; padding-bottom: 20px"></div>
+            <form th:action="@{/sessions/past}" onsubmit="return searchForm()" method="get"
+                  style="padding-top: 10px; display: flex; width: 500px; font-size: 12px">
+                <label for="dateStartSearch" style="padding-right: 5px; margin-top: 6px; font-weight: bold">Start Date</label>
+                <input id="dateStartSearch" type="date" style="margin-right: 10px" name="startDate">
+                <label for="dateEndSearch" style="padding-right: 6px; margin-top: 6px; font-weight: bold">End Date</label>
+                <input id="dateEndSearch" type="date" style="margin-right: 10px" name="endDate">
+                <button type="submit">Search</button>
+            </form>
             </div>
+
 
             <table class="collectionlist">
                 <thead>
@@ -98,21 +115,23 @@
                     </div>
                     <div class="col-sm-3" style="display:block">
                         <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                            <a th:if="${currentPage != i}" th:href="@{'/pageS/' + ${i}}">[[${i}]]</a>
+                            <a th:if="${currentPage != i}"
+                               th:href="@{'/pageS/' + ${i} + ${startDate != null ? '?startDate=' + startDate + '&endDate=' + endDate : ''}}">[[${i}]]</a>
                             <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
                         </span>
                     </div>
                     <div class="col-sm-1" style="display: block">
-                        <a th:if="${currentPage > 1}" th:href="@{'/pageS/' + ${currentPage -1}}">Prev</a>
+                        <a th:if="${currentPage > 1}"
+                           th:href="@{'/pageS/' + ${currentPage -1} + ${startDate != null ? '?startDate=' + startDate + '&endDate=' + endDate : ''}}">Prev</a>
                         <span th:unless="${currentPage > 1}">Prev</span>
                     </div>
                     <div class="col-sm-1" style="display: block">
-                        <a th:if="${currentPage < totalPages}" th:href="@{'/pageS/' + ${currentPage +1}}">Next</a>
+                        <a th:if="${currentPage < totalPages}"
+                           th:href="@{'/pageS/' + ${currentPage +1} + ${startDate != null ? '?startDate=' + startDate + '&endDate=' + endDate : ''}}">Next</a>
                         <span th:unless="${currentPage < totalPages}">Next</span>
                     </div>
                 </div>
             </div>
-        </div>
 
     </div>
 </div>
@@ -128,6 +147,20 @@
             $('.nav').removeClass('affix');
         }
     });
+
+    function searchForm() {
+
+        if (document.getElementById('dateStartSearch').value.trim() == "") {
+            document.getElementById('errorDiv3').innerHTML = "Please pick a start date for your search";
+            document.getElementById('dateStartSearch').focus();
+            return false;
+        }
+        if (document.getElementById('dateEndSearch').value.trim() == "") {
+            document.getElementById('errorDiv3').innerHTML = "Please pick an end date for your search";
+            document.getElementById('dateEndSearch').focus();
+            return false;
+        }
+    }
 
 </script>
 

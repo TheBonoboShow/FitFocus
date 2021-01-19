@@ -88,7 +88,7 @@ public class CalendarController {
             e.setTitle(s.getSport().getName());
             e.setInformation(s.getInformation());
             e.setCoach(s.getCoach().getFirstname() + " " + s.getCoach().getLastname());
-            e.setParticipants(sessionService.findUsersBySessionId(s.getId()).size());
+            e.setParticipants(sessionService.findUserAmountBySessionId(s.getId()));
             e.setMaxParticipants(s.getMaxParticipants());
             e.setOnlyFemales(s.isOnlyFemales());
             events.add(e);

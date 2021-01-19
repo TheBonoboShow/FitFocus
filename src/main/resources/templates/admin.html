@@ -26,22 +26,26 @@
 <nav class="nav">
     <div class="container">
         <div class="logo">
+            <a href="/index">
             <img src="img/logo.jpg" style="height: 65px; width: auto">
+            </a>
         </div>
         <div id="mainListDiv" class="main_list">
             <ul class="navlinks">
-                <li><a th:href="@{/index}">Home</a></li>
-                <li><a th:href="@{/prices}">Prices</a></li>
-                <li><a th:href="@{/contact}">Contact</a></li>
-                <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
-                <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
-                <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
-                        th:href="@{/sessions}">Sessions</a></li>
-                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a class="currentpage"
-                                                                                       th:href="@{/admin}">Admin</a>
-                <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/profile}">Profile</a></li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
-                </li>
+                <ul class="navlinks">
+                    <li><a class="currentpage" th:href="@{/index}">Home</a></li>
+                    <li><a th:href="@{/prices}">Prices</a></li>
+                    <li><a th:href="@{/contact}">Contact</a></li>
+                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
+                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
+                    <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
+                            th:href="@{/sessions}">Sessions</a></li>
+                    <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
+                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession}">My Sessions</a>
+                    <li th:if="${#authorization.expression('isAuthenticated()')}" id="navProfile"><a th:href="@{/profile}">Profile</a></li>
+                    <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
+                    </li>
+                </ul>
             </ul>
         </div>
         <span class="navTrigger">
@@ -50,7 +54,9 @@
                 <i></i>
             </span>
         <div class="logoright">
+            <a href="/index">
             <img src="img/logo.jpg" style="height: 65px; width: auto">
+            </a>
         </div>
     </div>
 </nav>
@@ -489,7 +495,12 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalUser"
                         style="margin-left: 30px" id="addUserBtn">Add New
                 </button>
+            <form th:action="@{/admin}" method="get">
+                <input id="txtSearch" type="text" name="keyword" style="padding-right: 5px; font-size: 12px">
+                <button type="submit">Search</button>
+            </form>
             </div>
+
 
             <!--add modal-->
             <div class="modal fade" id="addModalUser" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
@@ -706,22 +717,22 @@
                     </div>
                     <div class="col-sm-3" style="display:block">
                         <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                            <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+                            <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + ${keyword != null ? '?keyword=' + keyword : ''}}">[[${i}]]</a>
                             <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
                         </span>
                     </div>
                     <div class="col-sm-1" style="display: block">
-                        <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage -1}}">Prev</a>
+                        <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage -1} + ${keyword != null ? '?keyword=' + keyword : ''}}">Prev</a>
                         <span th:unless="${currentPage > 1}">Prev</span>
                     </div>
                     <div class="col-sm-1" style="display: block">
-                        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage +1}}">Next</a>
+                        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage +1} + ${keyword != null ? '?keyword=' + keyword : ''}}">Next</a>
                         <span th:unless="${currentPage < totalPages}">Next</span>
                     </div>
                 </div>
             </div>
 
-            <a th:href="@{/admin/sendPromo}" class="priceBtn" style="margin-bottom: 100px; margin-top: 50px">Send Promo Mail</a>
+            <a th:href="@{/admin/sendPromo}" class="loginBtn" style="margin-bottom: 100px; margin-top: 50px">Send Promo Mail</a>
         </div>
     </div>
 </div>

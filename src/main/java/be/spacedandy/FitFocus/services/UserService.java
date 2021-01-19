@@ -181,4 +181,9 @@ public class UserService {
         Pageable pageable = PageRequest.of(pageNumber -1, pageSize);
         return this.userRepository.findAll(pageable);
     }
+
+    public Page<User> findByKeyword(String keyword, int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber -1, pageSize);
+        return userRepository.findByKeyword(keyword, pageable);
+    }
 }
