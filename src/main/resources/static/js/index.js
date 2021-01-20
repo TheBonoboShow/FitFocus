@@ -293,6 +293,7 @@ function addZero(i) {
 function fillModalSession(info) {
     var freeSpots = info.event.extendedProps.maxParticipants - info.event.extendedProps.participants;
 
+    document.getElementById("id").value = info.event.extendedProps.sessionNumber;
     document.getElementById("information").innerHTML = "Information: " + info.event.extendedProps.information;
     document.getElementById("sport").innerHTML = info.event.title;
     document.getElementById("timeslot").innerHTML =  info.event.start.toISOString().substr(0, 10) + "  |  " + addZero(info.event.start.getHours()).toString() + ":" + addZero(info.event.start.getMinutes()).toString()

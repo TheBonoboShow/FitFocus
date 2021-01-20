@@ -41,7 +41,7 @@
                     <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                             th:href="@{/sessions}">Sessions</a></li>
                     <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
-                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession}">My Sessions</a>
+                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession?id=0}" class="currentpage">My Sessions</a>
                     <li th:if="${#authorization.expression('isAuthenticated()')}" id="navProfile"><a th:href="@{/profile}">Profile</a></li>
                     <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                     </li>
@@ -76,7 +76,7 @@
 
             <form th:action="@{/bookSessionX}" onsubmit="return validateBookSession()" method="post">
                 <select class="form-control" id="selectSession" name="session" style="font-size: 14px">
-                    <option>-SELECT-</option>
+                    <option th:if="${sessionToBook != null}" th:value="${sessionToBook.id}" th:text="${sessionToBook.date} + ' - '+${sessionToBook.sport} + ' - ' + ${sessionToBook.startingHour}"></option>
                     <option th:each="Session : ${sessionsFuture}"
                             th:value="${Session.id}"
                             th:text="${Session.date} + ' - '+${Session.sport} + ' - ' + ${Session.startingHour}">
@@ -182,8 +182,16 @@
     });
 
     function validateBookSession() {
-        if (document.getElementById('selectSession').value.trim() == "-SELECT-") {
-            document.getElementById('errorMsg').innerHTML = "Please select a session";
+
+        var trimmedDate = document.getElementById('selectSession').innerText.substr(0,10);
+        console.log(trimmedDate)
+        var date = new Date();
+        var dateComp = new Date(trimmedDate);
+        console.log(date)
+        console.log(dateComp)
+
+        if (date > dateComp) {
+            document.getElementById('errorMsg').innerHTML = "Please select a future session";
             document.getElementById('selectSession').focus();
             return false;
         }

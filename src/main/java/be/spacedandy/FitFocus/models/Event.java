@@ -11,6 +11,15 @@ public class Event {
     private String information;
     private int maxParticipants;
     private boolean onlyFemales;
+    private int sessionNumber;
+
+    public int getSessionNumber() {
+        return sessionNumber;
+    }
+
+    public void setSessionNumber(int sessionNumber) {
+        this.sessionNumber = sessionNumber;
+    }
 
     public String getTitle() {
         return title;

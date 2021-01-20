@@ -1,11 +1,10 @@
-//todo make error page
 //todo fix lay-out everything
 //todo fix body promo mail page (admin_send_promotions)
 //todo fix error messages lay-out in forms/on pages (formError styling - make modal alternative with font-size)
-//todo set passwordresettoken to null on login
-//todo make index.js ok (add eventclick on all)
+//todo set passwordresettoken to null on login (or when saving something)
 //todo make maxParticipants check on creating newSession (2+)
-//todo make footer
+//todo make index.js ok (add eventclick on all)
+//todo look-up safe credentials storage for hosting a site
 //todo launch app on staes.me and change mail redirection adresses to staes.me/*
 //todo prepare for presentation (show all sessions on home page in nice pattern)
 

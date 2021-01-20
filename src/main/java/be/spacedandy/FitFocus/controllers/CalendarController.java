@@ -83,6 +83,7 @@ public class CalendarController {
     private ResponseEntity<String> getAllSessions(List<Session> sessions, List<Event> events){
         for (Session s : sessions){
             Event e = new Event();
+            e.setSessionNumber(s.getId());
             e.setEnd(s.getDate().concat("T").concat(s.getEndHour()));
             e.setStart(s.getDate().concat("T").concat(s.getStartingHour()));
             e.setTitle(s.getSport().getName());
@@ -98,7 +99,7 @@ public class CalendarController {
         headers.add("Content-Type", "application/json; charset=utf-8");
         if (events.size() > 0)
         {
-            return new ResponseEntity<String>(new JSONSerializer().include("title","end","start","information",
+            return new ResponseEntity<String>(new JSONSerializer().include("sessionNumber", "title","end","start","information",
                     "maxParticipants", "coach", "onlyFemales", "participants" ).exclude("*").serialize(events), headers, HttpStatus.OK);
         }
         return new ResponseEntity<String>(null, headers, HttpStatus.OK);

@@ -1,6 +1,9 @@
 package be.spacedandy.FitFocus.controllers;
 
-import be.spacedandy.FitFocus.models.*;
+import be.spacedandy.FitFocus.models.Session;
+import be.spacedandy.FitFocus.models.Sport;
+import be.spacedandy.FitFocus.models.User;
+import be.spacedandy.FitFocus.models.UserPrincipal;
 import be.spacedandy.FitFocus.security.NoSessionsLeftException;
 import be.spacedandy.FitFocus.security.NoValidSubscriptionException;
 import be.spacedandy.FitFocus.security.SessionOverlapException;
@@ -15,13 +18,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class SessionController {
@@ -97,7 +98,7 @@ public class SessionController {
     }
 
     @GetMapping("/bookSession")
-    public String bookSession(@AuthenticationPrincipal UserPrincipal userPrincipal, Model model){
+    public String bookSession(@AuthenticationPrincipal UserPrincipal userPrincipal, Model model, @RequestParam int id){
         List<Sport> sportsList = sportService.getSports();
         model.addAttribute("sports", sportsList);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -111,8 +112,10 @@ public class SessionController {
         model.addAttribute("sessions", sessionList);
         List<Session> sessionList2 = sessionService.getNonBookedSessions(user);
         model.addAttribute("sessionsFuture", sessionList2);
+        model.addAttribute("sessionToBook", sessionService.findById(id));
         return "bookSession";
     }
+
 
     @PostMapping("/bookSessionX")
     public String bookSession(Session session, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
@@ -138,14 +141,14 @@ public class SessionController {
             model.addAttribute("sessionsFuture", sessionList2);
             return "bookSession";
         }
-        return "redirect:/bookSession";
+        return "redirect:/bookSession?id=0";
     }
 
     @RequestMapping(value = "/bookSession/delete", method = {RequestMethod.DELETE, RequestMethod.GET})
     public String deleteSession(Integer id, @AuthenticationPrincipal UserPrincipal userPrincipal){
         User user = userService.findByUsername(userPrincipal.getUsername());
         sessionService.deleteSession(id, user);
-        return "redirect:/bookSession";
+        return "redirect:/bookSession?id=0";
     }
 
     @GetMapping("/sessions/past")

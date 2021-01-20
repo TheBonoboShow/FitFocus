@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 
     <title>FitFocus | Register</title>
@@ -34,11 +34,11 @@
                     <li><a th:href="@{/prices}">Prices</a></li>
                     <li><a th:href="@{/contact}">Contact</a></li>
                     <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
-                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
+                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}" class="currentpage">Register</a></li>
                     <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                             th:href="@{/sessions}">Sessions</a></li>
                     <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
-                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession}">My Sessions</a>
+                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession?id=0}">My Sessions</a>
                     <li th:if="${#authorization.expression('isAuthenticated()')}" id="navProfile"><a th:href="@{/profile}">Profile</a></li>
                     <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                     </li>

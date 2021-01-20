@@ -40,7 +40,7 @@
                     <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                             th:href="@{/sessions}">Sessions</a></li>
                     <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
-                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession}">My Sessions</a>
+                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession?id=0}">My Sessions</a>
                     <li th:if="${#authorization.expression('isAuthenticated()')}" id="navProfile"><a th:href="@{/profile}">Profile</a></li>
                     <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
                     </li>
@@ -75,6 +75,7 @@
             <p id="freePlaces"></p>
             <p id="femaleOnly" style="color: #e4381C"> </p>
             <form th:action="@{/bookSession}" method="get" id="bookSessions">
+            <input id="id" name="id" type="number" hidden>
                 <button type="submit" id="bookSession" class="btn btn-primary" style="background-color: #e16521; border: #e16521; color: white; padding: 10px; cursor: pointer">Book Session</button>
             </form>
         </div>
