@@ -19,7 +19,7 @@ public class ReminderEmailController {
     @Autowired
     ReminderEmailService reminderEmailService;
 
-    @Scheduled(cron = "0 0 20 * * ?")
+    @Scheduled(cron = "0 0 20 * * ?") // 0/15 * * * * * (every 15 seconds starting at 15seconds)
     public void runSendMail() throws SchedulerException, UnsupportedEncodingException, MessagingException {
         reminderEmailService.sendReminderEmail();
     }

@@ -43,6 +43,7 @@ $('table #cloneSession').on('click', function (event){
     var href = $(this).attr('href');
 
     $.get(href, function(Session, status){
+
         $('#informationAdd').val(Session.information);
         $('#sportidAdd').val(Session.sportid);
         $('#dateAdd').val(Session.date);

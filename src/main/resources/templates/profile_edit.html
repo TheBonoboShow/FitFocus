@@ -137,7 +137,7 @@
                                    placeholder="Your Password"></td>
                     </tr>
                 </table>
-                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                <div class="formError" th:if="${#fields.hasErrors('*')}">
                     <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                 </div>
                 <input hidden type="text" th:field="*{profileIsActive}" id="profileIsActive">

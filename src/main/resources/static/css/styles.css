@@ -189,6 +189,14 @@ body {
 
 .formError{
     color: #a72c18;
+    font-size: 16px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+.formErrorModal{
+    color: #a72c18;
+    font-size: 12px;
 }
 
 .pageHeader {

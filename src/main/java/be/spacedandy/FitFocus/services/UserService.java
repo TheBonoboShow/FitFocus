@@ -2,10 +2,7 @@ package be.spacedandy.FitFocus.services;
 
 import be.spacedandy.FitFocus.models.Session;
 import be.spacedandy.FitFocus.models.User;
-import be.spacedandy.FitFocus.security.NoSessionsLeftException;
-import be.spacedandy.FitFocus.security.NoValidSubscriptionException;
-import be.spacedandy.FitFocus.security.UserNotFoundException;
-import be.spacedandy.FitFocus.security.WrongPasswordException;
+import be.spacedandy.FitFocus.security.*;
 import be.spacedandy.FitFocus.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -45,18 +42,37 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void addSessionToUser(Session session, User user) throws NoSessionsLeftException, NoValidSubscriptionException {
+    public void addSessionToUser(Session session, User user) throws NoSessionsLeftException, NoValidSubscriptionException, NotFemaleException, SessionInPastException {
         if (!checkIfUserHasSession(user)){
             throw new NoSessionsLeftException("User has no valid sessions");
         }
         if (!checkIfValidSubscription(user, session)){
             throw new NoValidSubscriptionException("User has no running subsciption");
         }
+        if (!checkIfFemale(user, session)){
+            throw new NotFemaleException("User cannot book a female only session");
+        }
+        if (checkIfSessionInPast(session)){
+            throw new SessionInPastException("User can only book future sessions");
+        }
         List<Session> ss = user.getReservedSessions();
         ss.add(session);
         user.setReservedSessions(ss);
         user.setRemainingSessions(user.getRemainingSessions()-1);
         saveAdmin(user);
+    }
+
+    private boolean checkIfSessionInPast(Session session) {
+        LocalDate date1 = LocalDate.now();
+        LocalDate date2 = LocalDate.parse(session.getDate());
+        return date1.isAfter(date2);
+    }
+
+    private boolean checkIfFemale(User user, Session session) {
+        if (user.isFemale() || !session.isOnlyFemales()){
+            return true;
+        }
+        return false;
     }
 
 

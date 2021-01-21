@@ -1,9 +1,11 @@
+var startCalendar = new Date(Date.now());
+startCalendar.setDate(startCalendar.getDate() - startCalendar.getDay())
+var endCalendar = new Date(startCalendar);
+endCalendar.setDate(endCalendar.getDate() + 21)
+// note: this fails between 0-1am
+
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
-    var startCalendar = new Date(Date.now());
-    startCalendar.setDate(startCalendar.getDate() - startCalendar.getDay())
-    var endCalendar = new Date(startCalendar);
-    endCalendar.setDate(endCalendar.getDate() + 21)
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'timeGridWeek',
@@ -13,12 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
         allDaySlot: false,
 
         validRange: {
-            start: startCalendar.toISOString().substr(0,10),
-            end: endCalendar.toISOString().substr(0,10),
+            start: startCalendar.toISOString().substr(0, 10),
+            end: endCalendar.toISOString().substr(0, 10),
         },
 
         eventClick: function (info) {
-            // alert('Event: ' + info.event.extendedProps.information + "    " + info.event.title);
             var modal = document.getElementById("eventModal");
             modal.style.display = "block";
 
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         },
+
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -73,6 +75,28 @@ function showYoga() {
         slotDuration: '01:00:00',
         allDaySlot: false,
 
+        validRange: {
+            start: startCalendar.toISOString().substr(0, 10),
+            end: endCalendar.toISOString().substr(0, 10),
+        },
+
+        eventClick: function (info) {
+            var modal = document.getElementById("eventModal");
+            modal.style.display = "block";
+
+            fillModalSession(info);
+
+            var span = document.getElementsByClassName("closeModal")[0];
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        },
+
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -110,6 +134,28 @@ function showCardio() {
         slotMaxTime: '23:30:00',
         slotDuration: '01:00:00',
         allDaySlot: false,
+
+        validRange: {
+            start: startCalendar.toISOString().substr(0, 10),
+            end: endCalendar.toISOString().substr(0, 10),
+        },
+
+        eventClick: function (info) {
+            var modal = document.getElementById("eventModal");
+            modal.style.display = "block";
+
+            fillModalSession(info);
+
+            var span = document.getElementsByClassName("closeModal")[0];
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        },
 
         headerToolbar: {
             left: 'prev,next today',
@@ -149,6 +195,28 @@ function showBoxing() {
         slotDuration: '01:00:00',
         allDaySlot: false,
 
+        validRange: {
+            start: startCalendar.toISOString().substr(0, 10),
+            end: endCalendar.toISOString().substr(0, 10),
+        },
+
+        eventClick: function (info) {
+            var modal = document.getElementById("eventModal");
+            modal.style.display = "block";
+
+            fillModalSession(info);
+
+            var span = document.getElementsByClassName("closeModal")[0];
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        },
+
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -186,6 +254,28 @@ function showAerobic() {
         slotMaxTime: '23:30:00',
         slotDuration: '01:00:00',
         allDaySlot: false,
+
+        validRange: {
+            start: startCalendar.toISOString().substr(0, 10),
+            end: endCalendar.toISOString().substr(0, 10),
+        },
+
+        eventClick: function (info) {
+            var modal = document.getElementById("eventModal");
+            modal.style.display = "block";
+
+            fillModalSession(info);
+
+            var span = document.getElementsByClassName("closeModal")[0];
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        },
 
         headerToolbar: {
             left: 'prev,next today',
@@ -225,6 +315,28 @@ function showCycling() {
         slotDuration: '01:00:00',
         allDaySlot: false,
 
+        validRange: {
+            start: startCalendar.toISOString().substr(0, 10),
+            end: endCalendar.toISOString().substr(0, 10),
+        },
+
+        eventClick: function (info) {
+            var modal = document.getElementById("eventModal");
+            modal.style.display = "block";
+
+            fillModalSession(info);
+
+            var span = document.getElementsByClassName("closeModal")[0];
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        },
+
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -263,6 +375,28 @@ function showAll() {
         slotDuration: '01:00:00',
         allDaySlot: false,
 
+        validRange: {
+            start: startCalendar.toISOString().substr(0, 10),
+            end: endCalendar.toISOString().substr(0, 10),
+        },
+
+        eventClick: function (info) {
+            var modal = document.getElementById("eventModal");
+            modal.style.display = "block";
+
+            fillModalSession(info);
+
+            var span = document.getElementsByClassName("closeModal")[0];
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        },
+
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -296,7 +430,7 @@ function fillModalSession(info) {
     document.getElementById("id").value = info.event.extendedProps.sessionNumber;
     document.getElementById("information").innerHTML = "Information: " + info.event.extendedProps.information;
     document.getElementById("sport").innerHTML = info.event.title;
-    document.getElementById("timeslot").innerHTML =  info.event.start.toISOString().substr(0, 10) + "  |  " + addZero(info.event.start.getHours()).toString() + ":" + addZero(info.event.start.getMinutes()).toString()
+    document.getElementById("timeslot").innerHTML = info.event.start.toISOString().substr(0, 10) + "  |  " + addZero(info.event.start.getHours()).toString() + ":" + addZero(info.event.start.getMinutes()).toString()
         + " - " + addZero(info.event.end.getHours()).toString() + ":" + addZero(info.event.end.getMinutes()).toString();
     document.getElementById("coach").innerHTML = "Coach: " + info.event.extendedProps.coach;
     document.getElementById("maxParticipants").innerHTML = "Maximum participants: " + info.event.extendedProps.maxParticipants;

@@ -37,13 +37,17 @@
                     <li><a th:href="@{/prices}">Prices</a></li>
                     <li><a th:href="@{/contact}">Contact</a></li>
                     <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
-                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
+                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a>
+                    </li>
                     <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                             th:href="@{/sessions}">Sessions</a></li>
                     <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
-                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession?id=0}">My Sessions</a>
-                    <li th:if="${#authorization.expression('isAuthenticated()')}" id="navProfile"><a th:href="@{/profile}">Profile</a></li>
-                    <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
+                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a
+                            th:href="@{/bookSession?id=0}">My Sessions</a>
+                    <li th:if="${#authorization.expression('isAuthenticated()')}" id="navProfile"><a
+                            th:href="@{/profile}">Profile</a></li>
+                    <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a>
+                    </li>
                     </li>
                 </ul>
             </ul>
@@ -67,9 +71,7 @@
             <div class="formError" style="font-size: 14px" th:if="${message != null}">
                 <p>[[${message}]]</p>
             </div>
-            <div>
-                <p id="errorMsg" style="font-size: 14px" class="formError"></p>
-            </div>
+            <div id="errorMsg" class="formError"></div>
             <div style="display: table-header-group">
                 <h2 class="collectiontitle" style="float: left">Buy A New Subscription</h2>
             </div>

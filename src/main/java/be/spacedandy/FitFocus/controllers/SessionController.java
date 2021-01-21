@@ -4,9 +4,7 @@ import be.spacedandy.FitFocus.models.Session;
 import be.spacedandy.FitFocus.models.Sport;
 import be.spacedandy.FitFocus.models.User;
 import be.spacedandy.FitFocus.models.UserPrincipal;
-import be.spacedandy.FitFocus.security.NoSessionsLeftException;
-import be.spacedandy.FitFocus.security.NoValidSubscriptionException;
-import be.spacedandy.FitFocus.security.SessionOverlapException;
+import be.spacedandy.FitFocus.security.*;
 import be.spacedandy.FitFocus.services.SessionService;
 import be.spacedandy.FitFocus.services.SportService;
 import be.spacedandy.FitFocus.services.UserService;
@@ -35,12 +33,11 @@ public class SessionController {
 
     @GetMapping("/sessions")
     public String getSessions(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal, String startDate, String endDate){
-        User user = userService.findByUsername(userPrincipal.getUsername());
-        return findPaginatedSession(1, model, user, startDate, endDate);
+        return findPaginatedSession(1, model, startDate, endDate, userPrincipal);
     }
 
     @GetMapping("/pages/{pageNumber}")
-    public String findPaginatedSession(@PathVariable(value = "pageNumber") int pageNumber, Model model, User user, String startDate, String endDate){
+    public String findPaginatedSession(@PathVariable(value = "pageNumber") int pageNumber, Model model, String startDate, String endDate, @AuthenticationPrincipal UserPrincipal userPrincipal){
         int pageSize = 15;
         Page<Session> page;
 
@@ -59,6 +56,7 @@ public class SessionController {
         model.addAttribute("sports", sportsList);
         List<User> userList = userService.getUsers();
         model.addAttribute("users", userList);
+        User user = userService.findByUsername(userPrincipal.getUsername());
         model.addAttribute("user", user);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
@@ -78,8 +76,7 @@ public class SessionController {
         }
         catch (SessionOverlapException e){
             model.addAttribute("message","Sessions cannot overlap, please pick another timeslot");
-            User user = userService.findByUsername(userPrincipal.getUsername());
-            return findPaginatedSession(1, model, user, null, null);
+            return findPaginatedSession(1, model, null, null, userPrincipal);
 
         }
         return "redirect:/sessions";
@@ -120,25 +117,28 @@ public class SessionController {
     @PostMapping("/bookSessionX")
     public String bookSession(Session session, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
         User user = userService.findByUsername(userPrincipal.getUsername());
+        model.addAttribute("user", user);
+        List<Session> sessionList = sessionService.getUserSessions(user);
+        model.addAttribute("sessions", sessionList);
+        List<Session> sessionList2 = sessionService.getNonBookedSessions(user);
+        model.addAttribute("sessionsFuture", sessionList2);
         try {
             userService.addSessionToUser(session, user);
         }
         catch (NoSessionsLeftException e){
             model.addAttribute("message","You don't have any sessions left, consider upgrading your subscription type");
-            model.addAttribute("user", user);
-            List<Session> sessionList = sessionService.getUserSessions(user);
-            model.addAttribute("sessions", sessionList);
-            List<Session> sessionList2 = sessionService.getNonBookedSessions(user);
-            model.addAttribute("sessionsFuture", sessionList2);
             return "bookSession";
         }
         catch (NoValidSubscriptionException e){
             model.addAttribute("message","You don't have a valid subscription at the moment, consider buying one");
-            model.addAttribute("user", user);
-            List<Session> sessionList = sessionService.getUserSessions(user);
-            model.addAttribute("sessions", sessionList);
-            List<Session> sessionList2 = sessionService.getNonBookedSessions(user);
-            model.addAttribute("sessionsFuture", sessionList2);
+            return "bookSession";
+        }
+        catch (NotFemaleException e){
+            model.addAttribute("message","You can't book female only sessions");
+            return "bookSession";
+        }
+        catch (SessionInPastException e){
+            model.addAttribute("message","You can only book future sessions");
             return "bookSession";
         }
         return "redirect:/bookSession?id=0";

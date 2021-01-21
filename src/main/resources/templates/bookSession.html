@@ -67,14 +67,13 @@
             <div class="formError" th:if="${message != null}">
                 <p>[[${message}]]</p>
             </div>
-            <div>
-                <p id="errorMsg" class="formError" style="font-size: 14px"></p>
+            <div id="errorMsg" class="formError">
             </div>
             <div style="display: table-header-group">
                 <h2 class="collectiontitle" style="float: left">Book A Session</h2>
             </div>
 
-            <form th:action="@{/bookSessionX}" onsubmit="return validateBookSession()" method="post">
+            <form th:action="@{/bookSessionX}" method="post">
                 <select class="form-control" id="selectSession" name="session" style="font-size: 14px">
                     <option th:if="${sessionToBook != null}" th:value="${sessionToBook.id}" th:text="${sessionToBook.date} + ' - '+${sessionToBook.sport} + ' - ' + ${sessionToBook.startingHour}"></option>
                     <option th:each="Session : ${sessionsFuture}"
@@ -152,7 +151,7 @@
                                     <input type="time" class="form-control" id="startingHourDelete" name="startingHour"
                                            readonly>
                                 </div>
-                                <div id='errorMsg2' class="formError"></div>
+                                <div id='errorMsg2' class="formErrorModal"></div>
 
                             </div>
                             <div class="modal-footer">
@@ -180,22 +179,6 @@
             $('.nav').removeClass('affix');
         }
     });
-
-    function validateBookSession() {
-
-        var trimmedDate = document.getElementById('selectSession').innerText.substr(0,10);
-        console.log(trimmedDate)
-        var date = new Date();
-        var dateComp = new Date(trimmedDate);
-        console.log(date)
-        console.log(dateComp)
-
-        if (date > dateComp) {
-            document.getElementById('errorMsg').innerHTML = "Please select a future session";
-            document.getElementById('selectSession').focus();
-            return false;
-        }
-    }
 
     function validateDeleteSession() {
         var date1 = new Date(Date.now());

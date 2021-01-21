@@ -530,7 +530,7 @@
                                 </div>
 
                             </div>
-                            <div id='errorDiv2' class='col-xs-12 pull-right'></div>
+                            <div id='errorDiv2' class='formErrorModal'></div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save</button>
@@ -606,7 +606,7 @@
                                     <label for="endDateEdit" class="col-form-label">End Date Subscription</label>
                                     <input type="date" class="form-control" id="endDateEdit" name="endDate">
                                 </div>
-                                <div id='errorDiv' class='col-xs-12 pull-right'></div>
+                                <div id='errorDiv' class='formErrorModal'></div>
                                 <div class="form-group">
                                     <label for="remainingSessionsEditUser" class="col-form-label">Remaining Sessions
                                         Left</label>
@@ -683,7 +683,7 @@
                 </form>
             </div>
 
-            <div class="alert alert-danger" th:if="${message != null}">
+            <div class="formError" th:if="${message != null}">
                 <p>[[${message}]]</p>
             </div>
 

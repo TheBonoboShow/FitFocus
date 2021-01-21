@@ -66,10 +66,10 @@
         <!--Session handler-->
         <div class="wrapper">
 
-            <div class="formError" style="font-size: 16px; padding-bottom: 12px" th:if="${message != null}">
+            <div class="formError" th:if="${message != null}">
                 <p>[[${message}]]</p>
             </div>
-            <div id='errorDiv3' class='formError' style="font-size: 16px; padding-bottom: 20px"></div>
+            <div id='errorDiv3' class='formError' ></div>
             <div style="display: table-header-group">
                 <h2 class="collectiontitle" style="float: left">All Sessions</h2>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalSession"
@@ -142,7 +142,7 @@
                                 </div>
 
                             </div>
-                            <div id='errorDiv1' class='col-xs-12 pull-right'></div>
+                            <div id='errorDiv1' class='formErrorModal'></div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save</button>
@@ -210,7 +210,7 @@
                                     <input type="checkbox" class="form-control" id="onlyFemalesEdit" name="onlyFemales">
                                 </div>
                             </div>
-                            <div id='errorDiv2' class='col-xs-12 pull-right'></div>
+                            <div id='errorDiv2' class='formErrorModal'></div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save</button>
@@ -275,8 +275,6 @@
                                     <input type="checkbox" class="form-control" id="onlyFemalesDelete"
                                            name="onlyFemales">
                                 </div>
-
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -418,8 +416,8 @@
 
         var date1 = new Date(Date.now());
         var date2 = new Date(document.getElementById('dateAdd').value.trim());
+        var date3 = new Date(document.getElementById('dateAdd').value.trim());
         date2.setDate(date2.getDate() + 1)
-
         if (date2 < date1) {
             document.getElementById('errorDiv1').innerHTML = "The session cannot be in the past";
             return false;
@@ -438,8 +436,8 @@
         date2.setHours(h);
         date2.setMinutes(m);
         var date11 = new Date(2020, 0, date1.getDate(), date1.getHours(), date1.getMinutes());
-        var date22 = new Date(2020, 0, date2.getDate() - 1, date2.getHours() - 2, date2.getMinutes());
-        if (date22 < date11) {
+        var date22 = new Date(2020, 0, date3.getDate(), date2.getHours() - 2, date2.getMinutes());
+        if (date2 < date1 && date22 < date11) {
             document.getElementById('errorDiv1').innerHTML = "The session must be made at least 2h before the start";
             return false;
         }
@@ -447,6 +445,12 @@
 
         if (document.getElementById('maxParticipantsAdd').value.trim() == "") {
             document.getElementById('errorDiv1').innerHTML = "Please enter the maximum number of participants";
+            document.getElementById('maxParticipantsAdd').focus();
+            return false;
+        }
+
+        if (document.getElementById('maxParticipantsAdd').value.trim() < 2) {
+            document.getElementById('errorDiv1').innerHTML = "The number of participants has to be at least 2";
             document.getElementById('maxParticipantsAdd').focus();
             return false;
         }
@@ -493,6 +497,12 @@
 
         if (document.getElementById('maxParticipantsEdit').value.trim() == "") {
             document.getElementById('errorDiv2').innerHTML = "Please enter the maximum number of participants";
+            document.getElementById('maxParticipantsEdit').focus();
+            return false;
+        }
+
+        if (document.getElementById('maxParticipantsEdit').value.trim() < 2) {
+            document.getElementById('errorDiv2').innerHTML = "The number of participants has to be at least 2";
             document.getElementById('maxParticipantsEdit').focus();
             return false;
         }
