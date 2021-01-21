@@ -33,7 +33,7 @@
         <div id="mainListDiv" class="main_list">
             <ul class="navlinks">
                 <ul class="navlinks">
-                    <li><a class="currentpage" th:href="@{/index}">Home</a></li>
+                    <li><a th:href="@{/index}">Home</a></li>
                     <li><a th:href="@{/prices}">Prices</a></li>
                     <li><a th:href="@{/contact}">Contact</a></li>
                     <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
@@ -120,7 +120,7 @@
             <!--delete modal-->
             <div class="modal fade" id="deleteModalSesh" tabindex="-1" aria-labelledby="deleteModalLabel"
                  aria-hidden="true">
-                <form th:action="@{/bookSession/delete}" onsubmit="return validateDeleteSession()" method="put">
+                <form th:action="@{/bookSession/delete}" method="put">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -180,20 +180,26 @@
         }
     });
 
-    function validateDeleteSession() {
-        var date1 = new Date(Date.now());
-        var date2 = new Date(document.getElementById('dateDelete').value.trim());
-        var h = document.getElementById('startingHourDelete').value.trim().substr(0, 2)
-        var m = document.getElementById('startingHourDelete').value.trim().substr(3, 5)
-        date2.setHours(h);
-        date2.setMinutes(m);
-        var date11 = new Date(2020, 0, date1.getDay(), date1.getHours(), date1.getMinutes());
-        var date22 = new Date(2020, 0, date2.getDay(), date2.getHours() - 5, date2.getMinutes());
-        if (date22 < date11) {
-                document.getElementById('errorMsg2').innerHTML = "You cannot cancel a session less than 5h before the start";
-                return false;
-            }
-        }
+    // function validateDeleteSession() {
+    //     var date1 = new Date(Date.now());
+    //     console.log(date1)
+    //     var date2 = new Date(document.getElementById('dateDelete').value.trim());
+    //     console.log(date2)
+    //     var h = document.getElementById('startingHourDelete').value.trim().substr(0, 2)
+    //     var m = document.getElementById('startingHourDelete').value.trim().substr(3, 5)
+    //     date2.setHours(h);
+    //     date2.setMinutes(m);
+    //     console.log(date1)
+    //     console.log(date2)
+    //     var date11 = new Date(2020, 0, date1.getDay(), date1.getHours(), date1.getMinutes());
+    //     var date22 = new Date(2020, 0, date2.getDay(), date2.getHours() - 5, date2.getMinutes());
+    //     console.log(date11)
+    //     console.log(date22)
+    //     if (date22 < date11) {
+    //             document.getElementById('errorMsg2').innerHTML = "You cannot cancel a session less than 5h before the start";
+    //             return false;
+    //         }
+    //     }
 
 </script>
 

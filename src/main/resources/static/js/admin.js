@@ -1,5 +1,3 @@
-//todo prepare for presentation (make a flowchart / 10min trial)
-
 $('document').ready(function () {
     // Subscription Types
     $('table #editSubTypes').on('click', function (event) {
