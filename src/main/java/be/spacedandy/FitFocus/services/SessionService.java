@@ -141,6 +141,10 @@ public class SessionService {
         sessionRepository.save(session);
     }
 
+    public void update(Session session) throws SessionOverlapException {
+        sessionRepository.save(session);
+    }
+
     private boolean checkSessionOverlap(Session session) {
         List<Session> sessions = getSessionsByDate(session.getDate());
         LocalTime startTime1 = LocalTime.parse(session.getStartingHour());

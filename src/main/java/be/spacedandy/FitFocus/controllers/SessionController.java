@@ -65,7 +65,7 @@ public class SessionController {
 
     @RequestMapping(value="/sessions/update", method= {RequestMethod.PUT, RequestMethod.GET})
     public String update(Session session) throws SessionOverlapException {
-        sessionService.save(session);
+        sessionService.update(session);
         return "redirect:/sessions";
     }
 
