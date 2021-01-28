@@ -122,6 +122,7 @@ public class SessionController {
         model.addAttribute("sessions", sessionList);
         List<Session> sessionList2 = sessionService.getNonBookedSessions(user);
         model.addAttribute("sessionsFuture", sessionList2);
+        model.addAttribute("sports", sportService.getSports());
         try {
             userService.addSessionToUser(session, user);
         }
