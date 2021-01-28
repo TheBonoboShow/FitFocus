@@ -19,6 +19,11 @@ public class ApplicationController {
         return "index";
     }
 
+    @GetMapping("/info")
+    public String getInfo() {
+        return "info";
+    }
+
     @GetMapping("/login")
     public String login() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

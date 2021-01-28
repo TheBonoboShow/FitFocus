@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 
-    <title>FitFocus | Login</title>
-
+    <title>FitFocus | Info</title>
+    <base href="/">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -33,7 +33,7 @@
                     <li><a th:href="@{/index}">Home</a></li>
                     <li><a th:href="@{/prices}">Prices</a></li>
                     <li><a th:href="@{/contact}">Contact</a></li>
-                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}" class="currentpage">Login</a></li>
+                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
                     <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
                     <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                             th:href="@{/sessions}">Sessions</a></li>
@@ -59,44 +59,33 @@
 </nav>
 
 <div class="credentialsWrapper">
-    <h2 class="pageHeader">Log In to FitFocus</h2>
-    <div class="formWrapper">
-        <form th:action="@{/login}" method="post">
-            <div class="inputWrapper">
-                <label for="username" class="labelHeader">Username</label>
-                <input type="text" placeholder="username" name="username" id="username" class="inputField">
-            </div>
-            <div class="inputWrapper">
-                <label for="password" class="labelHeader">Password</label>
-                <input type="password" placeholder="password" name="password" id="password" class="inputField">
-            </div>
-            <div th:if="${param.error}">
-                <p class="formError" id="errorMsg">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
-            </div>
-            <div class="formError" style="width: auto" th:if="${message != null}">
-                <p>[[${message}]]</p>
-            </div>
-            <div class="formError" style="width: auto" th:if="${message2 != null}">
-                <p>[[${message2}]]</p>
-            </div>
-            <div th:if="${param.logout}">
-                <p class="formError" id="errorMsg2">You have been logged out</p>
-            </div>
-            <a th:href="@{/secret}" class="forgotPasswordLink">Forgot your password?</a>
-            <button type="submit" class="loginBtn">Login</button>
-            <a th:href="@{/register}" class="registerLink">Not a member yet? <b>Register for free</b></a>
-
-        </form>
+    <h2 class="pageHeader">All Features</h2>
+    <div class="inputWrapper">
+        Register an account with email verification
     </div>
-</div>
-
-<!--info button-->
-<div class="credentialsWrapper" style="margin-top: 100px">
-    <div class="formWrapper">
-        <a class="loginBtn" href="/info">Click here for app info</a>
+    <div class="inputWrapper">
+        Login control and password reset
     </div>
-</div>
-
+    <div class="inputWrapper">
+        Different views according to your role (coach-admin-user-visitor)
+    </div>
+    <div class="inputWrapper">
+        Book a session or plan them
+    </div>
+    <div class="inputWrapper">
+        Edit or delete almost everything
+    </div>
+    <div class="inputWrapper">
+        A special admin page
+    </div>
+    <div class="inputWrapper">
+        And much more..
+    </div>
+    <div class="inputWrapper" style="font-size: 8px">
+        <p>use the following credentials for admin access (bonobo-password)</p>
+        <p>Don't delete roles without adding them later because things will fail</p>
+        <p>This app is not responsive at all</p>
+    </div>
 <script>
     $(window).scroll(function () {
         if ($(document).scrollTop() > 50) {
@@ -106,7 +95,6 @@
             $('.nav').removeClass('affix');
         }
     });
-
 </script>
 </body>
 </html>
