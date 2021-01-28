@@ -95,7 +95,7 @@ public class UserController {
             if (!userService.checkIfPasswordMatches(user)) throw new WrongPasswordException("");
 
             String token = RandomString.make(32);
-            String url = "http://localhost:8080/verify?token=";
+            String url = "https://fitfocus.herokuapp.com/verify?token=";
             url += token;
             User userP = userService.findByUsername(userPrincipal.getUsername());
             userP.setEmail(user.getEmail());

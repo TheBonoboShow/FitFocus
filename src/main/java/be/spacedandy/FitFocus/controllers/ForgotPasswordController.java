@@ -40,7 +40,7 @@ public class ForgotPasswordController {
         try {
             String token = RandomString.make(32);
             userService.resetPassword(token,user.getEmail());
-            String url = "http://localhost:8080/verifysecret?token=" ;
+            String url = "https://fitfocus.herokuapp.com/verifysecret?token=" ;
             url += token;
             userService.sendVerificationEmail(user, url);
             model.addAttribute("message", "We have sent you an email, please check");

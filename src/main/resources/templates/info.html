@@ -34,13 +34,17 @@
                     <li><a th:href="@{/prices}">Prices</a></li>
                     <li><a th:href="@{/contact}">Contact</a></li>
                     <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/login}">Login</a></li>
-                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a></li>
+                    <li th:if="${#authorization.expression('isAnonymous()')}"><a th:href="@{/register}">Register</a>
+                    </li>
                     <li th:if="${#authorization.expression('hasAnyAuthority(''COACH'', ''ADMIN'')')}"><a
                             th:href="@{/sessions}">Sessions</a></li>
                     <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"><a th:href="@{/admin}">Admin</a>
-                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a th:href="@{/bookSession?id=0}">My Sessions</a>
-                    <li th:if="${#authorization.expression('isAuthenticated()')}" id="navProfile"><a th:href="@{/profile}">Profile</a></li>
-                    <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
+                    <li th:if="${#authorization.expression('hasAuthority(''USER'')')}"><a
+                            th:href="@{/bookSession?id=0}">My Sessions</a>
+                    <li th:if="${#authorization.expression('isAuthenticated()')}" id="navProfile"><a
+                            th:href="@{/profile}">Profile</a></li>
+                    <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a>
+                    </li>
                     </li>
                 </ul>
             </ul>
@@ -60,34 +64,37 @@
 
 <div class="credentialsWrapper" style="color: white; font-size: 16px">
     <div style="background-color: #212122; padding: 20px">
-    <h2 class="pageHeader" style="color: #e4381C">All Features</h2>
-    <div class="inputWrapper">
-        Register an account with email verification
-    </div>
-    <div class="inputWrapper">
-        Login control and password reset
-    </div>
-    <div class="inputWrapper">
-        Different views according to your role (coach-admin-user-visitor)
-    </div>
-    <div class="inputWrapper">
-        Book a session or plan them
-    </div>
-    <div class="inputWrapper">
-        Edit or delete almost everything
-    </div>
-    <div class="inputWrapper">
-        A special admin page
-    </div>
-    <div class="inputWrapper">
-        And much more..
-    </div>
-    <br>
-    <div class="inputWrapper" style="font-size: 12px">
-        <p>- use the following credentials for admin access (bonobo-password)</p>
-        <p>- Don't delete roles without adding them later because things will fail</p>
-        <p>- This app is not responsive at all</p>
-    </div>
+        <h2 class="pageHeader" style="color: #e4381C">All Features</h2>
+        <div class="inputWrapper">
+            Register an account with email verification
+        </div>
+        <div class="inputWrapper">
+            Login control and password reset
+        </div>
+        <div class="inputWrapper">
+            Different views according to your role (coach-admin-user-visitor)
+        </div>
+        <div class="inputWrapper">
+            Book a session or plan them
+        </div>
+        <div class="inputWrapper">
+            See all sessions on a calendar spanning 3 weeks
+        </div>
+        <div class="inputWrapper">
+            Edit or delete almost everything
+        </div>
+        <div class="inputWrapper">
+            A special admin page
+        </div>
+        <div class="inputWrapper">
+            And much more..
+        </div>
+        <br>
+        <div class="inputWrapper" style="font-size: 12px">
+            <p>- use the following credentials for admin access: bonobo-password</p>
+            <p>- Don't delete roles without adding them later because things will fail</p>
+            <p>- This app is not responsive at all</p>
+        </div>
     </div>
 </div>
 <script>

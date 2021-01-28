@@ -38,7 +38,7 @@ public class RegisterController {
         }
         try {
             registerService.register(user);
-            String url = "http://localhost:8080/verify?token=" ;
+            String url = "https://fitfocus.herokuapp.com/verify?token=" ;
             url += user.getVerificationToken();
             registerService.sendVerificationEmail(user, url);
         }catch (UserAlreadyExistException e){
