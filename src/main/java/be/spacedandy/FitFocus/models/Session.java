@@ -15,6 +15,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "session", schema = "fitfocus")
 public class Session {
 
     @Id

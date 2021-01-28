@@ -17,7 +17,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user")
+@Table(name = "user", schema = "fitfocus")
 public class User {
 
     @Id
