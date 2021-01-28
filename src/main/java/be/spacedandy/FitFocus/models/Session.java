@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ public class Session {
     private User coach;
     private Integer userid;
     @Lob
+    @Type(type = "text")
     private String information;
     @ManyToOne
     @JoinColumn(name="sportid", insertable=false, updatable=false)

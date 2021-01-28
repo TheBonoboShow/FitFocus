@@ -10,7 +10,6 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @EnableEncryptableProperties
-@EnableEmailTools
 public class FitFocusApplication extends SpringBootServletInitializer {
 
 	@Override
